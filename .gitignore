@@ -22,7 +22,9 @@ __pycache__/*
 .idea/*
 .vscode
 tags
-
+happy/logs/
+logs/
+dist/
 # Package files
 *.egg
 *.eggs/

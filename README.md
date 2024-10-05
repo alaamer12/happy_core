@@ -1,8 +1,15 @@
 # About
+
 this project provides utils to help you to build better projects
 
+## prerequisites
+
+we need to know common simple functions you would usually need them
+
 ## Functionality
+
 This project provides the next functionalities:
+
 - threading [@d thread]
 - multiprocessing [@d multiprocessing]
 - job [@d as_job]
@@ -26,8 +33,6 @@ This project provides the next functionalities:
 - zip_compress
 - zip_decompress
 - ...
-- save_file [format]
-- load_file [format]
 - profanity
 - progress_bar
 - fetching
@@ -44,14 +49,11 @@ This project provides the next functionalities:
 - deep_type_validating
 - is_hashable
 - is_mutable
-- lorem
-- @d critical
-- constant
+
+- "- @d critical- constant"
 - has_tested
 - pure
 - is_pure
 - is_decorator
-
-
 
 [//]: # (- fetching is provide a loader or a placeholder while featching data)

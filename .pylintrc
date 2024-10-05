@@ -1,0 +1,65 @@
+[MASTER]
+ignore =
+    .tox,
+    .git,
+    __pycache__,
+    build,
+    dist,
+    .venv,
+    venv,
+    .idea,
+    .pytest_cache,
+    .vscode,
+    .mypy_cache,
+    .ruff_cache
+py-version = 3.11
+load-plugins = pylint.extensions.mccabe
+
+[MESSAGES CONTROL]
+disable =
+    missing-docstring,
+    missing-module-docstring,
+    missing-function-docstring,
+    missing-class-docstring,
+    C0114, C0115, C0116, R0903, R0801, W0703, C0330, W0311
+
+[REPORTS]
+reports = no
+output-format = colorized
+
+[FORMAT]
+indent-string = '    '
+max-line-length = 100
+
+[BASIC]
+good-names = i,j,k,ex,run,_,pk,id
+bad-names = foo,bar,baz,toto,tutu,tata
+
+[DESIGN]
+max-args = 4
+min-public-methods = 1
+
+[IMPORTS]
+deprecated-modules = optparse
+known-standard-library = os,sys,re,io,json
+
+[EXCEPTIONS]
+overgeneral-exceptions = builtins.Exception, builtins.BaseException
+
+[TYPECHECK]
+generated-members = numpy.*,torch.*
+ignored-classes = optparse.Values,thread._local,_thread._local
+
+[LOGGING]
+logging-format-style = new
+
+[SIMILARITIES]
+min-similarity-lines = 3
+ignore-comments = yes
+ignore-docstrings = yes
+
+[VARIABLES]
+dummy-variables-rgx = _$|dummy
+
+[DOCUMENTATION]
+docstring-min-length = 10

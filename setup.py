@@ -1,21 +1,35 @@
-"""
-    Setup file for happy.
-    Use setup.cfg to configure your project.
+from setuptools import setup, find_packages
+import codecs
+import os
 
-    This file was generated with PyScaffold 4.5.
-    PyScaffold helps you to put up the scaffold of your new Python project.
-    Learn more under: https://pyscaffold.org/
-"""
-from setuptools import setup
+here = os.path.abspath(os.path.dirname(__file__))
 
-if __name__ == "__main__":
-    try:
-        setup(use_scm_version={"version_scheme": "no-guess-dev"})
-    except:  # noqa
-        print(
-            "\n\nAn error occurred while building the project, "
-            "please ensure you have the most updated version of setuptools, "
-            "setuptools_scm and wheel with:\n"
-            "   pip install -U setuptools setuptools_scm wheel\n\n"
-        )
-        raise
+with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
+    long_description = "\n" + fh.read()
+
+
+
+setup(
+    name='happy',
+    version='0.2.0',
+    packages=find_packages(),
+    url='https://github/alaamer12/happy',
+    license='MIT',
+    author='Alaamer',
+    author_email='alaamerthefirst@gmail.com',
+    description='This is my first package',
+    long_description="This is my first package printing only hello 'name' function",
+    long_description_content_type='text/markdown',
+    install_requires=[],
+    keywords=['hello', 'name'],
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "Operating System :: Microsoft :: Windows",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+        "Development Status :: 3 - Alpha",
+        "Environment :: Console",
+        "Intended Audience :: Developers",
+        "Topic :: Software Development :: Libraries :: Python Modules",
+    ]
+)
