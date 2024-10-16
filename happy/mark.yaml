@@ -1,0 +1,80 @@
+# mark.yaml
+
+marks:
+  trivial:
+    description: "Function is trivial and requires minimal attention."
+    severity: low
+    color: green
+    attributes:
+      performance: "Not a concern."
+      refactoring: "Unlikely needed."
+      documentation: "Basic inline comments suffice."
+      test_coverage: "Minimum 50% coverage."
+
+  critical:
+    description: "Function is critical and requires immediate attention."
+    severity: high
+    color: red
+    attributes:
+      must_test: true
+      minimum_test_cases: 5
+      edge_testing: true
+      security_review: true
+      performance: "Optimized for speed and reliability."
+
+  complex:
+    description: "Function is complex and may require in-depth review."
+    severity: medium
+    color: orange
+    attributes:
+      performance: "Monitor for potential bottlenecks."
+      refactoring: "Consider simplifying logic."
+      documentation: "Detailed docstrings required."
+      test_coverage: "Minimum 80% coverage."
+
+  long_running:
+    description: "Function performs long-running operations."
+    severity: medium
+    color: blue
+    attributes:
+      threshold_ms: 1000
+      performance: "Requires optimization."
+      resource_usage: "High CPU or memory consumption."
+      logging_level: "DEBUG"
+
+  slow:
+    description: "Function is slow and may need optimization."
+    severity: medium
+    color: yellow
+    attributes:
+      threshold_ms: 500
+      performance: "Investigate inefficiencies."
+      caching: "Consider implementing caching mechanisms."
+      profiling: "Profile to identify hotspots."
+
+# Example of custom states
+custom_marks:
+  optimized:
+    description: "Function has been optimized for performance."
+    severity: low
+    color: purple
+    attributes:
+      performance: "Optimized."
+      refactoring: "No changes needed."
+      documentation: "Updated to reflect optimizations."
+      test_coverage: "Maintained or improved."
+
+  deprecated:
+    description: "Function is deprecated and should not be used."
+    severity: low
+    color: gray
+    attributes:
+      replacement: "Use `new_function` instead."
+      documentation: "Marked as deprecated in docstrings."
+      removal_schedule: "To be removed in version 2.0."
+
+settings:
+  default_severity: medium
+  logging_level: INFO
+  log_file: "mark_logs.log"
+  console_log_level: INFO

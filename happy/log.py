@@ -1,33 +1,14 @@
+import contextlib
+import inspect
 import os
 import tempfile
-from io import TextIOWrapper
 import threading
-from loguru import logger
-import inspect
-from functools import wraps
-from typing import Optional, Callable
 from datetime import datetime
-import contextlib
-from enum import Enum, IntEnum
+from functools import wraps
+from io import TextIOWrapper
+from typing import Optional, Callable
 
-
-# Constants for log levels
-class BaseLogLevel(IntEnum):
-    DEBUG = 0
-    INFO = 1
-    WARNING = 2
-    ERROR = 3
-    CRITICAL = 4
-
-
-class CustomLogLevel(IntEnum):
-    TRACE = 5
-    EXCEPTION = 6
-
-
-class SessionState(Enum):
-    RUNNING = 0
-    STOPPED = 1
+from loguru import logger
 
 
 # Decorator to ensure a function is run only once
@@ -161,7 +142,6 @@ class Logger:
 
                 self._log_function_call(func, message, level, func_name)
 
-                log_function_call()
                 return func(*args, **kwargs)
 
             return wrapper
@@ -195,49 +175,3 @@ class Logger:
 
     def warn(self, message: str):
         pass
-
-
-if __name__ == "__main__":
-    import time
-
-    logger = Logger()
-
-
-    @logger.log_call(message="Executing first function", level="INFO", sorted_logs=True)
-    def first_function():
-        pass
-
-
-    # Another function with logging and exception handling
-    # @log_handler.log_call(level="ERROR", sorted_logs=False)
-    # def second_function():
-    #     logger.info("Inside second_function")
-    #     try:
-    #         raise ValueError("An example exception")
-    #     except ValueError as e:
-    #         logger.exception("An error occurred in second_function: {e}")
-
-
-    # Example of sorting and cleaning logs
-    def clean_logs():
-        logger.info("Sorting and cleaning logs...")
-        log_handler.sort_logs(temp=False)  # Sort logs
-        # log_handler.remove_duplicate_logs()  # Remove duplicate logs
-        logger.info("Logs sorted and cleaned")
-
-
-    # Running example functions
-    logger.info("Starting the program...")
-
-    # Calling the first function
-    first_function()
-
-    # Calling the second function
-    second_function()
-
-    # Clean up and sort logs
-    clean_logs()
-
-    logger.info("Program finished.")
-
-ra

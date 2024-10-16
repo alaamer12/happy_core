@@ -7,8 +7,6 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
-
-
 setup(
     name='happy',
     version='0.2.0',
@@ -31,5 +29,21 @@ setup(
         "Environment :: Console",
         "Intended Audience :: Developers",
         "Topic :: Software Development :: Libraries :: Python Modules",
-    ]
+    ],
+    # extras_require = {
+    #     'uuid': [
+    #         'some-uuid-library',  # Add libraries required for the UUID functionality
+    #     ],
+    #     'all': [
+    #         'some-uuid-library',
+    #         # Any other extra dependencies
+    #     ],
+    # },
+    # package_data= {
+    #     '': ['*.md'],
+    # },
+    # python_requires='>=3.6',
+    # project_urls={
+    #     'Source': 'https://github.com/alaamer12/happy',
+    # }
 )
