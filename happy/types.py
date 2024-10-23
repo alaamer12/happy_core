@@ -3,13 +3,15 @@ import platform
 from abc import ABC
 from dataclasses import dataclass
 from decimal import Decimal
-from typing import Union, NewType, NoReturn, Dict, Protocol, Any, Optional, Type, Generic, TypeVar, Literal
+from typing import Union, NewType, NoReturn, Dict, Protocol, Any, Optional, Type, Generic, TypeVar, Literal, \
+    runtime_checkable
 
 import uuid_utils as uuid
 
 from happy.exceptions import UnsuitableBigIntError, UnsuitableBigDecimalError, InvalidUUIDError, \
     InvalidUUIDVersionError, InvalidULIDError, ScientificError
 from happy.number import is_scientific_notation
+import concurrent.futures
 
 PathLike = Union[str, os.PathLike, None]
 
@@ -339,81 +341,3 @@ class IntULIDType(ULIDType):
 class AvifencConfig(Protocol):
     min: str
     max: str
-
-
-class LoggingProtocol(Protocol):
-    def debug(self, msg: str, *args, **kwargs) -> None:
-        ...
-
-    def info(self, msg: str, *args, **kwargs) -> None:
-        ...
-
-    def warning(self, msg: str, *args, **kwargs) -> None:
-        ...
-
-    def error(self, msg: str, *args, **kwargs) -> None:
-        ...
-
-    def critical(self, msg: str, *args, **kwargs) -> None:
-        ...
-
-
-class NullLogging(LoggingProtocol):
-    def debug(self, msg: str, *args, **kwargs) -> None:
-        ...
-
-    def info(self, msg: str, *args, **kwargs) -> None:
-        ...
-
-    def warning(self, msg: str, *args, **kwargs) -> None:
-        ...
-
-    def error(self, msg: str, *args, **kwargs) -> None:
-        ...
-
-    def critical(self, msg: str, *args, **kwargs) -> None:
-        ...
-
-
-class AuthProviderProtocol(Protocol):
-    def get_authorization_url(self) -> str:
-        ...
-
-    def retrieve_token(self, authorization_response: str) -> Dict[str, Any]:
-        ...
-
-    def fetch_user_info(self) -> Dict[str, Any]:
-        ...
-
-
-# Protocol Definitions
-class ThirdPartyServiceProviderProtocol(Protocol):
-    async def connect(self) -> None:
-        ...
-
-    async def close_connection(self) -> None:
-        ...
-
-    @classmethod
-    def register(cls, config: Dict[str, str]) -> None:
-        ...
-
-
-class BaaSProviderProtocol(ThirdPartyServiceProviderProtocol):
-    async def create_user(self, user_data: Dict[str, Any]) -> None:
-        ...
-
-    async def get_user(self, user_id: str) -> Optional[Dict[str, Any]]:
-        ...
-
-    async def insert_data(self, data: Dict[str, Any]) -> None:
-        ...
-
-    async def update_data(self, user_id: str, data: Dict[str, Any]) -> None:
-        ...
-
-    async def delete_data(self, user_id: str) -> None:
-        ...
-
-    async def fetch_data(self, query: str) -> Dict[str, Any]:
-        ...

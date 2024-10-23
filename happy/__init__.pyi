@@ -19,6 +19,20 @@ P = ParamSpec("P")
 Time = Union[float, datetime]
 
 
+def is_iterable(x: Any) -> bool:
+    ...
+
+
+def is_iterator(x: Any) -> bool:
+    ...
+
+
+def is_generator(x: Any) -> bool:
+    ...
+
+def run_once(func: Callable) -> Callable:
+    ...
+
 def stop_console_printing(include_stderr: bool = False) -> None:
     """
     Stop printing to the console.

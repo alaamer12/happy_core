@@ -109,3 +109,84 @@ class ScientificError(ValueError):
 class MissingOptionalDependency(ImportError):
     """Exception raised when an optional dependency is missing or not installed."""
     pass
+
+class PoolException(Exception):
+    """Base exception class for Pool-related errors."""
+    pass
+
+
+class PoolTimeoutException(PoolException):
+    """Raised when acquiring a resource times out."""
+    pass
+
+
+class PoolShutdownException(PoolException):
+    """Raised when operations are attempted on a shutdown pool."""
+    pass
+
+
+class PoolClosedException(PoolException):
+    """Raised when operations are attempted on a closed pool."""
+    pass
+
+
+class PoolEmptyException(PoolException):
+    """Raised when the pool is empty and no resources are available."""
+    pass
+
+
+class EventListenerError(Exception):
+    """Base exception for EventListener errors."""
+    pass
+
+
+class HandlerAlreadyRegistered(EventListenerError):
+    """Raised when attempting to register a handler that's already registered."""
+    pass
+
+
+class HandlerNotFound(EventListenerError):
+    """Raised when attempting to deregister a handler that's not registered."""
+    pass
+
+
+class EventDispatchError(EventListenerError):
+    """Raised when an error occurs during event dispatch."""
+
+    def __init__(self, errors: list):
+        self.errors = errors
+        message = f"Errors occurred during event dispatch: {errors}"
+        super().__init__(message)
+
+class GrepException(Exception):
+    pass
+
+
+class FileTypeNotSupported(GrepException):
+    pass
+
+class TransactionError(Exception):
+    """Base class for transaction-related exceptions."""
+    pass
+
+
+class TransactionCommitError(TransactionError):
+    """Raised when a transaction fails to commit."""
+    pass
+
+
+class TransactionRollbackError(TransactionError):
+    """Raised when a transaction fails to roll back."""
+    pass
+
+class PipelineException(Exception):
+    """Base class for all pipeline-related exceptions."""
+    pass
+
+class PipelineExecutionException(PipelineException):
+    """Raised when pipeline execution fails."""
+    pass
+
+class InvalidPipelineStepException(PipelineException):
+    """Raised when a pipeline step is invalid."""
+    pass

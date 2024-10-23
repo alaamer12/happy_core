@@ -3,7 +3,7 @@ from typing import Optional, Dict, Any
 from authlib.integrations.base_client import OAuthError
 from authlib.integrations.requests_client import OAuth2Session
 
-from happy.types import AuthProviderProtocol
+from happy.protocols import AuthProviderProtocol
 
 
 class GoogleOAuthProvider(AuthProviderProtocol):

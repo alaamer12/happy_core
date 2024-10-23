@@ -18,7 +18,8 @@ import sys
 import threading
 import time
 import warnings
-from collections import OrderedDict
+import zlib
+from collections import OrderedDict, deque
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from enum import StrEnum
@@ -26,10 +27,9 @@ from functools import wraps
 from typing import (Callable, Any, List, Dict,
                     ParamSpec, Type, TypeVar,
                     Optional, Union, Literal,
-                    Tuple, Iterable, NoReturn)
+                    Tuple, Iterable, NoReturn, Iterator, Generator)
 from urllib.error import URLError
 from urllib.request import urlopen
-
 import dotenv
 
 from happy.exceptions import (TrivialOperationError,
@@ -41,7 +41,8 @@ from happy.exceptions import (TrivialOperationError,
                               DebuggingOperationError,
                               MarkException,
                               EnvError)
-from happy.types import PathLike, EnvPath, LoggingProtocol, NullLogging
+from happy.types import PathLike, EnvPath
+from happy.protocols import LoggerProtocol, StackProtocol
 
 T = TypeVar("T")
 
@@ -59,6 +60,17 @@ def start_console_printing():
     sys.stdout = sys.__stdout__
     sys.stderr = sys.__stderr__
 
+
+def is_iterable(x: Any) -> bool:
+    return isinstance(x, Iterable)
+
+
+def is_iterator(x: Any) -> bool:
+    return isinstance(x, Iterator)
+
+
+def is_generator(x: Any) -> bool:
+    return isinstance(x, Generator)
 
 # noinspection PyUnusedLocal
 def empty_function(func):
@@ -93,6 +105,34 @@ Time = Union[float, datetime]
 #             setattr(cls, attr_name, wrapper)
 #
 #     return cls
+
+def null_decorator():
+    """
+    A decorator returns null
+    :return:
+    """
+    return None
+
+
+@contextlib.contextmanager
+def log_level(level, name):
+    logger = logging.getLogger(name)
+    old_level = logger.getEffectiveLevel()
+    logger.setLevel(level)
+    try:
+        yield logger
+    finally:
+        logger.setLevel(old_level)
+
+
+def trace(func: Callable) -> Callable:
+    functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        result = func(*args, **kwargs)
+        print(f'{func.__name__}({args!r}, {kwargs!r}) ' f'-> {result!r}')
+        return result
+    return wrapper
+
 
 
 def handle_sync_async(func: Callable) -> Callable:
@@ -381,6 +421,17 @@ def is_decorator(func):
     return False
 
 
+def run_once(func: Callable) -> Callable:
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if not wrapper.has_run:
+            wrapper.has_run = True
+            return func(*args, **kwargs)
+        return None
+
+    wrapper.has_run = False
+    return wrapper
+
 def monitor(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
@@ -511,6 +562,41 @@ class Singleton(metaclass=SingletonMeta):
     A thread-safe implementation of Singleton class.
     """
     pass
+
+class Password:
+    pass
+
+class S:
+    def push(self):
+        pass
+    def __getitem__(self, item):
+        pass
+    def __contains__(self, item):
+        pass
+    def __setitem__(self, key, value):
+        pass
+
+class Stack:
+    def __init__(self, container: Optional[StackProtocol] = None):
+        self.__stack = container or deque
+
+class Queue:
+    pass
+
+class Checksum:
+    def __init__(self, data):
+        self.data = data
+    def crc32(self):
+        zlib.crc32(self.data)
+    def crc8(self):
+        pass
+    def md5(self):
+        pass
+
+
+class ApiChecksum:
+    pass
+
 
 class FilteredDict(OrderedDict):
     def __init__(self, *args, **kwargs):
@@ -684,7 +770,7 @@ class Environment:
     @classmethod
     def from_dict(cls, env_dict: Dict[str, Any]) -> 'Environment':
         """Create an Environment instance from a dictionary of environment variables."""
-        env = cls()  # Initialize with default env path
+        env = cls()  # Initialize with a default env path
 
         for key, value in env_dict.items():
             env.set_env(key, value)
