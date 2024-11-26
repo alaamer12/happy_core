@@ -22,7 +22,7 @@ __pycache__/*
 .idea/*
 .vscode
 tags
-happy/logs/
+happy_core/logs/
 logs/
 dist/
 # Package files

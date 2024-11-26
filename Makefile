@@ -17,4 +17,12 @@ build:
 upload:
 	twine upload dist/*
 
+publish:
+	-rm -rf dist
+	python -m build
+	twine upload dist/*
+
+#bump:
+#	python scripts/update_version.py -- type
+
 release: test coverage build upload
