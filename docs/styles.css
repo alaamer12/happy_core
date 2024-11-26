@@ -1,0 +1,213 @@
+/* Modern documentation styles */
+:root {
+    --primary-color: #4a90e2;
+    --secondary-color: #2c3e50;
+    --background-color: #ffffff;
+    --text-color: #333333;
+    --code-background: #f5f7f9;
+    --border-color: #e1e4e8;
+    --heading-color: #1a73e8;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: var(--background-color);
+}
+
+/* Headers */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--heading-color);
+    font-weight: 600;
+    margin-top: 2em;
+    margin-bottom: 1em;
+}
+
+h1 {
+    font-size: 2.5em;
+    text-align: center;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5em;
+}
+
+h2 {
+    font-size: 2em;
+}
+
+h3 {
+    font-size: 1.5em;
+}
+
+h4 {
+    font-size: 1.25em;
+}
+
+/* Links */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+/* Code blocks */
+pre {
+    background-color: var(--code-background);
+    border-radius: 6px;
+    padding: 1em;
+    overflow-x: auto;
+    border: 1px solid var(--border-color);
+    margin: 1em 0;
+}
+
+code {
+    font-family: 'Fira Code', 'Consolas', 'Monaco', 'Andale Mono', monospace;
+    font-size: 0.9em;
+    padding: 0.2em 0.4em;
+    background-color: var(--code-background);
+    border-radius: 3px;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+}
+
+th, td {
+    padding: 0.75em;
+    border: 1px solid var(--border-color);
+}
+
+th {
+    background-color: var(--code-background);
+    font-weight: 600;
+}
+
+/* Lists */
+ul, ol {
+    padding-left: 2em;
+}
+
+li {
+    margin: 0.5em 0;
+}
+
+/* Blockquotes */
+blockquote {
+    margin: 1em 0;
+    padding: 0.5em 1em;
+    border-left: 4px solid var(--primary-color);
+    background-color: var(--code-background);
+}
+
+/* Images */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1em auto;
+}
+
+/* Badges */
+.badges {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    margin: 1em 0;
+}
+
+/* API Reference specific styles */
+.api-section {
+    margin: 2em 0;
+    padding: 1em;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+}
+
+.method-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.method-item {
+    margin: 1em 0;
+    padding: 1em;
+    background-color: var(--code-background);
+    border-radius: 6px;
+}
+
+.property-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.property-item {
+    margin: 0.5em 0;
+    padding: 0.5em;
+    background-color: var(--code-background);
+    border-radius: 4px;
+}
+
+/* Examples section */
+.example {
+    margin: 2em 0;
+    padding: 1em;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--code-background);
+}
+
+.example-title {
+    font-weight: 600;
+    color: var(--heading-color);
+    margin-bottom: 1em;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #1a1a1a;
+        --text-color: #e0e0e0;
+        --code-background: #2d2d2d;
+        --border-color: #404040;
+        --heading-color: #4a90e2;
+    }
+    
+    pre, code {
+        background-color: #2d2d2d;
+    }
+    
+    a {
+        color: #64b5f6;
+    }
+    
+    a:hover {
+        color: #90caf9;
+    }
+}
+
+/* Print styles */
+@media print {
+    body {
+        max-width: none;
+        padding: 1cm;
+    }
+    
+    pre, code {
+        white-space: pre-wrap;
+    }
+    
+    a {
+        text-decoration: underline;
+    }
+}

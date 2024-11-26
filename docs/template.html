@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Core Documentation</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <img src="logo.png" alt="Happy Core Logo" class="logo">
+            <h1>Happy Core</h1>
+        </div>
+        <div class="sidebar-content">
+            <!-- Navigation will be dynamically generated -->
+        </div>
+    </nav>
+
+    <main class="content">
+        <!-- Content will be dynamically inserted here -->
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Happy Core. All rights reserved.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-python.min.js"></script>
+    <script>
+        // Dynamic navigation generation
+        document.addEventListener('DOMContentLoaded', function() {
+            const headings = document.querySelectorAll('h2, h3');
+            const sidebarContent = document.querySelector('.sidebar-content');
+            const nav = document.createElement('ul');
+
+            headings.forEach(heading => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = `#${heading.id}`;
+                a.textContent = heading.textContent;
+                li.appendChild(a);
+                nav.appendChild(li);
+            });
+
+            sidebarContent.appendChild(nav);
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Dark mode toggle
+        const darkModeToggle = document.createElement('button');
+        darkModeToggle.textContent = '🌙';
+        darkModeToggle.classList.add('dark-mode-toggle');
+        document.body.appendChild(darkModeToggle);
+
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+
+        // Code copy button
+        document.querySelectorAll('pre').forEach(pre => {
+            const copyButton = document.createElement('button');
+            copyButton.textContent = 'Copy';
+            copyButton.classList.add('copy-button');
+            pre.appendChild(copyButton);
+
+            copyButton.addEventListener('click', () => {
+                const code = pre.querySelector('code');
+                navigator.clipboard.writeText(code.textContent);
+                copyButton.textContent = 'Copied!';
+                setTimeout(() => {
+                    copyButton.textContent = 'Copy';
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>
