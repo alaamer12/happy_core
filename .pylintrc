@@ -21,7 +21,7 @@ disable =
     missing-module-docstring,
     missing-function-docstring,
     missing-class-docstring,
-    C0114, C0115, C0116, R0903, R0801, W0703, C0330, W0311
+    C0114, C0115, C0116, R0903, R0801, W0703, W0311
 
 [REPORTS]
 reports = no

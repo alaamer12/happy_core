@@ -1,4 +1,5 @@
 watchdog~=6.0.0
+pylint
 setuptools~=75.3.0
 twine
 pytest~=8.3.3
