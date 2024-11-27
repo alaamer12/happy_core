@@ -4,10 +4,10 @@ Examples
 This section provides practical examples of using the Happy Core library features.
 
 Time Handling
------------
+-------------
 
 Basic Time Operations
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -26,7 +26,7 @@ Basic Time Operations
     london_time = Time(timezone_name="Europe/London", config=config)
 
 Time Formatting and Conversion
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -50,7 +50,7 @@ Time Formatting and Conversion
     ))  # e.g., "20 janvier 2024"
 
 Time Calculations
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -71,7 +71,7 @@ Time Calculations
     ceil = time_obj.ceil(TimeUnit.HOURS)
 
 Time Comparisons
-~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -91,10 +91,10 @@ Time Comparisons
     latest = Time.max(*times)
 
 Performance Measurement
--------------------
+-----------------------
 
 Using the Timer Decorator
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -110,7 +110,7 @@ Using the Timer Decorator
     result = expensive_operation()
 
 Using Timeout Decorator
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -128,7 +128,7 @@ Using Timeout Decorator
         print("Operation timed out!")
 
 Context Manager for Timing
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -143,7 +143,7 @@ Context Manager for Timing
     print(f"Operation took {t.elapsed} seconds")
 
 Best Practices
------------
+--------------
 
 1. **Timezone Handling**
 

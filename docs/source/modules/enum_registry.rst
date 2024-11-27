@@ -1,7 +1,12 @@
 Enum Registry Module
-=================
+====================
 
 .. module:: happy_core.enum_registry
+   :no-index:
+
+Key Classes:
+
+- :class:`EnumRegistry`: Main registry class
 
 The enum registry module provides enhanced enumeration capabilities with validation and registration.
 
@@ -9,14 +14,14 @@ Classes
 -------
 
 EnumRegistry
-~~~~~~~~~~
+~~~~~~~~~~~~
 
 .. autoclass:: happy_core.enum_registry.EnumRegistry
    :members:
    :special-members: __init__
 
 Exceptions
----------
+----------
 
 .. autoclass:: happy_core.exceptions.EnumValidationError
    :members:
@@ -27,10 +32,10 @@ Exceptions
    :show-inheritance:
 
 Examples
--------
+--------
 
 Basic Usage
-~~~~~~~~~
+~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -55,7 +60,7 @@ Basic Usage
    # Returns: [("active", "ACTIVE"), ("inactive", "INACTIVE"), ("suspended", "SUSPENDED")]
 
 Advanced Usage
-~~~~~~~~~~~~
+~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -92,7 +97,7 @@ Advanced Usage
        print(f"Error: {e}")
 
 Type Checking
-~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 .. code-block:: python
 

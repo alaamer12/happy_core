@@ -2,11 +2,12 @@ Time Module
 ===========
 
 .. module:: happy_core.time
+  :no-index:
 
 A powerful time management module providing intuitive interfaces for handling time-related operations, scheduling, and time series analysis.
 
 Key Features
------------
+------------
 
 - ⏰ **Intuitive time manipulation** with human-readable interfaces
 - 📅 **Flexible scheduling** with cron-like expressions
@@ -15,7 +16,7 @@ Key Features
 - ⚡ **High-performance** implementations
 
 TimeUtils
---------
+---------
 
 .. py:class:: TimeUtils
 
@@ -65,7 +66,7 @@ TimeUtils
       :return: ISO formatted string
 
 Scheduler
---------
+---------
 
 .. py:class:: Scheduler
 
@@ -108,7 +109,7 @@ Scheduler
       :return: Decorator for task function
 
 TimeSeries
----------
+----------
 
 .. py:class:: TimeSeries
 
@@ -135,7 +136,7 @@ TimeSeries
       moving_avg = ts.rolling(window="7D").mean()
 
 Best Practices
-------------
+--------------
 
 1. **Timezone Handling**
 
@@ -177,7 +178,7 @@ Best Practices
           return TimeSeries(data).resample("1D").aggregate(metrics)
 
 Advanced Usage
-------------
+--------------
 
 1. **Custom Time Formats**
 
@@ -228,10 +229,10 @@ Advanced Usage
               pass
 
 Examples
--------
+--------
 
 Basic Time Operations
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -248,7 +249,7 @@ Basic Time Operations
    parsed = TimeUtils.parse_time("2023-01-01 12:00:00", "%Y-%m-%d %H:%M:%S")
 
 Using Timer
-~~~~~~~~~
+~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -269,7 +270,7 @@ Using Timer
        time.sleep(2)  # Some operation
 
 Scheduling Tasks
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -297,7 +298,7 @@ Scheduling Tasks
    scheduler.start()
 
 Performance Monitoring
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 

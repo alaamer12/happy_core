@@ -2,11 +2,12 @@ Types Module
 ============
 
 .. module:: happy_core.types
+  :no-index:
 
 A comprehensive type system providing robust type safety and validation for Python applications.
 
 Key Features
------------
+------------
 
 - **Type safety** with runtime validation
 - **Custom type definitions**
@@ -15,10 +16,10 @@ Key Features
 - **Rich type metadata**
 
 Core Types
----------
+----------
 
 JsonDict
-~~~~~~~
+~~~~~~~~
 
 .. py:class:: JsonDict
 
@@ -45,7 +46,7 @@ JsonDict
           }
 
 DataFrameType
-~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 .. py:class:: DataFrameType
 
@@ -71,10 +72,10 @@ DataFrameType
           })
 
 Type Validators
--------------
+---------------
 
 validate_json
-~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 .. py:decorator:: validate_json
 
@@ -104,7 +105,7 @@ validate_json
           return user_data
 
 validate_schema
-~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
 
 .. py:decorator:: validate_schema
 
@@ -135,10 +136,10 @@ validate_schema
           return df.sort_values("signup_date")
 
 Type Conversion
--------------
+---------------
 
 TypeConverter
-~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 .. py:class:: TypeConverter
 
@@ -166,7 +167,7 @@ TypeConverter
       date = converter.convert("2024-01-01", target=datetime)
 
 Best Practices
-------------
+--------------
 
 1. **Type Validation**
 
@@ -218,7 +219,7 @@ Best Practices
       value = target_type(input_value)
 
 Advanced Usage
-------------
+--------------
 
 1. **Custom Type Definitions**
 

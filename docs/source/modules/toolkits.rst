@@ -1,12 +1,13 @@
 Toolkits Module
-==============
+===============
 
 .. module:: happy_core.toolkits
+  :no-index:
 
 A comprehensive collection of utilities and decorators for enhancing code quality, performance, and maintainability.
 
 Key Features
------------
+------------
 
 - **Performance optimization** tools
 - **Error handling** decorators
@@ -15,13 +16,12 @@ Key Features
 - **Retry logic** with backoff strategies
 
 Decorators
----------
+----------
 
 retry
 ~~~~~
 
 .. py:decorator:: retry(max_attempts: int = 3, delay: float = 1.0, backoff: float = 2.0, exceptions: Tuple[Type[Exception], ...] = (Exception,))
-
    Robust retry mechanism with exponential backoff.
 
    **Key Features:**
@@ -105,10 +105,10 @@ cache
           return database.get_user(user_info["id"])
 
 Utilities
---------
+---------
 
 PerformanceTracker
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 .. py:class:: PerformanceTracker
 
@@ -135,7 +135,7 @@ PerformanceTracker
       print(f"Average query time: {stats.mean:.2f}s")
 
 ErrorHandler
-~~~~~~~~~~
+~~~~~~~~~~~~
 
 .. py:class:: ErrorHandler
 
@@ -163,7 +163,7 @@ ErrorHandler
       handler.on_error(DatabaseError, lambda e: cleanup_connection())
 
 Best Practices
-------------
+--------------
 
 1. **Retry Strategy**
 
@@ -220,7 +220,7 @@ Best Practices
           return process_data(data)
 
 Advanced Usage
-------------
+--------------
 
 1. **Custom Monitoring**
 

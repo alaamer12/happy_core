@@ -4,7 +4,7 @@ API Reference
 This section provides detailed documentation for all public APIs in Happy Core.
 
 Collections Module
-----------------
+------------------
 
 File
 ~~~~
@@ -40,7 +40,7 @@ File
       :return: Parsed JSON data as dictionary
 
 Directory
-~~~~~~~~
+~~~~~~~~~
 
 .. py:class:: Directory
 
@@ -59,10 +59,11 @@ Directory
       :param exist_ok: If True, don't raise error if directory exists
 
 Time Module
-----------
+-----------
+
 
 TimeUtils
-~~~~~~~~
+~~~~~~~~~
 
 .. py:class:: TimeUtils
 
@@ -82,7 +83,7 @@ TimeUtils
       :return: Formatted string
 
 Scheduler
-~~~~~~~~
+~~~~~~~~~
 
 .. py:class:: Scheduler
 
@@ -97,10 +98,10 @@ Scheduler
       :return: Task ID
 
 Toolkits Module
--------------
+---------------
 
 Decorators
-~~~~~~~~~
+~~~~~~~~~~
 
 .. py:decorator:: retry(max_attempts: int = 3, delay: float = 1.0, backoff: float = 2.0)
    
@@ -121,7 +122,7 @@ Decorators
    :param ttl: Time to live for cached results in seconds
 
 Types Module
-----------
+------------
 
 .. py:class:: JsonDict
    
@@ -132,7 +133,7 @@ Types Module
       JsonDict = Dict[str, Union[str, int, float, bool, None, List, Dict]]
 
 Error Handling
-------------
+--------------
 
 .. py:exception:: HappyCoreError
    
@@ -147,7 +148,7 @@ Error Handling
    Raised for data validation errors.
 
 Best Practices
-------------
+--------------
 
 When using Happy Core's API, consider these best practices:
 

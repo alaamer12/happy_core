@@ -1,12 +1,13 @@
 Collections Module
-=================
+==================
 
 .. module:: happy_core.collections
+  :no-index:
 
 The Collections module provides powerful, type-safe abstractions for handling files, directories, and data structures.
 
 Key Features
------------
+------------
 
 - 🛡️ **Type-safe operations** with comprehensive error handling
 - 🚀 **High-performance implementations** optimized for large-scale operations
@@ -15,10 +16,10 @@ Key Features
 - 🗄️ **Automatic resource management**
 
 File Operations
--------------
+---------------
 
 File Class
-~~~~~~~~~
+~~~~~~~~~~
 
 .. py:class:: File
 
@@ -76,10 +77,10 @@ File Class
       :raises ValidationError: On invalid JSON
 
 Directory Operations
-------------------
+--------------------
 
 Directory Class
-~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
 
 .. py:class:: Directory
 
@@ -130,10 +131,10 @@ Directory Class
       :return: List of matching files
 
 RecycleBin Operations
--------------------
+---------------------
 
 RecycleBin Class
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 .. py:class:: RecycleBin
 
@@ -160,7 +161,7 @@ RecycleBin Class
       bin.recover(deleted_id)
 
 Best Practices
-------------
+--------------
 
 1. **Resource Management**
 
@@ -202,7 +203,7 @@ Best Practices
       lines = File("large.txt").read_text().splitlines()
 
 Advanced Usage
-------------
+--------------
 
 1. **Concurrent Operations**
 

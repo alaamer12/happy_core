@@ -9,10 +9,10 @@ API Reference
    modules/time
    modules/types
    modules/toolkits
-   modules/exceptions
+   modules/re
 
 Collections
-----------
+-----------
 
 The collections module provides enhanced file system operations.
 
@@ -28,7 +28,7 @@ Key Classes:
 - :class:`OSUtils`: Operating system utilities
 
 Enum Registry
------------
+-------------
 
 The enum registry module provides enumeration validation and registration.
 
@@ -66,7 +66,7 @@ Key Classes:
 - :class:`TypeChecker`: Type checking utilities
 
 Toolkits
--------
+--------
 
 The toolkits module provides various utility functions and decorators.
 
@@ -82,7 +82,7 @@ Key Functions:
 - :func:`encrypt_file`: File encryption
 
 Exceptions
----------
+----------
 
 The exceptions module provides custom exceptions.
 

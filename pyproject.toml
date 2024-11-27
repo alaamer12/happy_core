@@ -5,6 +5,21 @@ description = "A boilerplate utility package"
 authors = ["alaamer12 <ahmedmuhmmed239@gmail.com>"]
 license = "MIT"
 readme = "README.md"
+homepage = "https://github.com/alaamer12/happy-core"
+repository = "https://github.com/alaamer12/happy-core"
+documentation = "https://happy-core.readthedocs.io"
+keywords = ["utilities", "boilerplate", "core"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+packages = [
+    { include = "happy_core" }
+]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -15,8 +30,10 @@ pillow = ">=9.5.0,<9.6.0"
 colorama = ">=0.4.6,<0.5.0"
 pytz = ">=2022.7.1,<2022.8.0"
 psutil = ">=6.1.0,<6.2.0"
-uuid-utils = ">=0.9.0,<0.10.0"
-poetry = "^1.8.4"
+uuid-utils = { version = ">=0.9.0,<0.10.0", optional = true }
+
+[tool.poetry.group.dev]
+optional = true
 
 [tool.poetry.group.dev.dependencies]
 twine = "^5.1.1"
@@ -24,7 +41,15 @@ pytest = ">=8.3.3,<8.4.0"
 pytest-asyncio = "^0.24.0"
 setuptools = ">=75.3.0,<75.4.0"
 pylint = "^3.3.1"
-coverage = "^7.6.8"
+
+[tool.poetry.group.docs]
+optional = true
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^8.1.3"
+sphinx-rtd-theme = "^3.0.2"
+sphinx-autodoc-typehints = "^2.5.0"
+myst-parser = "^4.0.0"
 
 [build-system]
 requires = ["poetry-core >=1.0.0"]
@@ -32,4 +57,26 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.extras]
 ulid = ["uuid_utils"]
-jorunal = ["pandas"]
+docs = ["sphinx", "sphinx-rtd-theme", "sphinx-autodoc-typehints", "myst-parser"]
+dev = ["twine", "pytest", "pytest-asyncio", "setuptools", "pylint", "coverage", "black", "isort", "pre-commit"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-ra -q"
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.coverage.run]
+source = ["happy_core"]
+omit = ["tests/*", "docs/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "pass",
+    "raise ImportError"
+]

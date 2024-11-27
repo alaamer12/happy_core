@@ -2,27 +2,27 @@ Installation
 ============
 
 Prerequisites
-------------
+-------------
 
 - Python 3.7 or higher
 - pip or poetry (recommended)
 
 Using pip
---------
+---------
 
 .. code-block:: bash
 
    pip install happy-core
 
 Using poetry
-----------
+------------
 
 .. code-block:: bash
 
    poetry add happy-core
 
 From source
-----------
+-----------
 
 .. code-block:: bash
 
@@ -31,7 +31,7 @@ From source
    pip install -r requirements.txt
 
 Development Installation
----------------------
+------------------------
 
 For development, you might want to install additional dependencies:
 

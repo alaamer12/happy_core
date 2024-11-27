@@ -1,9 +1,9 @@
 Welcome to Happy Core's documentation!
-====================================
+======================================
 
-.. image:: https://img.shields.io/badge/python-3.7%2B-blue
+   :image:: https://img.shields.io/badge/python-3.7%2B-blue
    :alt: Python Version
-.. image:: https://img.shields.io/badge/License-MIT-green.svg
+   :image:: https://img.shields.io/badge/License-MIT-green.svg
    :alt: MIT License
    :target: https://choosealicense.com/licenses/mit/
 
@@ -20,9 +20,9 @@ Happy Core is a comprehensive utility toolkit designed for Python developers see
    modules/re
    modules/types
    modules/toolkits
-   modules/exceptions
    examples
    api
+   api_reference
 
 Features
 --------
@@ -44,7 +44,7 @@ Features
     - Type definitions
 
 Quick Start
-----------
+-----------
 
 .. code-block:: python
 
