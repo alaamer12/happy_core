@@ -8,7 +8,7 @@ seeking clean, efficient, and maintainable solutions.
 from happy_core.toolkits import *
 
 __title__ = "happy_core"
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __author__ = "alaamer12"
 __author_email__ = "ahmedmuhmmed239@gmail.com"
 __license__ = "MIT"

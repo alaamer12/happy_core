@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "happy_core"
-version = "0.1.0"
+name = "python-happy-cor"
+version = "0.1.1"
 description = "A boilerplate utility package"
 authors = ["alaamer12 <ahmedmuhmmed239@gmail.com>"]
 license = "MIT"

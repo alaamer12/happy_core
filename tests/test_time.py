@@ -4,7 +4,8 @@ import pytest
 import unittest
 import time
 from happy_core.time import Time, TimeFormat, TimeUnit, timer, \
-    ScheduleConflictError, Schedule, Event
+    Schedule, Event
+from happy_core.exceptions import ScheduleConflictError
 
 
 @pytest.fixture(scope="function")

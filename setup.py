@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='happy_core',
-    version='0.1.0',
+    name='python-happy-core',
+    version='0.1.1',
     packages=find_packages(),
     url='https://github/alaamer12/happy',
     license='MIT',

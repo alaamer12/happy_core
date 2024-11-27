@@ -1,9 +1,15 @@
+from __future__ import annotations
+
+
 class EnumValidationError(Exception):
     """Custom error for invalid enum values."""
 
     def __init__(self, message: str):
         super().__init__(message)
 
+class ScheduleError(Exception):
+    """Base exception for schedule-related errors."""
+    pass
 
 class InvalidULIDError(Exception):
     """Exception raised for invalid ULIDs."""
@@ -133,4 +139,14 @@ class UnsuitableBigIntError(UnsuitableValueError):
 
 class UnsuitableBigDecimalError(UnsuitableValueError):
     """Raised when a decimal value is unsuitable."""
+    pass
+
+
+class ScheduleConflictError(ScheduleError):
+    """Raised when there is a conflict between scheduled events."""
+    pass
+
+
+class ScheduleValidationError(ScheduleError):
+    """Raised when schedule validation fails."""
     pass

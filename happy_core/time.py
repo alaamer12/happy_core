@@ -44,6 +44,8 @@ from typing import Union, Optional, Dict, List, Any, Callable
 
 import pytz
 
+from happy_core.exceptions import ScheduleError, ScheduleConflictError, ScheduleValidationError
+
 TimeType = Optional[Union[float, str, datetime]]
 
 
@@ -418,21 +420,6 @@ class Time:
         if not isinstance(other, Time):
             return NotImplemented
         return self._datetime <= other._datetime
-
-
-class ScheduleError(Exception):
-    """Base exception for schedule-related errors."""
-    pass
-
-
-class ScheduleConflictError(ScheduleError):
-    """Raised when there is a conflict between scheduled events."""
-    pass
-
-
-class ScheduleValidationError(ScheduleError):
-    """Raised when schedule validation fails."""
-    pass
 
 
 @dataclass

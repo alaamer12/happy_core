@@ -1,13 +1,13 @@
 # Happy Core
 
-<div align="center">
+<div >
 
 ![Python Version](https://img.shields.io/badge/python-3.7%2B-blue)
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 [![PyPI version](https://badge.fury.io/py/happy-core.svg)](https://badge.fury.io/py/happy-core)
 [![Documentation](https://img.shields.io/badge/docs-latest-brightgreen.svg)](docs/build/html/index.html)
 
-<p align="center">
+<p >
   <img src="https://raw.githubusercontent.com/alaamer12/happy/main/docs/source/_static/logo.png" alt="Happy Core Logo" width="200"/>
 </p>
 
@@ -102,23 +102,12 @@ Comprehensive documentation is available in multiple formats:
 ### Core Components
 
 ```python
-# Logging
-from happy_core.log import ConsoleLogger
-logger = ConsoleLogger.get_logger()
-
 # File Operations
 from happy_core.collections import File, Directory
 workspace = Directory("./workspace")
 
-# Error Handling
-from happy_core.exceptions import ValidationError
-try:
-    # Your code here
-except ValidationError as e:
-    logger.error(f"Validation failed: {e}")
-
 # Performance Monitoring
-from happy_core.toolkits import profile, monitor
+from happy_core.toolkits import profile
 @profile
 def expensive_operation():
     pass
@@ -138,8 +127,10 @@ def expensive_operation():
 ### Error Handling
 
 ```python
-from happy_core.exceptions import FileNotFoundError
 from happy_core.collections import File
+import logging
+
+logger = logging.getLogger(__name__)
 
 def read_secure_file(path: str) -> str:
     try:
@@ -188,11 +179,11 @@ poetry run pytest
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.txt) file for details.
 
 ---
 
-<div align="center">
+<div >
 
 Made with ❤️ by [Happy Core Team](https://github.com/alaamer12)
 
