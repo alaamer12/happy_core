@@ -22,6 +22,14 @@ publish:
 	python -m build
 	twine upload dist/*
 
+clean:
+	-Remove-Item -Recurse -Force docs\build
+
+
+
+build-docs:
+	cd docs && sphinx-build -b html source build/html
+
 #bump:
 #	python scripts/update_version.py -- type
 

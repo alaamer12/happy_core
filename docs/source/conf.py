@@ -16,12 +16,39 @@ extensions = [
     'sphinx_autodoc_typehints',
     'myst_parser',
     'sphinx_rtd_theme',
+    'sphinx_rtd_dark_mode'
 ]
 
 templates_path = ['_templates']
 exclude_patterns = []
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
+
+# Theme options
+html_theme_options = {
+    'logo_only': True,
+    'navigation_depth': 4,
+    'collapse_navigation': True,
+    'sticky_navigation': True,
+    'style_nav_header_background': '#2980B9',
+}
+
+# Dark mode configuration
+default_dark_mode = True
+html_css_files = [
+    'dark.css',
+]
+
+# GitHub repository
+html_context = {
+    'display_github': True,
+    'github_user': 'happy-core',
+    'github_repo': 'happy-core',
+    'github_version': 'main',
+}
+
+html_logo = '_static/logo_blueWood.png'
+html_favicon = '_static/logo_blueWood.png'
 
 # Napoleon settings
 napoleon_google_docstring = True

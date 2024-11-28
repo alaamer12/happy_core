@@ -1,28 +1,48 @@
 Welcome to Happy Core's documentation!
 ======================================
 
-   :image:: https://img.shields.io/badge/python-3.7%2B-blue
+.. image:: https://img.shields.io/badge/python-3.7%2B-blue
    :alt: Python Version
-   :image:: https://img.shields.io/badge/License-MIT-green.svg
+
+.. image:: https://img.shields.io/badge/License-MIT-green.svg
    :alt: MIT License
    :target: https://choosealicense.com/licenses/mit/
+
 
 Happy Core is a comprehensive utility toolkit designed for Python developers seeking clean, efficient, and maintainable solutions.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Getting Started
 
    installation
+   examples
+
+.. toctree::
+   :maxdepth: 2
+   :caption: API Reference
+
+   api
+   api_reference
    modules/collections
    modules/enum_registry
    modules/time
    modules/re
    modules/types
    modules/toolkits
+
+.. toctree::
+   :maxdepth: 2
+   :caption: User Guide
+
    examples
-   api
-   api_reference
+   
+.. toctree::
+   :maxdepth: 2
+   :caption: Project Info
+
+   changelog
+   releases
 
 Features
 --------

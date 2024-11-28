@@ -18,7 +18,7 @@ def fix_rst_titles(file_path):
         title = match.group(1)
         underline_char = match.group(2)
         # Create new underline with exact length of title
-        new_underline = underline_char * len(title) + 1
+        new_underline = underline_char * len(title)
         return f'{title}\n{new_underline}'
 
     # Replace all title patterns with fixed underlines

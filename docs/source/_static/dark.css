@@ -1,0 +1,143 @@
+/* Dark mode styles */
+:root[data-theme="dark"] {
+  --body-color: #f0f0f0;
+  --content-background: #1a1a1a;
+  --link-color: #2980b9;
+  --link-hover-color: #3091d1;
+  --navbar-background: #2d2d2d;
+  --menu-background: #343434;
+  --code-background: #2d2d2d;
+  --code-color: #f0f0f0;
+}
+
+/* Base styles for dark mode */
+[data-theme="dark"] body {
+  color: var(--body-color);
+  background: var(--content-background);
+}
+
+/* Links in dark mode */
+[data-theme="dark"] a {
+  color: var(--link-color);
+}
+
+[data-theme="dark"] a:hover {
+  color: var(--link-hover-color);
+}
+
+/* Navigation in dark mode */
+[data-theme="dark"] .wy-nav-side {
+  background: var(--menu-background);
+}
+
+[data-theme="dark"] .wy-nav-content-wrap {
+  background: var(--content-background);
+}
+
+/* Code blocks in dark mode */
+[data-theme="dark"] .highlight {
+  background: var(--code-background);
+}
+
+[data-theme="dark"] .highlight pre {
+  color: var(--code-color);
+}
+
+/* Tables in dark mode */
+[data-theme="dark"] table.docutils {
+  background: var(--content-background);
+  border-color: #4a4a4a;
+}
+
+[data-theme="dark"] table.docutils thead {
+  background: var(--navbar-background);
+}
+
+/* Search box in dark mode */
+[data-theme="dark"] .wy-side-nav-search input[type="text"] {
+  background: #404040;
+  color: var(--body-color);
+  border-color: #4a4a4a;
+}
+
+/* Version number in dark mode */
+[data-theme="dark"] .wy-side-nav-search > div.version {
+  color: var(--body-color);
+}
+
+/* Admonitions in dark mode */
+[data-theme="dark"] .admonition {
+  background: var(--navbar-background);
+}
+
+[data-theme="dark"] .admonition .admonition-title {
+  background: var(--menu-background);
+}
+
+/* Footer in dark mode */
+[data-theme="dark"] footer {
+  color: var(--body-color);
+}
+
+/* GitHub Corner */
+.github-corner svg {
+  fill: #2980b9;
+  color: var(--content-background);
+  z-index: 1000;
+  transition: fill 0.3s ease;
+}
+
+.github-corner:hover .octo-arm {
+  animation: octocat-wave 560ms ease-in-out;
+}
+
+.github-corner:hover svg {
+  fill: #3498db;
+}
+
+@keyframes octocat-wave {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  20%,
+  60% {
+    transform: rotate(-25deg);
+  }
+  40%,
+  80% {
+    transform: rotate(10deg);
+  }
+}
+
+
+/* Light mode overrides */
+:root:not([data-theme="dark"]) .github-corner svg {
+  fill: #2980b9;
+  color: #ffffff;
+}
+
+:root:not([data-theme="dark"]) .version-box {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(41, 128, 185, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+:root:not([data-theme="dark"]) .version-label {
+  color: #2c3e50;
+}
+
+/* Light mode overrides */
+:root:not([data-theme="dark"]) .github-corner svg {
+  fill: #2980b9;
+  color: #ffffff;
+}
+
+:root:not([data-theme="dark"]) .version-box {
+  background: #ffffff;
+  border: 1px solid #2980b9;
+}
+
+:root:not([data-theme="dark"]) .version-label {
+  color: #333333;
+}
