@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from happy_core.collections import RecycleBin
+from true.collections import RecycleBin
 
 
 @pytest.fixture

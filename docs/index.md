@@ -1,10 +1,10 @@
-# Happy Core Documentation
+# True Core Documentation
 
 <div align="center">
 
 ![Python Version](https://img.shields.io/badge/python-3.7%2B-blue)
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
-[![PyPI version](https://badge.fury.io/py/happy-core.svg)](https://badge.fury.io/py/happy-core)
+[![PyPI version](https://badge.fury.io/py/true-core.svg)](https://badge.fury.io/py/true-core)
 
 A comprehensive utility toolkit designed for Python developers seeking clean, efficient, and maintainable solutions.
 
@@ -28,7 +28,7 @@ A comprehensive utility toolkit designed for Python developers seeking clean, ef
 
 ## 🌟 Overview
 
-Happy Core is a feature-rich Python package that provides a collection of utilities and boilerplate code designed to solve common development challenges. Built with maintainability, extensibility, and clean code principles in mind, it offers a robust foundation for your Python projects.
+True Core is a feature-rich Python package that provides a collection of utilities and boilerplate code designed to solve common development challenges. Built with maintainability, extensibility, and clean code principles in mind, it offers a robust foundation for your Python projects.
 
 ### Key Benefits
 
@@ -39,7 +39,7 @@ Happy Core is a feature-rich Python package that provides a collection of utilit
 - **🔄 Type Safe**: Full type hint support for better IDE integration
 - **📝 Well Documented**: Comprehensive documentation with real-world examples
 
-### Who Should Use Happy Core?
+### Who Should Use True Core?
 
 - **Application Developers**: Streamline common tasks like file operations and data processing
 - **System Architects**: Build robust, maintainable systems with clean abstractions
@@ -49,23 +49,27 @@ Happy Core is a feature-rich Python package that provides a collection of utilit
 ## 📦 Installation
 
 ### Prerequisites
+
 - Python 3.7 or higher
 - pip or poetry (recommended)
 
 ### Using pip
+
 ```bash
-pip install happy-core
+pip install true-core
 ```
 
 ### Using poetry
+
 ```bash
-poetry add happy-core
+poetry add true-core
 ```
 
 ### From source
+
 ```bash
-git clone https://github.com/yourusername/happy-core.git
-cd happy-core
+git clone https://github.com/yourusername/true-core.git
+cd true-core
 pip install -r requirements.txt
 ```
 
@@ -76,10 +80,11 @@ pip install -r requirements.txt
 The file system operations module provides enhanced file and directory management capabilities through several key classes:
 
 #### FileSystemObject
+
 Base class providing common functionality for files and directories.
 
 ```python
-from happy_core.collections import FileSystemObject
+from true.collections import FileSystemObject
 
 # Create a file system object
 fs_obj = FileSystemObject("/path/to/item")
@@ -91,10 +96,11 @@ print(fs_obj.name)
 ```
 
 #### File
+
 Enhanced file operations with additional capabilities.
 
 ```python
-from happy_core.collections import File
+from true.collections import File
 
 # Create a file object
 file = File("/path/to/file.txt")
@@ -106,10 +112,11 @@ file.create_backup()
 ```
 
 #### Directory
+
 Advanced directory management with recursive operations.
 
 ```python
-from happy_core.collections import Directory
+from true.collections import Directory
 
 # Create a directory object
 directory = Directory("/path/to/dir")
@@ -123,10 +130,11 @@ tree = directory.get_tree()
 ### Collections
 
 #### RecycleBin
+
 Advanced file recycling system with metadata tracking.
 
 ```python
-from happy_core.collections import RecycleBin
+from true.collections import RecycleBin
 
 # Initialize recycle bin
 recycler = RecycleBin("/path/to/bin")
@@ -144,7 +152,7 @@ recycler.add_tag(item_id, "important")
 The enum system provides enhanced enumeration capabilities with validation and registration.
 
 ```python
-from happy_core.enum_registry import EnumRegistry
+from true.enum_registry import EnumRegistry
 
 # Create an enum registry
 registry = EnumRegistry()
@@ -161,7 +169,7 @@ class Status:
 Enhanced time manipulation and conversion utilities.
 
 ```python
-from happy_core.time import TimeConverter
+from true.time import TimeConverter
 
 # Convert between time formats
 unix_time = TimeConverter.to_unix("2023-01-01 12:00:00")
@@ -173,7 +181,7 @@ iso_time = TimeConverter.to_iso(unix_time)
 Extended regular expression patterns and utilities.
 
 ```python
-from happy_core.re import RegexPattern
+from true.re import RegexPattern
 
 # Use predefined patterns
 email_pattern = RegexPattern.EMAIL
@@ -185,7 +193,7 @@ is_valid = email_pattern.match("user@example.com")
 Various utility functions and type definitions.
 
 ```python
-from happy_core.toolkits import retry, monitor
+from true.toolkits import retry, monitor
 
 # Use decorators
 @retry(max_attempts=3)
@@ -199,9 +207,11 @@ def process_data():
 ### File System Module
 
 #### class FileSystemObject
+
 Base class for file system operations.
 
 **Properties:**
+
 - `path`: Get the relative path
 - `full_path`: Get the absolute path
 - `exists`: Check if the item exists
@@ -209,13 +219,16 @@ Base class for file system operations.
 - `parent`: Get the parent directory
 
 **Methods:**
+
 - `clear_cache()`: Clear cached properties
 - `get_owner_info()`: Get file owner information
 
 #### class File(FileSystemObject)
+
 Enhanced file operations.
 
 **Properties:**
+
 - `filename`: Get the file name
 - `extension`: Get the file extension
 - `size`: Get file size
@@ -223,6 +236,7 @@ Enhanced file operations.
 - `mime_type`: Get file MIME type
 
 **Methods:**
+
 - `get_stats()`: Get comprehensive file statistics
 - `copy_to(destination, overwrite=False)`: Copy file with retry mechanism
 - `create_backup(suffix='.bak')`: Create a backup copy
@@ -231,9 +245,11 @@ Enhanced file operations.
 - `write_text(content, encoding='utf-8')`: Write text content
 
 #### class Directory(FileSystemObject)
+
 Advanced directory management.
 
 **Methods:**
+
 - `size()`: Get cached directory size
 - `glob(pattern)`: Pattern matching
 - `rglob(pattern)`: Recursive pattern matching
@@ -242,9 +258,11 @@ Advanced directory management.
 - `get_tree(max_depth=None)`: Get directory structure
 
 #### class RecycleBin
+
 Advanced file recycling system.
 
 **Methods:**
+
 - `delete(path)`: Move item to recycle bin
 - `restore(item_id)`: Restore item from recycle bin
 - `list_items(pattern=None)`: List recycled items
@@ -255,9 +273,11 @@ Advanced file recycling system.
 ### Enum Registry Module
 
 #### class EnumRegistry
+
 Registry for enhanced enumerations.
 
 **Methods:**
+
 - `register(cls)`: Register an enum class
 - `validate(value, enum_type)`: Validate enum value
 - `get_choices(enum_type)`: Get enum choices
@@ -265,9 +285,11 @@ Registry for enhanced enumerations.
 ### Time Module
 
 #### class TimeConverter
+
 Time conversion utilities.
 
 **Methods:**
+
 - `to_unix(datetime_str)`: Convert to Unix timestamp
 - `to_iso(unix_time)`: Convert to ISO format
 - `to_local(utc_time)`: Convert to local time
@@ -276,15 +298,18 @@ Time conversion utilities.
 ### Regular Expressions Module
 
 #### class RegexPattern
+
 Common regex patterns and utilities.
 
 **Constants:**
+
 - `EMAIL`: Email validation pattern
 - `URL`: URL validation pattern
 - `IP_ADDRESS`: IP address pattern
 - `PHONE_NUMBER`: Phone number pattern
 
 **Methods:**
+
 - `match(pattern, text)`: Match pattern against text
 - `find_all(pattern, text)`: Find all matches
 - `replace(pattern, text, replacement)`: Replace matches
@@ -292,14 +317,15 @@ Common regex patterns and utilities.
 ## 🎯 Examples
 
 ### Basic File Operations
+
 ```python
-from happy_core.collections import File, Directory
+from true.collections import File, Directory
 
 # File operations
 file = File("document.txt")
 if not file.exists():
     file.write_text("Hello, World!")
-    
+
 backup = file.create_backup()
 print(f"Backup created at: {backup.path}")
 
@@ -311,26 +337,28 @@ print("Directory structure:", tree)
 ```
 
 ### Using RecycleBin
+
 ```python
-from happy_core.collections import RecycleBin
+from true.collections import RecycleBin
 
 with RecycleBin("./recyclebin") as bin:
     # Delete files
     file_id = bin.delete("old_file.txt")
-    
+
     # Add tags
     bin.add_tag(file_id, "archived")
-    
+
     # List items
     items = bin.list_items(pattern="*.txt")
-    
+
     # Restore specific item
     bin.restore(file_id)
 ```
 
 ### Working with Enums
+
 ```python
-from happy_core.enum_registry import EnumRegistry
+from true.enum_registry import EnumRegistry
 
 registry = EnumRegistry()
 
@@ -358,11 +386,11 @@ See our [Contributing Guide](CONTRIBUTING.md) for more details.
 
 ## 📚 References
 
-- [Official Documentation](https://happy-core.readthedocs.io/)
-- [GitHub Repository](https://github.com/yourusername/happy-core)
-- [PyPI Package](https://pypi.org/project/happy-core/)
+- [Official Documentation](https://true-core.readthedocs.io/)
+- [GitHub Repository](https://github.com/yourusername/true-core)
+- [PyPI Package](https://pypi.org/project/true-core/)
 - [Change Log](CHANGELOG.md)
 
 ## 📄 License
 
-Happy Core is released under the MIT License. See the [LICENSE](LICENSE) file for details.
+True Core is released under the MIT License. See the [LICENSE](LICENSE) file for details.

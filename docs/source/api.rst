@@ -16,7 +16,7 @@ Collections
 
 The collections module provides enhanced file system operations.
 
-.. module:: happy_core.collections
+.. module:: true.collections
 
 Key Classes:
 
@@ -32,7 +32,7 @@ Enum Registry
 
 The enum registry module provides enumeration validation and registration.
 
-.. module:: happy_core.enum_registry
+.. module:: true.enum_registry
 
 Key Classes:
 
@@ -43,7 +43,7 @@ Time
 
 The time module provides time manipulation and scheduling utilities.
 
-.. module:: happy_core.time
+.. module:: true.time
 
 Key Classes:
 
@@ -56,7 +56,7 @@ Types
 
 The types module provides custom type definitions and checking.
 
-.. module:: happy_core.types
+.. module:: true.types
 
 Key Classes:
 
@@ -70,7 +70,7 @@ Toolkits
 
 The toolkits module provides various utility functions and decorators.
 
-.. module:: happy_core.toolkits
+.. module:: true.toolkits
 
 Key Functions:
 
@@ -86,11 +86,11 @@ Exceptions
 
 The exceptions module provides custom exceptions.
 
-.. module:: happy_core.exceptions
+.. module:: true.exceptions
 
 Key Exceptions:
 
-- :exc:`HappyCoreError`: Base exception
+- :exc:`TrueCoreError`: Base exception
 - :exc:`ValidationError`: Validation errors
 - :exc:`FileSystemError`: File system errors
 - :exc:`EnumValidationError`: Enum validation errors

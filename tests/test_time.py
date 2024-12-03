@@ -3,9 +3,9 @@ from datetime import datetime, timezone, timedelta
 import pytest
 import unittest
 import time
-from happy_core.time import Time, TimeFormat, TimeUnit, timer, \
+from true.time import Time, TimeFormat, TimeUnit, timer, \
     Schedule, Event
-from happy_core.exceptions import ScheduleConflictError
+from true.exceptions import ScheduleConflictError
 
 
 @pytest.fixture(scope="function")

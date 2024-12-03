@@ -1,94 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Core Documentation</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>True Core Documentation</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fira+Code:wght@300..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+    
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css"
+    />
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-</head>
-<body>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+  </head>
+  <body>
     <nav class="sidebar">
-        <div class="sidebar-header">
-            <img src="logo.png" alt="Happy Core Logo" class="logo">
-            <h1>Happy Core</h1>
+      <div class="sidebar-header">
+        <img src="logo.png" alt="True Core Logo" class="logo" />
+        <h1>True Core</h1>
+        <div class="version-selector">
+          <span class="version-label">Version:</span>
+          <select id="version-select" class="version-select">
+            <option value="latest">Latest</option>
+            <!-- Additional versions will be populated dynamically -->
+          </select>
         </div>
-        <div class="sidebar-content">
-            <!-- Navigation will be dynamically generated -->
-        </div>
+      </div>
+      <div class="sidebar-content">
+        <!-- Navigation will be dynamically generated -->
+      </div>
     </nav>
 
     <main class="content">
-        <!-- Content will be dynamically inserted here -->
+      <!-- Content will be dynamically inserted here -->
     </main>
 
     <footer>
-        <p>&copy; 2023 Happy Core. All rights reserved.</p>
+      <p>&copy; 2023 True Core. All rights reserved.</p>
     </footer>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-python.min.js"></script>
     <script>
-        // Dynamic navigation generation
-        document.addEventListener('DOMContentLoaded', function() {
-            const headings = document.querySelectorAll('h2, h3');
-            const sidebarContent = document.querySelector('.sidebar-content');
-            const nav = document.createElement('ul');
+      // Version handling
+      const versions = [
+        { version: "latest", url: "/" },
+        { version: "1.0.0", url: "/v1.0.0/" },
+        { version: "0.9.0", url: "/v0.9.0/" }
+      ];
 
-            headings.forEach(heading => {
-                const li = document.createElement('li');
-                const a = document.createElement('a');
-                a.href = `#${heading.id}`;
-                a.textContent = heading.textContent;
-                li.appendChild(a);
-                nav.appendChild(li);
-            });
-
-            sidebarContent.appendChild(nav);
+      function populateVersions() {
+        const select = document.getElementById("version-select");
+        versions.forEach(({ version }) => {
+          if (version === "latest") return; // Skip latest as it's already in HTML
+          const option = document.createElement("option");
+          option.value = version;
+          option.textContent = version;
+          select.appendChild(option);
         });
 
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
+        // Set current version
+        const currentPath = window.location.pathname;
+        const currentVersion = versions.find(v => 
+          currentPath.includes(v.version === "latest" ? "" : v.version)
+        )?.version || "latest";
+        select.value = currentVersion;
+      }
+
+      document.getElementById("version-select").addEventListener("change", (e) => {
+        const selectedVersion = e.target.value;
+        const versionData = versions.find(v => v.version === selectedVersion);
+        if (versionData) {
+          const currentPath = window.location.pathname;
+          const newPath = versionData.version === "latest" 
+            ? currentPath.replace(/\/v\d+\.\d+\.\d+\//, "/")
+            : currentPath.replace(/\/(?:v\d+\.\d+\.\d+\/)?/, `/${versionData.url}`);
+          window.location.href = newPath;
+        }
+      });
+
+      // Call version population on load
+      document.addEventListener("DOMContentLoaded", populateVersions);
+
+      // Dynamic navigation generation
+      document.addEventListener("DOMContentLoaded", function () {
+        const headings = document.querySelectorAll("h2, h3");
+        const sidebarContent = document.querySelector(".sidebar-content");
+        const nav = document.createElement("ul");
+
+        headings.forEach((heading) => {
+          const li = document.createElement("li");
+          const a = document.createElement("a");
+          a.href = `#${heading.id}`;
+          a.textContent = heading.textContent;
+          li.appendChild(a);
+          nav.appendChild(li);
         });
 
-        // Dark mode toggle
-        const darkModeToggle = document.createElement('button');
-        darkModeToggle.textContent = '🌙';
-        darkModeToggle.classList.add('dark-mode-toggle');
-        document.body.appendChild(darkModeToggle);
+        sidebarContent.appendChild(nav);
+      });
 
-        darkModeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+          });
         });
+      });
 
-        // Code copy button
-        document.querySelectorAll('pre').forEach(pre => {
-            const copyButton = document.createElement('button');
-            copyButton.textContent = 'Copy';
-            copyButton.classList.add('copy-button');
-            pre.appendChild(copyButton);
+      // Dark mode toggle
+      const darkModeToggle = document.createElement("button");
+      darkModeToggle.textContent = "🌙";
+      darkModeToggle.classList.add("dark-mode-toggle");
+      document.body.appendChild(darkModeToggle);
 
-            copyButton.addEventListener('click', () => {
-                const code = pre.querySelector('code');
-                navigator.clipboard.writeText(code.textContent);
-                copyButton.textContent = 'Copied!';
-                setTimeout(() => {
-                    copyButton.textContent = 'Copy';
-                }, 2000);
-            });
+      darkModeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+        darkModeToggle.textContent = document.body.classList.contains(
+          "dark-mode"
+        )
+          ? "☀️"
+          : "🌙";
+      });
+
+      // Code copy button
+      document.querySelectorAll("pre").forEach((pre) => {
+        const copyButton = document.createElement("button");
+        copyButton.textContent = "Copy";
+        copyButton.classList.add("copy-button");
+        pre.appendChild(copyButton);
+
+        copyButton.addEventListener("click", () => {
+          const code = pre.querySelector("code");
+          navigator.clipboard.writeText(code.textContent);
+          copyButton.textContent = "Copied!";
+          setTimeout(() => {
+            copyButton.textContent = "Copy";
+          }, 2000);
         });
+      });
     </script>
-</body>
+  </body>
 </html>

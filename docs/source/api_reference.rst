@@ -1,7 +1,7 @@
 API Reference
 =============
 
-This section provides detailed documentation for all public APIs in Happy Core.
+This section provides detailed documentation for all public APIs in True Core.
 
 Collections Module
 ------------------
@@ -135,9 +135,9 @@ Types Module
 Error Handling
 --------------
 
-.. py:exception:: HappyCoreError
+.. py:exception:: TrueCoreError
    
-   Base exception class for Happy Core.
+   Base exception class for True Core.
 
 .. py:exception:: FileError
    
@@ -150,7 +150,7 @@ Error Handling
 Best Practices
 --------------
 
-When using Happy Core's API, consider these best practices:
+When using True Core's API, consider these best practices:
 
 1. **Error Handling**
    
@@ -179,7 +179,7 @@ When using Happy Core's API, consider these best practices:
 
    .. code-block:: python
 
-      from happy_core.types import JsonDict
+      from true.types import JsonDict
 
       def process_data(data: JsonDict) -> List[str]:
           # Your code here

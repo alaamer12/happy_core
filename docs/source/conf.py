@@ -2,9 +2,9 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('../..'))
 
-project = 'Happy Core'
-copyright = '2024, Happy Core Team'
-author = 'Happy Core Team'
+project = 'True Core'
+copyright = '2024, True Core Team'
+author = 'True Core Team'
 version = '1.0'
 release = '1.0'
 
@@ -42,13 +42,13 @@ html_css_files = [
 # GitHub repository
 html_context = {
     'display_github': True,
-    'github_user': 'happy-core',
-    'github_repo': 'happy-core',
+    'github_user': 'true-core',
+    'github_repo': 'true-core',
     'github_version': 'main',
 }
 
-html_logo = '_static/logo_blueWood.png'
-html_favicon = '_static/logo_blueWood.png'
+html_logo = '_static/light_true_icon.png'
+html_favicon = '_static/light_true_icon.png'
 
 # Napoleon settings
 napoleon_google_docstring = True

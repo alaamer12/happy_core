@@ -1,21 +1,21 @@
-# Happy Core
+# True Core
 
 <div >
 
 ![Python Version](https://img.shields.io/badge/python-3.7%2B-blue)
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
-[![PyPI version](https://badge.fury.io/py/happy-core.svg)](https://badge.fury.io/py/happy-core)
+[![PyPI version](https://badge.fury.io/py/true-core.svg)](https://badge.fury.io/py/true-core)
 [![Documentation](https://img.shields.io/badge/docs-latest-brightgreen.svg)](docs/build/html/index.html)
 
 <p >
-  <img src="https://raw.githubusercontent.com/alaamer12/happy/main/docs/source/_static/logo.png" alt="Happy Core Logo" width="200"/>
+  <img src="https://raw.githubusercontent.com/alaamer12/true/main/docs/source/_static/logo.png" alt="True Core Logo" width="200"/>
 </p>
 
 A comprehensive utility toolkit designed for Python developers seeking clean, efficient, and maintainable solutions.
 
 [Documentation](docs/build/html/index.html) |
-[PyPI Package](https://pypi.org/project/happy-core/) |
-[Issue Tracker](https://github.com/alaamer12/happy/issues)
+[PyPI Package](https://pypi.org/project/true-core/) |
+[Issue Tracker](https://github.com/alaamer12/true/issues)
 
 </div>
 
@@ -24,12 +24,12 @@ A comprehensive utility toolkit designed for Python developers seeking clean, ef
 ## 🚀 Quick Start
 
 ```bash
-pip install happy_core
+pip install true-core
 ```
 
 ```python
-from happy_core.toolkits import simple_debugger
-from happy_core.collections import Directory
+from true.toolkits import simple_debugger
+from true.collections import Directory
 
 # Quick example
 simple_debugger("Starting application...")
@@ -49,16 +49,19 @@ work_dir = Directory("./workspace")
 ## ✨ Features
 
 - **🛡 Robust Error Handling**
+
   - Comprehensive exception hierarchy
   - Custom exception classes
   - Error recovery mechanisms
 
 - **📝 Advanced Logging**
+
   - Built on top of `loguru`
   - Configurable logging strategies
   - Console and file logging support
 
 - **🔧 Developer Tools**
+
   - Performance profiling
   - Debugging utilities
   - Type checking helpers
@@ -72,19 +75,20 @@ work_dir = Directory("./workspace")
 ## 📦 Installation
 
 ### Prerequisites
+
 - Python 3.7 or higher
 - pip or poetry (recommended)
 
 ```bash
 # Using pip
-pip install happy_core
+pip install true-core
 
 # Using poetry
-poetry add happy_core
+poetry add true-core
 
 # From source
-git clone https://github.com/alaamer12/happy.git
-cd happy_core
+git clone https://github.com/alaamer12/true.git
+cd true
 pip install -r requirements.txt
 ```
 
@@ -103,11 +107,11 @@ Comprehensive documentation is available in multiple formats:
 
 ```python
 # File Operations
-from happy_core.collections import File, Directory
+from true.collections import File, Directory
 workspace = Directory("./workspace")
 
 # Performance Monitoring
-from happy_core.toolkits import profile
+from true.toolkits import profile
 @profile
 def expensive_operation():
     pass
@@ -127,7 +131,7 @@ def expensive_operation():
 ### Error Handling
 
 ```python
-from happy_core.collections import File
+from true.collections import File
 import logging
 
 logger = logging.getLogger(__name__)
@@ -144,7 +148,7 @@ def read_secure_file(path: str) -> str:
 ### Performance Monitoring
 
 ```python
-from happy_core.toolkits import monitor
+from true.toolkits import monitor
 
 @monitor
 def process_data(items: list):
@@ -167,8 +171,8 @@ We welcome contributions! Here's how you can help:
 
 ```bash
 # Clone repository
-git clone https://github.com/alaamer12/happy.git
-cd happy_core
+git clone https://github.com/alaamer12/true.git
+cd true
 
 # Install dependencies with poetry
 poetry install
@@ -185,6 +189,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.tx
 
 <div >
 
-Made with ❤️ by [Happy Core Team](https://github.com/alaamer12)
+Made with ❤️ by [True Core Team](https://github.com/alaamer12)
 
 </div>

@@ -55,7 +55,7 @@ def update_version(root_dir: Path, increment_type: Optional[str] = None, quiet: 
     # Files to update
     files_to_update = [
         root_dir / "pyproject.toml",
-        root_dir / "happy_core" / "__init__.py",
+        root_dir / "true" / "__init__.py",
         root_dir / "setup.cfg",
         root_dir / "setup.py"
     ]

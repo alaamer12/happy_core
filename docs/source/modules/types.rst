@@ -1,7 +1,7 @@
 Types Module
 ============
 
-.. module:: happy_core.types
+.. module:: true.types
   :no-index:
 
 A comprehensive type system providing robust type safety and validation for Python applications.
@@ -34,7 +34,7 @@ JsonDict
    
    .. code-block:: python
 
-      from happy_core.types import JsonDict, validate_json
+      from true.types import JsonDict, validate_json
       
       @validate_json
       def process_config(config: JsonDict) -> JsonDict:
@@ -61,7 +61,7 @@ DataFrameType
    
    .. code-block:: python
 
-      from happy_core.types import DataFrameType, validate_schema
+      from true.types import DataFrameType, validate_schema
       
       @validate_schema
       def process_data(df: DataFrameType) -> DataFrameType:
@@ -90,7 +90,7 @@ validate_json
    
    .. code-block:: python
 
-      from happy_core.types import validate_json
+      from true.types import validate_json
       
       schema = {
           "type": "object",
@@ -120,7 +120,7 @@ validate_schema
    
    .. code-block:: python
 
-      from happy_core.types import validate_schema
+      from true.types import validate_schema
       
       schema = {
           "columns": {
@@ -154,7 +154,7 @@ TypeConverter
    
    .. code-block:: python
 
-      from happy_core.types import TypeConverter
+      from true.types import TypeConverter
       
       converter = TypeConverter()
       
@@ -227,7 +227,7 @@ Advanced Usage
 
    .. code-block:: python
 
-      from happy_core.types import CustomType, validate_type
+      from true.types import CustomType, validate_type
       
       class EmailType(CustomType):
           def validate(self, value: str) -> bool:

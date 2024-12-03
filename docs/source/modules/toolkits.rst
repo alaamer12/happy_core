@@ -1,7 +1,7 @@
 Toolkits Module
 ===============
 
-.. module:: happy_core.toolkits
+.. module:: true.toolkits
   :no-index:
 
 A comprehensive collection of utilities and decorators for enhancing code quality, performance, and maintainability.
@@ -33,7 +33,7 @@ retry
    
    .. code-block:: python
 
-      from happy_core.toolkits import retry
+      from true.toolkits import retry
       
       @retry(max_attempts=3, delay=1, backoff=2)
       def fetch_data(url: str) -> dict:
@@ -63,7 +63,7 @@ monitor
    
    .. code-block:: python
 
-      from happy_core.toolkits import monitor
+      from true.toolkits import monitor
       
       @monitor(metrics=["execution_time", "memory_usage"])
       def process_large_dataset(data: pd.DataFrame) -> pd.DataFrame:
@@ -92,7 +92,7 @@ cache
    
    .. code-block:: python
 
-      from happy_core.toolkits import cache
+      from true.toolkits import cache
       
       @cache(ttl=3600, strategy="lru")
       def expensive_calculation(x: int) -> float:
@@ -123,7 +123,7 @@ PerformanceTracker
    
    .. code-block:: python
 
-      from happy_core.toolkits import PerformanceTracker
+      from true.toolkits import PerformanceTracker
       
       tracker = PerformanceTracker()
       
@@ -150,7 +150,7 @@ ErrorHandler
    
    .. code-block:: python
 
-      from happy_core.toolkits import ErrorHandler
+      from true.toolkits import ErrorHandler
       
       handler = ErrorHandler()
       

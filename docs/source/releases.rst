@@ -13,7 +13,7 @@ You can install the latest version using pip:
 
 .. code-block:: bash
 
-   pip install happy-core
+   pip install true-core
 
 Release History
 ---------------

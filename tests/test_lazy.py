@@ -3,7 +3,7 @@ from typing import TypeVar
 
 import pytest
 
-from happy_core.collections import lazy_method, LazyDescriptor, LazyMetaClass
+from true.collections import lazy_method, LazyDescriptor, LazyMetaClass
 
 T = TypeVar('T')
 

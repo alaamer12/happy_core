@@ -7,9 +7,11 @@ class EnumValidationError(Exception):
     def __init__(self, message: str):
         super().__init__(message)
 
+
 class ScheduleError(Exception):
     """Base exception for schedule-related errors."""
     pass
+
 
 class InvalidULIDError(Exception):
     """Exception raised for invalid ULIDs."""
@@ -149,4 +151,9 @@ class ScheduleConflictError(ScheduleError):
 
 class ScheduleValidationError(ScheduleError):
     """Raised when schedule validation fails."""
+    pass
+
+
+class InvalidEnumTypeError(Exception):
+    """Raised when an invalid enum type is provided."""
     pass

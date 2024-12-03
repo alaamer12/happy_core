@@ -44,7 +44,7 @@ from typing import Union, Optional, Dict, List, Any, Callable
 
 import pytz
 
-from happy_core.exceptions import ScheduleError, ScheduleConflictError, ScheduleValidationError
+from true.exceptions import ScheduleError, ScheduleConflictError, ScheduleValidationError
 
 TimeType = Optional[Union[float, str, datetime]]
 

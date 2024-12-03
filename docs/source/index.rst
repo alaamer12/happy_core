@@ -1,4 +1,4 @@
-Welcome to Happy Core's documentation!
+Welcome to True Core's documentation!
 ======================================
 
 .. image:: https://img.shields.io/badge/python-3.7%2B-blue
@@ -9,7 +9,7 @@ Welcome to Happy Core's documentation!
    :target: https://choosealicense.com/licenses/mit/
 
 
-Happy Core is a comprehensive utility toolkit designed for Python developers seeking clean, efficient, and maintainable solutions.
+True is a comprehensive utility toolkit designed for Python developers seeking clean, efficient, and maintainable solutions.
 
 .. toctree::
    :maxdepth: 2
@@ -68,9 +68,9 @@ Quick Start
 
 .. code-block:: python
 
-   from happy_core.collections import File, Directory, RecycleBin
-   from happy_core.enum_registry import EnumRegistry
-   from happy_core.toolkits import retry, monitor
+   from true.collections import File, Directory, RecycleBin
+   from true.enum_registry import EnumRegistry
+   from true.toolkits import retry, monitor
 
    # File operations
    file = File("document.txt")

@@ -43,8 +43,8 @@ from moviepy.editor import ImageSequenceClip, ImageClip
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
-from happy_core.exceptions import (StorageFullError, RecycleBinError, ItemNotFoundError, RestoreError)
-from happy_core.toolkits import retry
+from true.exceptions import (StorageFullError, RecycleBinError, ItemNotFoundError, RestoreError)
+from true.toolkits import retry
 
 R = TypeVar('R')
 P = ParamSpec('P')

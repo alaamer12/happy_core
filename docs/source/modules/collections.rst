@@ -1,7 +1,7 @@
 Collections Module
 ==================
 
-.. module:: happy_core.collections
+.. module:: true.collections
   :no-index:
 
 The Collections module provides powerful, type-safe abstractions for handling files, directories, and data structures.
@@ -34,7 +34,7 @@ File Class
    
    .. code-block:: python
 
-      from happy_core.collections import File
+      from true.collections import File
       
       # Type-safe file operations
       config_file = File("config.json")
@@ -95,7 +95,7 @@ Directory Class
    
    .. code-block:: python
 
-      from happy_core.collections import Directory
+      from true.collections import Directory
       
       # Create directory tree
       project_dir = Directory("my_project")
@@ -149,7 +149,7 @@ RecycleBin Class
    
    .. code-block:: python
 
-      from happy_core.collections import RecycleBin
+      from true.collections import RecycleBin
       
       # Initialize recycle bin
       bin = RecycleBin(".trash")
@@ -211,7 +211,7 @@ Advanced Usage
 
    .. code-block:: python
 
-      from happy_core.collections import Directory
+      from true.collections import Directory
       from concurrent.futures import ThreadPoolExecutor
       
       def process_file(file: File):
@@ -242,7 +242,7 @@ Advanced Usage
 
    .. code-block:: python
 
-      from happy_core.toolkits import monitor
+      from true.toolkits import monitor
       
       @monitor
       def process_files(directory: Directory):

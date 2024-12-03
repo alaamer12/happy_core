@@ -1,6 +1,6 @@
 import pytest
 
-from happy_core.toolkits import arithmatic_total_ordering, FixIDEComplain
+from true.toolkits import arithmatic_total_ordering, FixIDEComplain
 
 
 @arithmatic_total_ordering

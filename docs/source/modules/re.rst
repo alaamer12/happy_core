@@ -1,7 +1,7 @@
 Regular Expression Patterns
 ===========================
 
-.. module:: happy_core.re
+.. module:: true.re
 
 The ``re`` module provides a comprehensive collection of pre-defined regular expressions for common data validation tasks. These patterns are designed to handle various validation scenarios across different fields, making input validation simpler and more reliable.
 
@@ -116,7 +116,7 @@ To use these patterns in your code:
 
 .. code-block:: python
 
-   from happy_core.re import USERNAME_ONLY_LETTERS_MIN_3
+   from true.re import USERNAME_ONLY_LETTERS_MIN_3
    import re
 
    # Validate a username

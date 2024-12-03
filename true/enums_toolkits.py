@@ -23,9 +23,9 @@ import json
 from enum import EnumMeta, unique, ReprEnum
 from typing import TypeVar, Generic, Iterable, Iterator, Generator, Callable
 
-from happy_core.exceptions import EnumTypeError, EnumValidationError
-from happy_core.toolkits import is_iterable, is_iterator, is_generator
-from happy_core.types import JsonType
+from true.exceptions import EnumTypeError, EnumValidationError
+from true.toolkits import is_iterable, is_iterator, is_generator
+from true.types import JsonType
 
 T = TypeVar('T')
 

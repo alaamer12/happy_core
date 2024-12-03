@@ -12,22 +12,22 @@ Using pip
 
 .. code-block:: bash
 
-   pip install happy-core
+   pip install true-core
 
 Using poetry
 ------------
 
 .. code-block:: bash
 
-   poetry add happy-core
+   poetry add true-core
 
 From source
 -----------
 
 .. code-block:: bash
 
-   git clone https://github.com/yourusername/happy-core.git
-   cd happy-core
+   git clone https://github.com/yourusername/true-core.git
+   cd true-core
    pip install -r requirements.txt
 
 Development Installation

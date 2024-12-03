@@ -1,7 +1,7 @@
 Examples
 ========
 
-This section provides practical examples of using the Happy Core library features.
+This section provides practical examples of using the True Core library features.
 
 Time Handling
 -------------
@@ -11,7 +11,7 @@ Basic Time Operations
 
 .. code-block:: python
 
-    from happy_core.time import Time, TimeUnit, TimeFormat, TimeConfig
+    from true.time import Time, TimeUnit, TimeFormat, TimeConfig
 
     # Create time instances
     current = Time.now()  # Current time in UTC
@@ -54,7 +54,7 @@ Time Calculations
 
 .. code-block:: python
 
-    from happy_core.time import Time, TimeUnit
+    from true.time import Time, TimeUnit
 
     time_obj = Time.now()
 
@@ -98,7 +98,7 @@ Using the Timer Decorator
 
 .. code-block:: python
 
-    from happy_core.time import timer
+    from true.time import timer
     
     @timer
     def expensive_operation():
@@ -114,7 +114,7 @@ Using Timeout Decorator
 
 .. code-block:: python
 
-    from happy_core.time import timeout
+    from true.time import timeout
     
     @timeout(5.0)  # 5 seconds timeout
     def long_running_operation():
@@ -132,7 +132,7 @@ Context Manager for Timing
 
 .. code-block:: python
 
-    from happy_core.time import Time
+    from true.time import Time
     
     time_obj = Time.now()
     

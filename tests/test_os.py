@@ -7,7 +7,7 @@ import pytest
 import json
 
 # Import the classes to test
-from happy_core.collections import (
+from true.collections import (
     FileStats, File, Directory, OSUtils,
     create_temp_file, create_temp_directory
 )

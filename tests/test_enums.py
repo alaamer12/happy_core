@@ -1,11 +1,11 @@
 import pytest
 
-from happy_core.enums_toolkits import (
+from true.enums_toolkits import (
     DynamicEnum, IterableEnum, IteratorEnum,
     GeneratorEnum, ByteEnum, FloatEnum, ComplexNumberEnum,
     DictEnum, SetEnum, ListEnum
 )
-from happy_core.exceptions import EnumTypeError
+from true.exceptions import EnumTypeError
 
 
 def test_dynamic_enum():

@@ -7,7 +7,7 @@ from urllib.error import URLError
 
 import pytest
 
-from happy_core.toolkits import stop_console_printing, start_console_printing, is_iterable, is_iterator, is_generator, \
+from true.toolkits import stop_console_printing, start_console_printing, is_iterable, is_iterator, is_generator, \
     stop_print, null_decorator, log_level, trace, get_module_size, raised_exception, find_path, memoize, run_once, \
     monitor, make_decorator, is_hashable, is_mutable, retry, multithreaded, singleton, ignore_warnings, \
     check_internet_connectivity, Constants, Pointer

@@ -4,8 +4,8 @@ from typing import ClassVar
 import pytest
 import pytest_asyncio
 
-from happy_core.exceptions import UnificationError
-from happy_core.toolkits import (create_unified_operation, UnifiedOperation,
+from true.exceptions import UnificationError
+from true.toolkits import (create_unified_operation, UnifiedOperation,
                                  DynamicUnifiedOperation)
 
 

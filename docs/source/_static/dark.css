@@ -79,6 +79,36 @@
   color: var(--body-color);
 }
 
+/* Logo handling for dark mode */
+[data-theme="dark"] .wy-side-nav-search {
+  background: var(--navbar-background) !important;
+}
+
+[data-theme="dark"] .wy-side-nav-search .logo {
+  content: url("dark_true_icon.png");
+  max-width: 150px !important;
+  height: auto !important;
+  background: transparent !important;
+}
+
+/* Logo handling for light mode */
+:root:not([data-theme="dark"]) .wy-side-nav-search {
+  background: white !important;
+}
+
+:root:not([data-theme="dark"]) .wy-side-nav-search .logo {
+  content: url("light_true_icon.png");
+  max-width: 150px !important;
+  height: auto !important;
+  background: transparent !important;
+}
+
+/* Remove blue background from version number */
+.wy-side-nav-search > div.version {
+  background: transparent !important;
+  margin-top: 5px;
+}
+
 /* GitHub Corner */
 .github-corner svg {
   fill: #2980b9;

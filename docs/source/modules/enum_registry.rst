@@ -1,7 +1,7 @@
 Enum Registry Module
 ====================
 
-.. module:: happy_core.enum_registry
+.. module:: true.enum_registry
    :no-index:
 
 Key Classes:
@@ -16,18 +16,18 @@ Classes
 EnumRegistry
 ~~~~~~~~~~~~
 
-.. autoclass:: happy_core.enum_registry.EnumRegistry
+.. autoclass:: true.enum_registry.EnumRegistry
    :members:
    :special-members: __init__
 
 Exceptions
 ----------
 
-.. autoclass:: happy_core.exceptions.EnumValidationError
+.. autoclass:: true.exceptions.EnumValidationError
    :members:
    :show-inheritance:
 
-.. autoclass:: happy_core.exceptions.EnumTypeError
+.. autoclass:: true.exceptions.EnumTypeError
    :members:
    :show-inheritance:
 
@@ -39,7 +39,7 @@ Basic Usage
 
 .. code-block:: python
 
-   from happy_core.enum_registry import EnumRegistry
+   from true.enum_registry import EnumRegistry
 
    # Create registry
    registry = EnumRegistry()
@@ -64,7 +64,7 @@ Advanced Usage
 
 .. code-block:: python
 
-   from happy_core.enum_registry import EnumRegistry
+   from true.enum_registry import EnumRegistry
    from dataclasses import dataclass
    from typing import Optional
 
@@ -101,7 +101,7 @@ Type Checking
 
 .. code-block:: python
 
-   from happy_core.enum_registry import EnumRegistry
+   from true.enum_registry import EnumRegistry
    from typing import List, Dict
 
    registry = EnumRegistry()

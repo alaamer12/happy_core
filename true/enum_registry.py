@@ -176,7 +176,7 @@ class EnumRegistry(Generic[T]):
     def _validate_mapped_enums(enums: MappedEnumTypes) -> Tuple[Type[Enum], EnumMetadata]:
         for enum_type, metadata in enums.items():
             if not issubclass(enum_type, Enum) and isinstance(metadata, EnumMetadata):
-                raise InvalidEnumTypeError(f"Enum type {enum_type} is not a valid Enum subclass.")
+                raise InvalidEnumTypeError(f"Enum type {enum_type} is not a valid Enum subclass.")  # noqa: F821
             return enum_type, metadata
 
     def _initialize_instances(self):
@@ -211,12 +211,46 @@ class EnumRegistry(Generic[T]):
 
     @classmethod
     def register(cls, enums: ValidEnumType) -> "EnumRegistry":
-        return cls(enums)
+        """Register new enums to the registry."""
+        instance = cls()
+        instance.enums, instance._metadata = instance._validate_enums(enums)
+        instance._initialize_members(False)
+        return instance
 
     @classmethod
     def deregister(cls, enums: ValidEnumType) -> "EnumRegistry":
-        # TODO:
-        pass
+        """Deregister enums from the registry."""
+        instance = cls()
+        to_remove, _ = instance._validate_enums(enums)
+        instance.enums = tuple(enum for enum in instance.enums if enum not in to_remove)
+        instance._initialize_members(False)
+        return instance
+
+    @classmethod
+    def dregister(cls):
+        """Decorator to register an enum class."""
+        def wrapper(enum_class):
+            if not isinstance(enum_class, Iterable):
+                enum_class = (enum_class,)
+            for ec in enum_class:
+                if not issubclass(ec, Enum):
+                    raise InvalidEnumTypeError(f"Enum type {ec} is not a valid Enum subclass.")
+            cls.register(enum_class)
+            return enum_class
+        return wrapper
+
+    @classmethod
+    def dderegister(cls):
+        """Decorator to deregister an enum class."""
+        def wrapper(enum_class):
+            if not isinstance(enum_class, Iterable):
+                enum_class = (enum_class,)
+            for ec in enum_class:
+                if not issubclass(ec, Enum):
+                    raise InvalidEnumTypeError(f"Enum type {ec} is not a valid Enum subclass.")
+            cls.deregister(enum_class)
+            return enum_class
+        return wrapper
 
     def get_enum_metadata(self, member: Enum) -> Dict[str, Any]:
         """Get metadata for an enum member"""

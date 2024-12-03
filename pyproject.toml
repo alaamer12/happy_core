@@ -1,13 +1,13 @@
 [tool.poetry]
-name = "python-happy-cor"
+name = "true-core"
 version = "0.1.1"
 description = "A boilerplate utility package"
 authors = ["alaamer12 <ahmedmuhmmed239@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-homepage = "https://github.com/alaamer12/happy-core"
-repository = "https://github.com/alaamer12/happy-core"
-documentation = "https://happy-core.readthedocs.io"
+homepage = "https://github.com/alaamer12/true"
+repository = "https://github.com/alaamer12/true"
+documentation = "https://true.readthedocs.io"
 keywords = ["utilities", "boilerplate", "core"]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -18,7 +18,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules"
 ]
 packages = [
-    { include = "happy_core" }
+    { include = "true" }
 ]
 
 [tool.poetry.dependencies]
@@ -68,7 +68,7 @@ addopts = "-ra -q"
 asyncio_default_fixture_loop_scope = "function"
 
 [tool.coverage.run]
-source = ["happy_core"]
+source = ["true"]
 omit = ["tests/*", "docs/*"]
 
 [tool.coverage.report]

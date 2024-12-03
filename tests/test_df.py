@@ -3,7 +3,7 @@ import shutil
 
 import pytest
 
-from happy_core.collections import (DummyFile, PDFFileCreator, TXTFileCreator,
+from true.collections import (DummyFile, PDFFileCreator, TXTFileCreator,
                                     JPGFileCreator, PNGFileCreator, GIFFileCreator, ZIPFileCreator,
                                     EPUBFileCreator, DOCXFileCreator, XLSXFileCreator)
 
