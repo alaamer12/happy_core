@@ -36,7 +36,7 @@ from typing import Generic, Iterable, Iterator, List, Callable, Set, Type, Any, 
 
 from true.exceptions import InvalidEnumTypeError, IncompatibleTypesError
 
-class EnumMapping:
+class EnumMapping(ABC):
     """Base class for enum mappings"""
 
     def __init__(self, registry: 'EnumRegistry'):
@@ -46,6 +46,14 @@ class EnumMapping:
     def clear_cache(self) -> None:
         """Clear the mapping cache"""
         self._cache.clear()
+
+    def all(self) -> List[str]:
+        """Get all enum member names"""
+        return list(self.registry._members.keys())
+
+    def count(self) -> int:
+        """Get total count of enum members"""
+        return len(self.registry._members)
 
 
 class EnumData(TypedDict):
@@ -107,7 +115,7 @@ ValidEnumType = Union[MappedEnumTypes, NoneMappingEnumTypes]
 T = TypeVar('T')
 
 
-# noinspection PyTypeChecker,PyUnresolvedReferences
+# noinspection PyTypeChecker,PyUnresolvedReferences,PyUnusedName
 @total_ordering
 class EnumRegistry(Generic[T]):
     """
@@ -184,10 +192,10 @@ class EnumRegistry(Generic[T]):
             return enum_type, metadata
 
     def _initialize_instances(self):
-        self.values = self.ValueMapping(self)
-        self.types = self.TypeMapping(self)
-        self.names = self.NameMapping(self)
-        self.filter = self.Filter(self)
+        self.values = self._ValueMapping(self)
+        self.types = self._TypeMapping(self)
+        self.names = self._NameMapping(self)
+        self.filter = self._Filter(self)
 
     def _initialize_members(self, allow_duplicates: bool) -> None:
         """Initialize internal member mappings"""
@@ -334,14 +342,13 @@ class EnumRegistry(Generic[T]):
         valid_names = set(names) & set(self._members.keys())
         if not valid_names:
             raise ValueError("No valid enum names provided")
-        return valid_names
 
         filtered_members = {name: self._members[name] for name in valid_names}
         new_registry = EnumRegistry()
         new_registry._members = filtered_members
-        new_registry._value_map = {member[0].value: member for member in filtered_members.values()}
-        new_registry._created_at = datetime.now()
-        
+        new_registry._value_map = {member[0].value: [member[0]] for member in filtered_members.values()}
+        new_registry._created_at = datetime.now().isoformat()
+        new_registry.enums = tuple({member[0].__class__ for member in filtered_members.values()})
         return new_registry
 
     def __add__(self, other: Union['EnumRegistry', Type[Enum]]) -> 'EnumRegistry':
@@ -544,9 +551,9 @@ class EnumRegistry(Generic[T]):
             return item in self._members.values()
         return item in self._value_map
 
-    class Filter:
+    class _Filter:
         """
-        Nested Filter class for performing various filtering operations on CombineEnums.
+        Nested Filter class for performing various filtering operations on EnumRegistry.
         Can be extended to add custom filtering capabilities.
         """
 
@@ -555,41 +562,70 @@ class EnumRegistry(Generic[T]):
 
         def by_prefix(self, prefix: str) -> 'EnumRegistry':
             """Filter members by name prefix"""
-            filtered = {
-                name: member
-                for name, member in self.parent._members.items()
+            filtered = [
+                member
+                for name, (member, _) in self.parent._members.items()
                 if name.startswith(prefix)
-            }
-            return self.parent._create_filtered_instance(filtered.values())
+            ]
+            return self.parent._create_filtered_instance(filtered)
+
+        def by_suffix(self, suffix: str) -> 'EnumRegistry':
+            """Filter members by name suffix"""
+            filtered = [
+                member
+                for name, (member, _) in self.parent._members.items()
+                if name.endswith(suffix)
+            ]
+            return self.parent._create_filtered_instance(filtered)
 
         def by_value_type(self, value_type: Type) -> 'EnumRegistry':
             """Filter members by value type"""
-            return self.parent._create_filtered_instance(
-                self.parent.types.filter(value_type)
-            )
+            filtered = [
+                member
+                for member, _ in self.parent._members.values()
+                if isinstance(member.value, value_type)
+            ]
+            return self.parent._create_filtered_instance(filtered)
 
         def by_predicate(self, predicate: Callable[[Enum], bool]) -> 'EnumRegistry':
             """Filter members using a custom predicate"""
-            filtered = filter(predicate, self.parent._members.values())
+            filtered = [member for member, _ in self.parent._members.values() if predicate(member)]
             return self.parent._create_filtered_instance(filtered)
 
         def by_metadata(self, **kwargs) -> 'EnumRegistry':
             """Filter members by metadata attributes"""
             filtered = [
-                member for member in self.parent._members.values()
-                if all(
-                    self.parent.get_enum_metadata(member).get(str(member), {}).get(k) == v
-                    for k, v in kwargs.items()
-                )
+                member for member, metadata in self.parent._members.values()
+                if all(getattr(metadata, k, None) == v for k, v in kwargs.items())
             ]
             return self.parent._create_filtered_instance(filtered)
 
-    class ValueMapping(EnumMapping):
+        def by_value_range(self, start: Any, end: Any) -> 'EnumRegistry':
+            """Filter members by value range (inclusive)"""
+            filtered = [
+                member
+                for member, _ in self.parent._members.values()
+                if start <= member.value <= end
+            ]
+            return self.parent._create_filtered_instance(filtered)
+
+        def exclude(self, *members: Enum) -> 'EnumRegistry':
+            """Exclude specific enum members"""
+            filtered = [
+                member
+                for member, _ in self.parent._members.values()
+                if member not in members
+            ]
+            return self.parent._create_filtered_instance(filtered)
+
+    class _ValueMapping(EnumMapping):
         """Maps enum values to their corresponding members"""
 
         def by(self, value: Any) -> List[Enum]:
             """Get all enum members with a specific value"""
-            return self.registry._value_map.get(value, [])
+            if value not in self._cache:
+                self._cache[value] = self.registry._value_map.get(value, [])
+            return self._cache[value]
 
         def unique(self) -> Set[Any]:
             """Get set of all unique values across all enums"""
@@ -601,51 +637,70 @@ class EnumRegistry(Generic[T]):
 
         def count(self) -> Dict[Any, int]:
             """Count occurrences of each value"""
-            return {
-                value: len(members)
-                for value, members in self.registry._value_map.items()
-            }
+            return {value: len(members) for value, members in self.registry._value_map.items()}
 
-    class TypeMapping(EnumMapping):
+        def most_common(self, n: int = 1) -> List[Tuple[Any, int]]:
+            """Get the n most common values and their counts"""
+            return sorted(self.count().items(), key=lambda x: x[1], reverse=True)[:n]
+
+        def least_common(self, n: int = 1) -> List[Tuple[Any, int]]:
+            """Get the n the least common values and their counts"""
+            return sorted(self.count().items(), key=lambda x: x[1])[:n]
+
+        def duplicates(self) -> Dict[Any, List[Enum]]:
+            """Get all values that are associated with multiple enum members"""
+            return {value: members for value, members in self.registry._value_map.items() if len(members) > 1}
+
+    class _TypeMapping(EnumMapping):
         """Maps and analyzes enum value types"""
 
         def group(self) -> Dict[Type, List[Enum]]:
             """Group enum members by their value types"""
-            # FIXIT
+            grouped: Dict[Type, List[Enum]] = defaultdict(list)
+            for member, _ in self.registry._members.values():
+                grouped[type(member.value)].append(member)
+            return dict(grouped)
 
         def values(self) -> Set[Type]:
             """Get all unique value types"""
-            return set(self.group().keys())
+            return set(type(member.value) for member, _ in self.registry._members.values())
 
         def filter(self, value_type: Type) -> List[Enum]:
             """Get all members with values of specified type"""
-            return self.group().get(value_type, [])
+            return [member for member, _ in self.registry._members.values() if isinstance(member.value, value_type)]
 
-    class NameMapping(EnumMapping):
+        def count(self) -> Dict[Type, int]:
+            """Count occurrences of each value type"""
+            return {value_type: len(members) for value_type, members in self.group().items()}
+
+        def most_common(self) -> Optional[Type]:
+            """Get the most common value type"""
+            type_counts = self.count()
+            return max(type_counts, key=type_counts.get) if type_counts else None
+
+    class _NameMapping(EnumMapping):
         """Maps and manages enum names"""
 
         def by(self, name: str) -> Optional[Enum]:
             """Get enum member by name"""
-            return self.registry._members.get(name)
+            member_tuple = self.registry._members.get(name)
+            return member_tuple[0] if member_tuple else None
 
         def search(self, pattern: str) -> List[Enum]:
             """Search enum members by name pattern"""
             import re
-            regex = re.compile(pattern)
+            regex = re.compile(pattern, re.IGNORECASE)
             return [
-                member for name, member, _ in self.registry._members.items()
+                member[0] for name, member in self.registry._members.items()
                 if regex.search(name)
             ]
 
         def conflicts_with(self) -> Dict[str, List[Type[Enum]]]:
             """Find name conflicts between different enum classes"""
             conflicts: Dict[str, List[Type[Enum]]] = defaultdict(list)
-            # noinspection PyTypeChecker
-            enums: tuple[Type[Enum]] = self.registry.enums
-            for enum_class in enums:
+            for enum_class in self.registry.enums:
                 for name in enum_class.__members__:
-                    # noinspection PyTypeChecker
-                    conflicts[name].append(enum_class)
+                    conflicts[name].append(Type[Enum](enum_class))
             return {
                 name: classes
                 for name, classes in conflicts.items()

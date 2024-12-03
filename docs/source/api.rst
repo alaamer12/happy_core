@@ -1,97 +1,76 @@
-API Reference
-=============
+API Documentation
+=================
+
+True-Core is a comprehensive Python utility library providing advanced functionality for enum management, type validation, time handling, regular expressions, and file operations.
+
+Core Components
+---------------
 
 .. toctree::
    :maxdepth: 2
 
-   modules/collections
    modules/enum_registry
+   modules/enums_toolkits
+   modules/collections
    modules/time
-   modules/types
-   modules/toolkits
    modules/re
+   modules/types
 
-Collections
+Enum Management
+---------------
+
+The enum management components provide sophisticated tools for handling enums:
+
+- :mod:`true.enum_registry`: Advanced enum combination and registry management
+- :mod:`true.enums_toolkits`: Specialized enum classes and metadata support
+
+File System Operations
+----------------------
+
+The file system components offer comprehensive file handling capabilities:
+
+- :mod:`true.collections`: Advanced file system operations and recycling bin management
+- File creation and manipulation utilities
+- Cross-platform compatibility
+- Secure file deletion
+
+Time Management
+---------------
+
+Time handling utilities with extensive features:
+
+- :mod:`true.time`: Advanced timezone support and time manipulation
+- Event scheduling and management
+- Time formatting and conversion
+- Performance timing utilities
+
+Regular Expressions
+-------------------
+
+Pre-compiled regex patterns for common validation tasks:
+
+- :mod:`true.re`: Comprehensive pattern library
+- Username and password validation
+- Email and URL validation
+- Phone number and credit card validation
+- Date format validation
+
+Type System
 -----------
 
-The collections module provides enhanced file system operations.
+Advanced type validation and handling:
 
-.. module:: true.collections
+- :mod:`true.types`: Version handling (SemVer, CalVer)
+- Numeric types (BigInt, BigDecimal)
+- UUID/ULID support
+- Serialization utilities
 
-Key Classes:
+Exception Handling
+------------------
 
-- :class:`File`: Enhanced file operations
-- :class:`Directory`: Directory management
-- :class:`RecycleBin`: Recycling bin functionality
-- :class:`FileMetadata`: File metadata tracking
-- :class:`FileCreator`: Base class for file creators
-- :class:`OSUtils`: Operating system utilities
+Specialized exceptions for better error management:
 
-Enum Registry
--------------
-
-The enum registry module provides enumeration validation and registration.
-
-.. module:: true.enum_registry
-
-Key Classes:
-
-- :class:`EnumRegistry`: Main registry class
-
-Time
-----
-
-The time module provides time manipulation and scheduling utilities.
-
-.. module:: true.time
-
-Key Classes:
-
-- :class:`TimeUtils`: Time manipulation utilities
-- :class:`Timer`: Performance timing
-- :class:`Scheduler`: Task scheduling
-
-Types
------
-
-The types module provides custom type definitions and checking.
-
-.. module:: true.types
-
-Key Classes:
-
-- :class:`PathLike`: Path-like type definition
-- :class:`JsonDict`: JSON dictionary type
-- :class:`Callback`: Callback function type
-- :class:`TypeChecker`: Type checking utilities
-
-Toolkits
---------
-
-The toolkits module provides various utility functions and decorators.
-
-.. module:: true.toolkits
-
-Key Functions:
-
-- :func:`retry`: Retry decorator
-- :func:`monitor`: Performance monitoring decorator
-- :func:`cache`: Caching decorator
-- :func:`hash_file`: File hashing
-- :func:`compress_file`: File compression
-- :func:`encrypt_file`: File encryption
-
-Exceptions
-----------
-
-The exceptions module provides custom exceptions.
-
-.. module:: true.exceptions
-
-Key Exceptions:
-
-- :exc:`TrueCoreError`: Base exception
-- :exc:`ValidationError`: Validation errors
-- :exc:`FileSystemError`: File system errors
-- :exc:`EnumValidationError`: Enum validation errors
-- :exc:`TimeError`: Time-related errors
+- :mod:`true.exceptions`: Custom exception hierarchy
+- Type-specific error handling
+- Operation-specific exceptions
+- Validation error handling

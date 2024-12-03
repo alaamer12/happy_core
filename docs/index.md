@@ -1,396 +1,165 @@
-# True Core Documentation
+# True-Core Python Library
 
-<div align="center">
+A sophisticated Python utility library providing advanced enum management, type validation, time handling, regular expressions, and file operations.
 
-![Python Version](https://img.shields.io/badge/python-3.7%2B-blue)
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
-[![PyPI version](https://badge.fury.io/py/true-core.svg)](https://badge.fury.io/py/true-core)
+## Core Components
 
-A comprehensive utility toolkit designed for Python developers seeking clean, efficient, and maintainable solutions.
+### 1. Enum Management (`true.enum_registry`)
 
-</div>
+- **EnumRegistry**: Advanced enum combination and management
+  - Merge multiple enum classes into a single registry
+  - Type-safe operations and validation
+  - Metadata support with descriptions, tags, and timestamps
+  - Comprehensive filtering capabilities
+  - Statistical analysis and serialization
 
-## 📚 Table of Contents
+### 2. Enum Toolkits (`true.enums_toolkits`)
 
-- [Overview](#-overview)
-- [Installation](#-installation)
-- [Core Components](#-core-components)
-  - [File System Operations](#file-system-operations)
-  - [Collections](#collections)
-  - [Enums and Registry](#enums-and-registry)
-  - [Time Utilities](#time-utilities)
-  - [Regular Expressions](#regular-expressions)
-  - [Types and Toolkits](#types-and-toolkits)
-- [API Reference](#-api-reference)
-- [Examples](#-examples)
-- [Contributing](#-contributing)
-- [License](#-license)
+- **Specialized Enum Classes**:
+  - `DynamicEnum`: Runtime-modifiable enums
+  - Type-safe enums: `ByteEnum`, `FloatEnum`, `ComplexNumberEnum`
+  - Collection enums: `DictEnum`, `SetEnum`, `ListEnum`, `TupleEnum`
+  - Iterator enums: `IterableEnum`, `IteratorEnum`, `GeneratorEnum`
+- **Metadata Support**:
+  - Custom attribute configuration
+  - Type information tracking
+  - Serialization capabilities
 
-## 🌟 Overview
+### 3. Collections (`true.collections`)
 
-True Core is a feature-rich Python package that provides a collection of utilities and boilerplate code designed to solve common development challenges. Built with maintainability, extensibility, and clean code principles in mind, it offers a robust foundation for your Python projects.
+- **File System Operations**:
+  - Secure file deletion and creation
+  - Advanced file metadata handling
+  - Cross-platform compatibility
+  - File type-specific operations
+- **File Management**:
+  - RecycleBin with metadata tracking
+  - Batch file operations
+  - Directory watching
+  - File statistics and analysis
 
-### Key Benefits
+### 4. Time Management (`true.time`)
 
-- **🚀 Increased Productivity**: Eliminate repetitive boilerplate code with ready-to-use utilities
-- **🛡️ Robust Error Handling**: Built-in retry mechanisms and comprehensive error handling
-- **⚡ Performance Optimized**: Efficient implementations with optional caching capabilities
-- **📊 Monitoring Ready**: Built-in monitoring decorators for performance tracking
-- **🔄 Type Safe**: Full type hint support for better IDE integration
-- **📝 Well Documented**: Comprehensive documentation with real-world examples
+- **Time Handling**:
+  - Advanced timezone support
+  - Time arithmetic and comparisons
+  - Duration calculations
+  - Event scheduling
+- **Time Features**:
+  - Time rounding and formatting
+  - Timezone conversions
+  - Performance timing decorators
+  - Schedule management with conflict detection
 
-### Who Should Use True Core?
+### 5. Regular Expressions (`true.re`)
 
-- **Application Developers**: Streamline common tasks like file operations and data processing
-- **System Architects**: Build robust, maintainable systems with clean abstractions
-- **Data Engineers**: Efficiently process and transform data with built-in utilities
-- **DevOps Engineers**: Automate tasks with reliable, well-tested components
+- **Validation Patterns**:
+  - Username validation patterns
+  - Password complexity patterns
+  - Email format validation
+  - Phone number formats
+  - Credit card validation
+  - URL pattern matching
+  - Date format validation
+  - IP address validation
 
-## 📦 Installation
+### 6. Type System (`true.types`)
 
-### Prerequisites
+- **Version Types**:
+  - SemVer, CalVer, DateVersion support
+  - Version validation and comparison
+- **Numeric Types**:
+  - `BigInt` and `BigDecimal` with validation
+  - Scientific number handling
+  - Validated numeric types
+- **ID Types**:
+  - UUID/ULID support with versions
+  - String and integer-based IDs
+- **Serialization**:
+  - JSON, YAML, TOML support
+  - Type conversion utilities
 
-- Python 3.7 or higher
-- pip or poetry (recommended)
+### 7. Exception Handling (`true.exceptions`)
 
-### Using pip
+- **Specialized Exceptions**:
+  - Enum-related exceptions
+  - Type validation errors
+  - Schedule management errors
+  - File operation errors
+  - Access control exceptions
+  - Configuration errors
+
+## Installation
 
 ```bash
 pip install true-core
 ```
 
-### Using poetry
-
-```bash
-poetry add true-core
-```
-
-### From source
-
-```bash
-git clone https://github.com/yourusername/true-core.git
-cd true-core
-pip install -r requirements.txt
-```
-
-## 🔧 Core Components
-
-### File System Operations
-
-The file system operations module provides enhanced file and directory management capabilities through several key classes:
-
-#### FileSystemObject
-
-Base class providing common functionality for files and directories.
-
-```python
-from true.collections import FileSystemObject
-
-# Create a file system object
-fs_obj = FileSystemObject("/path/to/item")
-
-# Access common properties
-print(fs_obj.path)
-print(fs_obj.exists())
-print(fs_obj.name)
-```
-
-#### File
-
-Enhanced file operations with additional capabilities.
-
-```python
-from true.collections import File
-
-# Create a file object
-file = File("/path/to/file.txt")
-
-# File operations
-content = file.read_text()
-file.write_text("Hello, World!")
-file.create_backup()
-```
-
-#### Directory
-
-Advanced directory management with recursive operations.
-
-```python
-from true.collections import Directory
-
-# Create a directory object
-directory = Directory("/path/to/dir")
-
-# Directory operations
-directory.create()
-directory.zip_contents("output.zip")
-tree = directory.get_tree()
-```
-
-### Collections
-
-#### RecycleBin
-
-Advanced file recycling system with metadata tracking.
-
-```python
-from true.collections import RecycleBin
-
-# Initialize recycle bin
-recycler = RecycleBin("/path/to/bin")
-
-# Delete and restore files
-item_id = recycler.delete("/path/to/file.txt")
-recycler.restore(item_id)
-
-# Manage tags
-recycler.add_tag(item_id, "important")
-```
-
-### Enums and Registry
-
-The enum system provides enhanced enumeration capabilities with validation and registration.
+## Quick Start
 
 ```python
 from true.enum_registry import EnumRegistry
+from true.enums_toolkits import DynamicEnum, metadata, MetadataConfig
+from true.collections import OSUtils
+from true.time import Time, Schedule, Event
+from true.types import BigInt, Version
+from enum import Enum
 
-# Create an enum registry
-registry = EnumRegistry()
+# Enum Registry Example
+class ColorEnum(Enum):
+    RED = 1
+    BLUE = 2
 
-# Register and validate enums
-@registry.register
-class Status:
-    ACTIVE = "active"
-    INACTIVE = "inactive"
+registry = EnumRegistry([ColorEnum])
+int_values = registry.filter.by_value_type(int)
+
+# Time Management Example
+time = Time.now()
+schedule = Schedule()
+event = Event(name="Meeting", start_time=time, end_time=time.add(1, "hours"))
+schedule.add_event(event)
+
+# Type Validation Example
+version = Version("1.2.3")
+big_num = BigInt(1000000, context="Positive")
+
+# File Operations Example
+utils = OSUtils()
+utils.force_delete("path/to/file")  # Secure deletion
+utils.watch_directory("path/to/dir", callback=lambda event: print(f"Change: {event.src_path}"))
 ```
 
-### Time Utilities
+## Requirements
 
-Enhanced time manipulation and conversion utilities.
+- Python 3.8+
+- Platform-specific dependencies:
+  - Windows: `pywin32` for advanced file operations
+  - Unix: Standard Python libraries
+- Optional dependencies:
+  - `pytz` for timezone support
+  - `pydub` for audio file handling
+  - `Pillow` for image processing
 
-```python
-from true.time import TimeConverter
+## Documentation
 
-# Convert between time formats
-unix_time = TimeConverter.to_unix("2023-01-01 12:00:00")
-iso_time = TimeConverter.to_iso(unix_time)
-```
+For detailed documentation, see [docs/index.md](docs/index.md).
 
-### Regular Expressions
+## License
 
-Extended regular expression patterns and utilities.
+MIT License - See LICENSE file for details.
 
-```python
-from true.re import RegexPattern
+## Contributing
 
-# Use predefined patterns
-email_pattern = RegexPattern.EMAIL
-is_valid = email_pattern.match("user@example.com")
-```
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
 
-### Types and Toolkits
+## Support
 
-Various utility functions and type definitions.
+For support:
 
-```python
-from true.toolkits import retry, monitor
-
-# Use decorators
-@retry(max_attempts=3)
-@monitor
-def process_data():
-    pass
-```
-
-## 📖 API Reference
-
-### File System Module
-
-#### class FileSystemObject
-
-Base class for file system operations.
-
-**Properties:**
-
-- `path`: Get the relative path
-- `full_path`: Get the absolute path
-- `exists`: Check if the item exists
-- `name`: Get the item name
-- `parent`: Get the parent directory
-
-**Methods:**
-
-- `clear_cache()`: Clear cached properties
-- `get_owner_info()`: Get file owner information
-
-#### class File(FileSystemObject)
-
-Enhanced file operations.
-
-**Properties:**
-
-- `filename`: Get the file name
-- `extension`: Get the file extension
-- `size`: Get file size
-- `md5`: Get MD5 hash
-- `mime_type`: Get file MIME type
-
-**Methods:**
-
-- `get_stats()`: Get comprehensive file statistics
-- `copy_to(destination, overwrite=False)`: Copy file with retry mechanism
-- `create_backup(suffix='.bak')`: Create a backup copy
-- `is_text_file()`: Check if file is text
-- `read_text(encoding='utf-8')`: Read text content
-- `write_text(content, encoding='utf-8')`: Write text content
-
-#### class Directory(FileSystemObject)
-
-Advanced directory management.
-
-**Methods:**
-
-- `size()`: Get cached directory size
-- `glob(pattern)`: Pattern matching
-- `rglob(pattern)`: Recursive pattern matching
-- `create(exist_ok=True)`: Create directory
-- `zip_contents(output_path)`: Create ZIP archive
-- `get_tree(max_depth=None)`: Get directory structure
-
-#### class RecycleBin
-
-Advanced file recycling system.
-
-**Methods:**
-
-- `delete(path)`: Move item to recycle bin
-- `restore(item_id)`: Restore item from recycle bin
-- `list_items(pattern=None)`: List recycled items
-- `add_tag(item_id, tag)`: Add tag to item
-- `remove_tag(item_id, tag)`: Remove tag from item
-- `cleanup(days=30)`: Remove old items
-
-### Enum Registry Module
-
-#### class EnumRegistry
-
-Registry for enhanced enumerations.
-
-**Methods:**
-
-- `register(cls)`: Register an enum class
-- `validate(value, enum_type)`: Validate enum value
-- `get_choices(enum_type)`: Get enum choices
-
-### Time Module
-
-#### class TimeConverter
-
-Time conversion utilities.
-
-**Methods:**
-
-- `to_unix(datetime_str)`: Convert to Unix timestamp
-- `to_iso(unix_time)`: Convert to ISO format
-- `to_local(utc_time)`: Convert to local time
-- `to_utc(local_time)`: Convert to UTC
-
-### Regular Expressions Module
-
-#### class RegexPattern
-
-Common regex patterns and utilities.
-
-**Constants:**
-
-- `EMAIL`: Email validation pattern
-- `URL`: URL validation pattern
-- `IP_ADDRESS`: IP address pattern
-- `PHONE_NUMBER`: Phone number pattern
-
-**Methods:**
-
-- `match(pattern, text)`: Match pattern against text
-- `find_all(pattern, text)`: Find all matches
-- `replace(pattern, text, replacement)`: Replace matches
-
-## 🎯 Examples
-
-### Basic File Operations
-
-```python
-from true.collections import File, Directory
-
-# File operations
-file = File("document.txt")
-if not file.exists():
-    file.write_text("Hello, World!")
-
-backup = file.create_backup()
-print(f"Backup created at: {backup.path}")
-
-# Directory operations
-docs = Directory("documents")
-docs.create()
-tree = docs.get_tree()
-print("Directory structure:", tree)
-```
-
-### Using RecycleBin
-
-```python
-from true.collections import RecycleBin
-
-with RecycleBin("./recyclebin") as bin:
-    # Delete files
-    file_id = bin.delete("old_file.txt")
-
-    # Add tags
-    bin.add_tag(file_id, "archived")
-
-    # List items
-    items = bin.list_items(pattern="*.txt")
-
-    # Restore specific item
-    bin.restore(file_id)
-```
-
-### Working with Enums
-
-```python
-from true.enum_registry import EnumRegistry
-
-registry = EnumRegistry()
-
-@registry.register
-class UserStatus:
-    ACTIVE = "active"
-    INACTIVE = "inactive"
-    SUSPENDED = "suspended"
-
-# Validate values
-is_valid = registry.validate("active", UserStatus)
-choices = registry.get_choices(UserStatus)
-```
-
-## 🤝 Contributing
-
-We welcome contributions! Here's how you can help:
-
-- **Report Bugs**: Open an issue describing the bug and how to reproduce it
-- **Suggest Features**: Share your ideas for new features or improvements
-- **Submit PRs**: Implement new features or fix existing issues
-- **Improve Docs**: Help us make the documentation better
-
-See our [Contributing Guide](CONTRIBUTING.md) for more details.
-
-## 📚 References
-
-- [Official Documentation](https://true-core.readthedocs.io/)
-- [GitHub Repository](https://github.com/yourusername/true-core)
-- [PyPI Package](https://pypi.org/project/true-core/)
-- [Change Log](CHANGELOG.md)
-
-## 📄 License
-
-True Core is released under the MIT License. See the [LICENSE](LICENSE) file for details.
+1. Check the documentation
+2. Search existing issues
+3. Create a new issue if needed

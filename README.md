@@ -1,194 +1,157 @@
-# True Core
+# True-Core Python Library
 
-<div >
+A sophisticated Python utility library providing advanced enum management, type validation, time handling, regular expressions, and file operations.
 
-![Python Version](https://img.shields.io/badge/python-3.7%2B-blue)
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
-[![PyPI version](https://badge.fury.io/py/true-core.svg)](https://badge.fury.io/py/true-core)
-[![Documentation](https://img.shields.io/badge/docs-latest-brightgreen.svg)](docs/build/html/index.html)
+## Core Components
 
-<p >
-  <img src="https://raw.githubusercontent.com/alaamer12/true/main/docs/source/_static/logo.png" alt="True Core Logo" width="200"/>
-</p>
+### 1. Enum Management (`true.enum_registry`)
+- **EnumRegistry**: Advanced enum combination and management
+  - Merge multiple enum classes into a single registry
+  - Type-safe operations and validation
+  - Metadata support with descriptions, tags, and timestamps
+  - Comprehensive filtering capabilities
+  - Statistical analysis and serialization
 
-A comprehensive utility toolkit designed for Python developers seeking clean, efficient, and maintainable solutions.
+### 2. Enum Toolkits (`true.enums_toolkits`)
+- **Specialized Enum Classes**:
+  - `DynamicEnum`: Runtime-modifiable enums
+  - Type-safe enums: `ByteEnum`, `FloatEnum`, `ComplexNumberEnum`
+  - Collection enums: `DictEnum`, `SetEnum`, `ListEnum`, `TupleEnum`
+  - Iterator enums: `IterableEnum`, `IteratorEnum`, `GeneratorEnum`
+- **Metadata Support**:
+  - Custom attribute configuration
+  - Type information tracking
+  - Serialization capabilities
 
-[Documentation](docs/build/html/index.html) |
-[PyPI Package](https://pypi.org/project/true-core/) |
-[Issue Tracker](https://github.com/alaamer12/true/issues)
+### 3. Collections (`true.collections`)
+- **File System Operations**:
+  - Secure file deletion and creation
+  - Advanced file metadata handling
+  - Cross-platform compatibility
+  - File type-specific operations
+- **File Management**:
+  - RecycleBin with metadata tracking
+  - Batch file operations
+  - Directory watching
+  - File statistics and analysis
 
-</div>
+### 4. Time Management (`true.time`)
+- **Time Handling**:
+  - Advanced timezone support
+  - Time arithmetic and comparisons
+  - Duration calculations
+  - Event scheduling
+- **Time Features**:
+  - Time rounding and formatting
+  - Timezone conversions
+  - Performance timing decorators
+  - Schedule management with conflict detection
 
----
+### 5. Regular Expressions (`true.re`)
+- **Validation Patterns**:
+  - Username validation patterns
+  - Password complexity patterns
+  - Email format validation
+  - Phone number formats
+  - Credit card validation
+  - URL pattern matching
+  - Date format validation
+  - IP address validation
 
-## 🚀 Quick Start
+### 6. Type System (`true.types`)
+- **Version Types**:
+  - SemVer, CalVer, DateVersion support
+  - Version validation and comparison
+- **Numeric Types**:
+  - `BigInt` and `BigDecimal` with validation
+  - Scientific number handling
+  - Validated numeric types
+- **ID Types**:
+  - UUID/ULID support with versions
+  - String and integer-based IDs
+- **Serialization**:
+  - JSON, YAML, TOML support
+  - Type conversion utilities
+
+### 7. Exception Handling (`true.exceptions`)
+- **Specialized Exceptions**:
+  - Enum-related exceptions
+  - Type validation errors
+  - Schedule management errors
+  - File operation errors
+  - Access control exceptions
+  - Configuration errors
+
+## Installation
 
 ```bash
 pip install true-core
 ```
 
-```python
-from true.toolkits import simple_debugger
-from true.collections import Directory
-
-# Quick example
-simple_debugger("Starting application...")
-work_dir = Directory("./workspace")
-```
-
-## 📋 Table of Contents
-
-- [Features](#-features)
-- [Installation](#-installation)
-- [Documentation](#-documentation)
-- [Module Overview](#-module-overview)
-- [Usage Examples](#-usage-examples)
-- [Contributing](#-contributing)
-- [License](#-license)
-
-## ✨ Features
-
-- **🛡 Robust Error Handling**
-
-  - Comprehensive exception hierarchy
-  - Custom exception classes
-  - Error recovery mechanisms
-
-- **📝 Advanced Logging**
-
-  - Built on top of `loguru`
-  - Configurable logging strategies
-  - Console and file logging support
-
-- **🔧 Developer Tools**
-
-  - Performance profiling
-  - Debugging utilities
-  - Type checking helpers
-  - Retry mechanisms
-
-- **⚡ High Performance**
-  - Optimized collections
-  - Efficient file operations
-  - Smart caching capabilities
-
-## 📦 Installation
-
-### Prerequisites
-
-- Python 3.7 or higher
-- pip or poetry (recommended)
-
-```bash
-# Using pip
-pip install true-core
-
-# Using poetry
-poetry add true-core
-
-# From source
-git clone https://github.com/alaamer12/true.git
-cd true
-pip install -r requirements.txt
-```
-
-## 📚 Documentation
-
-Comprehensive documentation is available in multiple formats:
-
-- [Online Documentation](docs/build/html/index.html)
-- [API Reference](docs/build/html/api_reference.html)
-- [Module Documentation](docs/build/html/modules.html)
-- [Examples](docs/build/html/examples.html)
-
-## 🔍 Module Overview
-
-### Core Components
+## Quick Start
 
 ```python
-# File Operations
-from true.collections import File, Directory
-workspace = Directory("./workspace")
+from true.enum_registry import EnumRegistry
+from true.enums_toolkits import DynamicEnum, metadata, MetadataConfig
+from true.collections import OSUtils
+from true.time import Time, Schedule, Event
+from true.types import BigInt, Version
+from enum import Enum
 
-# Performance Monitoring
-from true.toolkits import profile
-@profile
-def expensive_operation():
-    pass
+# Enum Registry Example
+class ColorEnum(Enum):
+    RED = 1
+    BLUE = 2
+
+registry = EnumRegistry([ColorEnum])
+int_values = registry.filter.by_value_type(int)
+
+# Time Management Example
+time = Time.now()
+schedule = Schedule()
+event = Event(name="Meeting", start_time=time, end_time=time.add(1, "hours"))
+schedule.add_event(event)
+
+# Type Validation Example
+version = Version("1.2.3")
+big_num = BigInt(1000000, context="Positive")
+
+# File Operations Example
+utils = OSUtils()
+utils.force_delete("path/to/file")  # Secure deletion
+utils.watch_directory("path/to/dir", callback=lambda event: print(f"Change: {event.src_path}"))
 ```
 
-### Available Modules
+## Requirements
 
-- **collections**: File system operations and data structures
-- **exceptions**: Comprehensive error handling
-- **log**: Advanced logging capabilities
-- **toolkits**: Developer utilities and helpers
-- **types**: Type definitions and validation
-- **time**: Time manipulation utilities
+- Python 3.8+
+- Platform-specific dependencies:
+  - Windows: `pywin32` for advanced file operations
+  - Unix: Standard Python libraries
+- Optional dependencies:
+  - `pytz` for timezone support
+  - `pydub` for audio file handling
+  - `Pillow` for image processing
 
-## 🚀 Usage Examples
+## Documentation
 
-### Error Handling
+For detailed documentation, see [docs/index.md](docs/index.md).
 
-```python
-from true.collections import File
-import logging
+## License
 
-logger = logging.getLogger(__name__)
+MIT License - See LICENSE file for details.
 
-def read_secure_file(path: str) -> str:
-    try:
-        file = File(path)
-        return file.read_text()
-    except FileNotFoundError as e:
-        logger.error(f"File not found: {e}")
-        return ""
-```
-
-### Performance Monitoring
-
-```python
-from true.toolkits import monitor
-
-@monitor
-def process_data(items: list):
-    for item in items:
-        # Processing logic here
-        pass
-```
-
-## 🤝 Contributing
-
-We welcome contributions! Here's how you can help:
+## Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
 
-### Development Setup
+## Support
 
-```bash
-# Clone repository
-git clone https://github.com/alaamer12/true.git
-cd true
-
-# Install dependencies with poetry
-poetry install
-
-# Run tests
-poetry run pytest
-```
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.txt) file for details.
-
----
-
-<div >
-
-Made with ❤️ by [True Core Team](https://github.com/alaamer12)
-
-</div>
+For support:
+1. Check the documentation
+2. Search existing issues
+3. Create a new issue if needed

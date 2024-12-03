@@ -40,7 +40,7 @@ True is a comprehensive utility toolkit designed for Python developers seeking c
 
    examples
    
-... toctree::
+.. toctree::
    :maxdepth: 2
    :caption: Project Info
 

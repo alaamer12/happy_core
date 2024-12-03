@@ -280,12 +280,15 @@ def is_scientific_notation(num_str):
 
 class ScientificNumber(str):
     def __new__(cls, value: str):
-        """
-        Scientific Number consists of:
-            Coefficient (or Mantissa): This is the significant figure, which can be a whole number or a decimal. It represents the main digits of the number.
-            Exponent: This is denoted by the letter e (or E), followed by a sign (+ or -) and an integer. The exponent indicates how many places the decimal point should be moved to convert the scientific notation back to the standard form.
-            Decimal: This part is included in the coefficient and indicates the precise value of the number based on where the decimal point is placed.
-        :param value:
+        """Scientific Number representation.
+
+        Consists of:
+        - Coefficient (Mantissa): Significant figure (whole or decimal).
+        - Exponent: Denoted by 'e' or 'E', with sign and integer.
+        - Decimal: Part of coefficient, indicates precise value placement.
+
+        Args:
+            value: String representation of the scientific number.
         """
         if not is_scientific_notation(value):
             raise ScientificNumberError(f"{value} is not a valid scientific notation.")

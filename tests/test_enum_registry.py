@@ -177,18 +177,13 @@ def test_to_dict_conversion(registry):
 # 6. Filtering and Subsetting
 def test_subset_creation(registry):
     """Test creating a subset from selected enum members."""
-    # subset_registry = registry.subset(["OPTION_A", "OPTION_X"])
-    # assert len(subset_registry) == 2
-    # assert SampleEnum.OPTION_A in subset_registry
-    # assert AnotherEnum.OPTION_X in subset_registry
-
-
-def test_filter_functionality(registry):
-    """Test registry's filter feature with custom criteria."""
-    # filtered_registry = registry.filter(lambda member: member.value == 1)
-    # assert len(filtered_registry) == 1
-    # assert SampleEnum.OPTION_A in filtered_registry
-    # TODO
+    # Create subset with specific members
+    subset_registry = registry.subset(["OPTION_A", "OPTION_X"])
+    
+    # Verify the subset has correct members
+    assert len(subset_registry) == 2
+    assert "OPTION_A" in subset_registry
+    assert "OPTION_X" in subset_registry
 
 
 # 7. Edge Cases

@@ -1,186 +1,307 @@
 API Reference
 =============
 
-This section provides detailed documentation for all public APIs in True Core.
+This page contains detailed API reference documentation for all True-Core modules.
 
-Collections Module
-------------------
+.. module:: true
+   :no-index:
 
-File
-~~~~
-
-.. py:class:: File
-
-   A high-level wrapper for file operations with built-in error handling and type safety.
-
-   .. py:method:: __init__(path: str)
-      
-      Initialize a new File instance.
-
-      :param path: Path to the file
-
-   .. py:method:: read_text(encoding: str = 'utf-8') -> str
-      
-      Read the file contents as text.
-
-      :param encoding: Text encoding to use
-      :return: File contents as string
-
-   .. py:method:: write_text(content: str, encoding: str = 'utf-8') -> None
-      
-      Write text content to the file.
-
-      :param content: Text to write
-      :param encoding: Text encoding to use
-
-   .. py:method:: read_json() -> JsonDict
-      
-      Read and parse JSON file contents.
-
-      :return: Parsed JSON data as dictionary
-
-Directory
-~~~~~~~~~
-
-.. py:class:: Directory
-
-   A high-level wrapper for directory operations.
-
-   .. py:method:: __init__(path: str)
-      
-      Initialize a new Directory instance.
-
-      :param path: Path to the directory
-
-   .. py:method:: create(exist_ok: bool = True) -> None
-      
-      Create the directory.
-
-      :param exist_ok: If True, don't raise error if directory exists
-
-Time Module
------------
-
-
-TimeUtils
-~~~~~~~~~
-
-.. py:class:: TimeUtils
-
-   Utility class for time-related operations.
-
-   .. py:classmethod:: now() -> datetime
-      
-      Get current timestamp.
-
-      :return: Current datetime
-
-   .. py:classmethod:: format_iso(dt: datetime) -> str
-      
-      Format datetime in ISO format.
-
-      :param dt: Datetime to format
-      :return: Formatted string
-
-Scheduler
-~~~~~~~~~
-
-.. py:class:: Scheduler
-
-   Task scheduling utility.
-
-   .. py:method:: schedule(task_func: Callable, run_at: datetime, **kwargs) -> str
-      
-      Schedule a task for future execution.
-
-      :param task_func: Function to execute
-      :param run_at: When to execute the task
-      :return: Task ID
-
-Toolkits Module
+Enum Management
 ---------------
 
-Decorators
+.. module:: true.enum_registry
+   :no-index:
+
+EnumRegistry
+~~~~~~~~~~~~
+
+.. autoclass:: EnumRegistry
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :no-index:
+
+.. module:: true.enums_toolkits
+   :no-index:
+
+DynamicEnum
+~~~~~~~~~~~
+
+.. autoclass:: DynamicEnum
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :no-index:
+
+Collections and File System
+---------------------------
+
+.. module:: true.collections
+   :no-index:
+
+File System Objects
+~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: File
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :no-index:
+
+.. autoclass:: Directory
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :no-index:
+
+RecycleBin
 ~~~~~~~~~~
 
-.. py:decorator:: retry(max_attempts: int = 3, delay: float = 1.0, backoff: float = 2.0)
-   
-   Retry a function on failure.
+.. autoclass:: RecycleBin
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :no-index:
 
-   :param max_attempts: Maximum number of retry attempts
-   :param delay: Initial delay between retries in seconds
-   :param backoff: Multiplier for delay after each retry
+OSUtils
+~~~~~~~
 
-.. py:decorator:: monitor
-   
-   Monitor function execution time and resources.
+.. autoclass:: OSUtils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :no-index:
 
-.. py:decorator:: cache(ttl: int = 3600)
-   
-   Cache function results.
+Time Management
+---------------
 
-   :param ttl: Time to live for cached results in seconds
+.. module:: true.time
+   :no-index:
 
-Types Module
-------------
+Time
+~~~~
 
-.. py:class:: JsonDict
-   
-   Type alias for JSON-compatible dictionary.
+.. autoclass:: Time
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :no-index:
 
-   .. code-block:: python
+Event
+~~~~~
 
-      JsonDict = Dict[str, Union[str, int, float, bool, None, List, Dict]]
+.. autoclass:: Event
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :no-index:
 
-Error Handling
---------------
+Schedule
+~~~~~~~~
 
-.. py:exception:: TrueCoreError
-   
-   Base exception class for True Core.
+.. autoclass:: Schedule
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :no-index:
 
-.. py:exception:: FileError
-   
-   Raised for file operation errors.
+Regular Expressions
+-------------------
 
-.. py:exception:: ValidationError
-   
-   Raised for data validation errors.
+.. module:: true.re
+   :no-index:
 
-Best Practices
---------------
+Username Patterns
+~~~~~~~~~~~~~~~~~
 
-When using True Core's API, consider these best practices:
+.. data:: USERNAME_ONLY_LETTERS_MIN_3
+   :no-index:
 
-1. **Error Handling**
-   
-   Always handle potential exceptions:
+.. data:: USERNAME_LETTERS_AND_NUMBERS_MIN_3
+   :no-index:
 
-   .. code-block:: python
+.. data:: USERNAME_WITH_UNDERSCORES_MIN_3
+   :no-index:
 
-      try:
-          file = File("data.txt")
-          content = file.read_text()
-      except FileError as e:
-          logger.error(f"Failed to read file: {e}")
+.. data:: USERNAME_WITH_DASHES_AND_UNDERSCORES_MIN_3
+   :no-index:
 
-2. **Resource Management**
-   
-   Use context managers when appropriate:
+.. data:: USERNAME_NO_CONSECUTIVE_SPECIAL_CHARS
+   :no-index:
 
-   .. code-block:: python
+.. data:: USERNAME_STARTS_WITH_LETTER
+   :no-index:
 
-      with File("large_file.txt").open() as f:
-          content = f.read()
+.. data:: USERNAME_MAX_20_CHARACTERS
+   :no-index:
 
-3. **Type Safety**
-   
-   Leverage type hints for better IDE support:
+.. data:: USERNAME_NOT_NUMERIC_ONLY
+   :no-index:
 
-   .. code-block:: python
+.. data:: USERNAME_NO_PREFIX_SUFFIX
+   :no-index:
 
-      from true.types import JsonDict
+.. data:: USERNAME_INCLUDE_LETTER_AND_NUMBER
+   :no-index:
 
-      def process_data(data: JsonDict) -> List[str]:
-          # Your code here
-          pass
+Password Patterns
+~~~~~~~~~~~~~~~~~
+
+.. data:: PASSWORD_MIN_8
+   :no-index:
+
+.. data:: PASSWORD_MIN_8_WITH_NUMBER
+   :no-index:
+
+.. data:: PASSWORD_MIN_8_UPPER_LOWER_NUMBER
+   :no-index:
+
+.. data:: PASSWORD_MIN_8_UPPER_LOWER_NUMBER_SPECIAL
+   :no-index:
+
+.. data:: PASSWORD_NO_WHITESPACE
+   :no-index:
+
+Email Patterns
+~~~~~~~~~~~~~~
+
+.. data:: EMAIL_BASIC
+   :no-index:
+
+.. data:: EMAIL_RFC_5322
+   :no-index:
+
+.. data:: EMAIL_WITH_SUBDOMAINS
+   :no-index:
+
+.. data:: EMAIL_WITH_UNICODE
+   :no-index:
+
+Type System
+-----------
+
+.. module:: true.types
+   :no-index:
+
+Version Types
+~~~~~~~~~~~~~
+
+.. autoclass:: Version
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :no-index:
+
+.. autoclass:: SemVersion
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :no-index:
+
+.. autoclass:: CalVersion
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :no-index:
+
+Numeric Types
+~~~~~~~~~~~~~
+
+.. autoclass:: BigInt
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :no-index:
+
+.. autoclass:: BigDecimal
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :no-index:
+
+.. autoclass:: ScientificNumber
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :no-index:
+
+ID Types
+~~~~~~~~
+
+.. autoclass:: UUIDType
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :no-index:
+
+.. autoclass:: ULIDType
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :no-index:
+
+Exceptions
+----------
+
+.. module:: true.exceptions
+   :no-index:
+
+Enum Exceptions
+~~~~~~~~~~~~~~~
+
+.. autoexception:: InvalidEnumTypeError
+   :no-index:
+
+.. autoexception:: EnumMetadataError
+   :no-index:
+
+.. autoexception:: EnumValidationError
+   :no-index:
+
+.. autoexception:: EnumTypeError
+   :no-index:
+
+File System Exceptions
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoexception:: StorageFullError
+   :no-index:
+
+.. autoexception:: RecycleBinError
+   :no-index:
+
+.. autoexception:: ItemNotFoundError
+   :no-index:
+
+.. autoexception:: RestoreError
+   :no-index:
+
+Type Exceptions
+~~~~~~~~~~~~~~~
+
+.. autoexception:: UnsuitableBigIntError
+   :no-index:
+
+.. autoexception:: UnsuitableBigDecimalError
+   :no-index:
+
+.. autoexception:: InvalidUUIDError
+   :no-index:
+
+.. autoexception:: InvalidUUIDVersionError
+   :no-index:
+
+.. autoexception:: InvalidULIDError
+   :no-index:
+
+Time Exceptions
+~~~~~~~~~~~~~~~
+
+.. autoexception:: ScheduleError
+   :no-index:
+
+.. autoexception:: ScheduleConflictError
+   :no-index:
+
+.. autoexception:: ScheduleValidationError
+   :no-index:
