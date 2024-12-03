@@ -34,7 +34,7 @@ html_theme_options = {
 }
 
 # Dark mode configuration
-default_dark_mode = True
+dark_mode_preset = 'auto'  # Use 'light', 'dark', or 'auto'
 html_css_files = [
     'dark.css',
 ]
