@@ -16,13 +16,13 @@ True is a comprehensive utility toolkit designed for Python developers seeking c
    :caption: Getting Started
 
    installation
-   quickstart
    examples
 
 .. toctree::
    :maxdepth: 2
    :caption: API Reference
 
+   api
    api_reference
    modules/collections
    modules/enum_registry
