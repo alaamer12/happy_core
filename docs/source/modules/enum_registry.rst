@@ -4,11 +4,17 @@ Enum Registry Module
 .. module:: true.enum_registry
    :no-index:
 
-Key Classes:
+The enum registry module provides a sophisticated framework for managing and combining multiple Enum classes with advanced functionality.
 
-- :class:`EnumRegistry`: Main registry class
+Key Components
+--------------
 
-The enum registry module provides enhanced enumeration capabilities with validation and registration.
+- :class:`EnumRegistry`: Main registry class for managing multiple Enum classes
+- :class:`EnumMapping`: Base class for enum mappings with caching support
+- :class:`EnumData`: TypedDict for enum metadata
+- :class:`EnumStats`: Statistics about the enum registry
+- :class:`BaseMetadata`: Base class for metadata
+- :class:`EnumMetadata`: Enhanced metadata for enum members
 
 Classes
 -------
@@ -20,14 +26,35 @@ EnumRegistry
    :members:
    :special-members: __init__
 
+EnumMapping
+~~~~~~~~~~~
+
+.. autoclass:: true.enum_registry.EnumMapping
+   :members:
+   :special-members: __init__
+
+EnumStats
+~~~~~~~~~
+
+.. autoclass:: true.enum_registry.EnumStats
+   :members:
+   :special-members: __init__
+
+EnumMetadata
+~~~~~~~~~~~~
+
+.. autoclass:: true.enum_registry.EnumMetadata
+   :members:
+   :special-members: __init__
+
 Exceptions
 ----------
 
-.. autoclass:: true.exceptions.EnumValidationError
+.. autoclass:: true.exceptions.InvalidEnumTypeError
    :members:
    :show-inheritance:
 
-.. autoclass:: true.exceptions.EnumTypeError
+.. autoclass:: true.exceptions.IncompatibleTypesError
    :members:
    :show-inheritance:
 
@@ -40,91 +67,68 @@ Basic Usage
 .. code-block:: python
 
    from true.enum_registry import EnumRegistry
+   from enum import Enum
 
-   # Create registry
-   registry = EnumRegistry()
-
-   # Define and register an enum
-   @registry.register
-   class UserStatus:
+   # Define enums
+   class UserStatus(Enum):
        ACTIVE = "active"
        INACTIVE = "inactive"
        SUSPENDED = "suspended"
 
-   # Validate values
-   is_valid = registry.validate("active", UserStatus)  # True
-   is_valid = registry.validate("unknown", UserStatus)  # False
-
-   # Get all choices
-   choices = registry.get_choices(UserStatus)
-   # Returns: [("active", "ACTIVE"), ("inactive", "INACTIVE"), ("suspended", "SUSPENDED")]
-
-Advanced Usage
-~~~~~~~~~~~~~~
-
-.. code-block:: python
-
-   from true.enum_registry import EnumRegistry
-   from dataclasses import dataclass
-   from typing import Optional
-
-   registry = EnumRegistry()
-
-   @registry.register
-   class OrderStatus:
+   class OrderStatus(Enum):
        PENDING = "pending"
        PROCESSING = "processing"
        SHIPPED = "shipped"
-       DELIVERED = "delivered"
-       CANCELLED = "cancelled"
 
-   @dataclass
-   class Order:
-       id: str
-       status: str
-       tracking_number: Optional[str] = None
+   # Register enums
+   registry = EnumRegistry([UserStatus, OrderStatus])
 
-       def __post_init__(self):
-           # Validate status using registry
-           if not registry.validate(self.status, OrderStatus):
-               raise ValueError(f"Invalid order status: {self.status}")
+   # Or use decorator
+   @registry.dregister
+   class Priority(Enum):
+       LOW = 1
+       MEDIUM = 2
+       HIGH = 3
 
-   # Create orders with validation
-   try:
-       order = Order("123", "pending")  # Valid
-       invalid_order = Order("456", "invalid_status")  # Raises ValueError
-   except ValueError as e:
-       print(f"Error: {e}")
+Advanced Features
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: python
+
+   # Arithmetic operations
+   combined = registry + another_registry
+   filtered = registry - excluded_registry
+   common = registry.intersect(other_registry)
+
+   # Filtering and querying
+   high_priority = registry.by_value_type(int)
+   active_states = registry.by_prefix("ACTIVE")
+   custom_filter = registry.by_predicate(lambda x: x.value > 1)
+
+   # Metadata management
+   registry.set_member_metadata(UserStatus.ACTIVE, 
+                              description="Active user state",
+                              tags={"user", "state"})
+
+   # Statistics and debug info
+   stats = registry.statistics()
+   debug_info = registry.format_debug()
+
+   # Serialization
+   data = registry.to_dict()
 
 Type Checking
 ~~~~~~~~~~~~~
 
 .. code-block:: python
 
-   from true.enum_registry import EnumRegistry
-   from typing import List, Dict
-
-   registry = EnumRegistry()
-
-   @registry.register
-   class Priority:
-       LOW = 1
-       MEDIUM = 2
-       HIGH = 3
-
    def process_task(priority: int) -> None:
-       # Validate priority using registry
-       if not registry.validate(priority, Priority):
-           raise ValueError(f"Invalid priority level: {priority}")
+       if priority not in registry:
+           raise ValueError(f"Invalid priority: {priority}")
        
-       # Process task based on priority
        if priority == Priority.HIGH:
            print("Processing high priority task")
        elif priority == Priority.MEDIUM:
            print("Processing medium priority task")
        else:
            print("Processing low priority task")
-
-   # Usage
-   process_task(Priority.HIGH)  # Valid
-   process_task(5)  # Raises ValueError

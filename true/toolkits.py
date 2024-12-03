@@ -159,9 +159,6 @@ def is_generator(x: Any) -> bool:
 def empty_function(func: Never) -> None:
     """
     A function that does nothing.
-
-    Args:
-        func (Never): Never used parameter.
     """
     pass
 
@@ -310,6 +307,7 @@ def profile(func: Callable) -> Callable:
     return wrapper
 
 
+# noinspection PySameParameterValue
 def simple_debugger(func):
     def wrapper(*args, **kwargs):
         # print the function name and arguments

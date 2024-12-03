@@ -5,10 +5,10 @@ True Core
 A comprehensive utility toolkit designed for Python developers
 seeking clean, efficient, and maintainable solutions.
 """
-from typing import Tuple, List
+
 
 __title__ = "true"
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 __author__ = "alaamer12"
 __author_email__ = "ahmedmuhmmed239@gmail.com"
 __license__ = "MIT"
@@ -50,12 +50,6 @@ __all__ = [
     "get_author",
     "get_description",
 ]
-
-# Version information tuple
-VERSION = tuple(map(int, __version__.split(".")))
-
-__version_info__: Tuple[int, ...] = VERSION
-__keywords_list__: List[str] = __keywords__
 
 
 def get_version() -> str:

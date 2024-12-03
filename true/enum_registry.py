@@ -34,6 +34,7 @@ from functools import total_ordering
 from typing import Generic, Iterable, Iterator, List, Callable, Set, Type, Any, Dict, Optional, Union, NoReturn, Tuple, \
     TypeVar, TypedDict
 
+from true.exceptions import InvalidEnumTypeError, IncompatibleTypesError
 
 class EnumMapping:
     """Base class for enum mappings"""
@@ -79,10 +80,6 @@ class BaseMetadata(ABC):
     deprecated: bool = False
     created_at: datetime = None
     modified_at: datetime = None
-
-    def __init_subclass__(cls, **kwargs):
-        # Validate required fields
-        pass
 
 
 @dataclass(kw_only=True)
@@ -160,13 +157,20 @@ class EnumRegistry(Generic[T]):
     def _validate_enums(self, enums: ValidEnumType) -> Union[Tuple[Type[Enum], Optional[EnumMetadata]], NoReturn]:
         if enums is None:
             return (), None
-        if isinstance(enums, (list, set, tuple)):
-            return self._validate_none_mapping_enums(enums), None  # None for no metadata
+        if isinstance(enums, (list, set, tuple)):  # Checking if enums is any of these collections
+            if all(issubclass(item, Enum) for item in enums):  # Ensuring all items are Enum instances
+                return self._validate_none_mapping_enums(enums), None  # None for no metadata
+            else:
+                raise InvalidEnumTypeError(f"All items in the collection must be Enum instances.")
         elif isinstance(enums, dict):
-            return self._validate_mapped_enums(enums)
+            if all(isinstance(value, Enum) for value in enums.values()):  # Ensure dictionary values are Enum instances
+                return self._validate_mapped_enums(enums)
+            else:
+                raise InvalidEnumTypeError(f"All dictionary values must be Enum instances.")
 
         raise InvalidEnumTypeError(
-            f"Invalid type {type(enums)} for EnumRegistry. Expected NoneMappingEnumTypes or MappedEnumTypes.")
+            f"Invalid type {type(enums)} for EnumRegistry. Expected NoneMappingEnumTypes or MappedEnumTypes."
+        )
 
     @staticmethod
     def _validate_none_mapping_enums(enums: NoneMappingEnumTypes) -> Tuple[Type[Enum]]:
@@ -229,6 +233,7 @@ class EnumRegistry(Generic[T]):
     @classmethod
     def dregister(cls):
         """Decorator to register an enum class."""
+
         def wrapper(enum_class):
             if not isinstance(enum_class, Iterable):
                 enum_class = (enum_class,)
@@ -237,11 +242,13 @@ class EnumRegistry(Generic[T]):
                     raise InvalidEnumTypeError(f"Enum type {ec} is not a valid Enum subclass.")
             cls.register(enum_class)
             return enum_class
+
         return wrapper
 
     @classmethod
     def dderegister(cls):
         """Decorator to deregister an enum class."""
+
         def wrapper(enum_class):
             if not isinstance(enum_class, Iterable):
                 enum_class = (enum_class,)
@@ -250,6 +257,7 @@ class EnumRegistry(Generic[T]):
                     raise InvalidEnumTypeError(f"Enum type {ec} is not a valid Enum subclass.")
             cls.deregister(enum_class)
             return enum_class
+
         return wrapper
 
     def get_enum_metadata(self, member: Enum) -> Dict[str, Any]:
@@ -322,14 +330,19 @@ class EnumRegistry(Generic[T]):
         return unique_enums
 
     def subset(self, names: Iterable[str]) -> 'EnumRegistry':
-        """Create a new CombineEnums instance with only specified members."""
-        # valid_names = set(names) & set(self._members.keys())
-        # if not valid_names:
-        #     raise ValueError("No valid enum names provided")
-        #
-        # members = [self._members[name] for name in valid_names]
-        # return self._create_filtered_instance(members)
-        # TODO
+        """Create a new EnumRegistry instance with only specified members."""
+        valid_names = set(names) & set(self._members.keys())
+        if not valid_names:
+            raise ValueError("No valid enum names provided")
+        return valid_names
+
+        filtered_members = {name: self._members[name] for name in valid_names}
+        new_registry = EnumRegistry()
+        new_registry._members = filtered_members
+        new_registry._value_map = {member[0].value: member for member in filtered_members.values()}
+        new_registry._created_at = datetime.now()
+        
+        return new_registry
 
     def __add__(self, other: Union['EnumRegistry', Type[Enum]]) -> 'EnumRegistry':
         """

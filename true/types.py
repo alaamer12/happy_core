@@ -269,8 +269,7 @@ class BigInt(int):
 
 
 class ScientificNumberError(ValueError, TypeError):
-    def __init__(self, message: str):
-        super().__init__(message)
+    pass
 
 
 def is_scientific_notation(num_str):

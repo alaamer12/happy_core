@@ -1,5 +1,5 @@
 Welcome to True Core's documentation!
-======================================
+=====================================
 
 .. image:: https://img.shields.io/badge/python-3.7%2B-blue
    :alt: Python Version
@@ -26,10 +26,13 @@ True is a comprehensive utility toolkit designed for Python developers seeking c
    api_reference
    modules/collections
    modules/enum_registry
+   modules/enums_toolkits
    modules/time
    modules/re
    modules/types
    modules/toolkits
+   releases
+   changelog
 
 .. toctree::
    :maxdepth: 2
@@ -37,7 +40,7 @@ True is a comprehensive utility toolkit designed for Python developers seeking c
 
    examples
    
-.. toctree::
+... toctree::
    :maxdepth: 2
    :caption: Project Info
 

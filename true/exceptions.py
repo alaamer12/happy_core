@@ -1,11 +1,20 @@
 from __future__ import annotations
 
+class InvalidEnumTypeError(Exception):
+    """Raised when an invalid enum type is provided."""
+    pass
+
+class IncompatibleTypesError(Exception):
+    pass
+
+
+class EnumMetadataError(Exception):
+    """Custom exception for enum metadata-related errors."""
+    pass
 
 class EnumValidationError(Exception):
     """Custom error for invalid enum values."""
-
-    def __init__(self, message: str):
-        super().__init__(message)
+    pass
 
 
 class ScheduleError(Exception):
@@ -59,8 +68,7 @@ class RecycleBinError(Exception):
 
 
 class UnificationError(Exception):
-    def __init__(self, message: str):
-        super().__init__(message)
+    pass
 
 
 # Subclasses of Exception subclasses (TypeError, ValueError, etc.)
@@ -120,9 +128,6 @@ class NoOperatorGroupError(EnhancedDataclassError):
 class ItemNotFoundError(RecycleBinError):
     """Raised when an item is not found in the recycle bin."""
 
-    def __init__(self, message: str):
-        super().__init__(message)
-
 
 class StorageFullError(RecycleBinError):
     """Raised when recycle bin storage limit is exceeded."""
@@ -151,9 +156,4 @@ class ScheduleConflictError(ScheduleError):
 
 class ScheduleValidationError(ScheduleError):
     """Raised when schedule validation fails."""
-    pass
-
-
-class InvalidEnumTypeError(Exception):
-    """Raised when an invalid enum type is provided."""
     pass

@@ -2,6 +2,7 @@ Time Module
 ===========
 
 .. module:: true.time
+  :no-index:
 
 This module provides advanced time handling utilities with extended support for time zones, localization,
 and time-based operations.
@@ -10,7 +11,7 @@ Classes
 -------
 
 TimeFormat
-~~~~~~~~~
+~~~~~~~~~~
 
 .. autoclass:: TimeFormat
    :members:
@@ -44,7 +45,7 @@ TimeUnit
    * YEARS: Years unit
 
 TimeConfig
-~~~~~~~~~
+~~~~~~~~~~
 
 .. autoclass:: TimeConfig
    :members:

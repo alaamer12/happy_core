@@ -49,7 +49,7 @@ from true.exceptions import ScheduleError, ScheduleConflictError, ScheduleValida
 TimeType = Optional[Union[float, str, datetime]]
 
 
-def timeout(timeout: float):
+def timeout(timeout_: float):
     """Decorator that raises TimeoutError if function execution exceeds specified timeout in seconds."""
 
     def decorator(func: Callable):
@@ -64,10 +64,10 @@ def timeout(timeout: float):
 
             thread = threading.Thread(target=target)
             thread.start()
-            thread.join(timeout)
+            thread.join(timeout_)
 
             if thread.is_alive():
-                raise TimeoutError(f"Timeout of {timeout} seconds reached")
+                raise TimeoutError(f"Timeout of {timeout_} seconds reached")
 
             return result.get("value")  # Return the result if completed in time
 
@@ -116,6 +116,7 @@ class TimeUnit(Enum):
     YEARS = "years"
 
 
+# noinspection PyUnusedName
 @dataclass
 class TimeConfig:
     """Configuration class for Time settings."""
@@ -247,7 +248,7 @@ class Time:
 
     @staticmethod
     @lru_cache(maxsize=128)
-    def _parse_input(time_input: Union[float, str, datetime, None]) -> datetime:
+    def _parse_input(time_input: Optional[Union[float, str, datetime]]) -> datetime:
         """Parse various input formats to a datetime object."""
         if time_input is None:
             return datetime.now(timezone.utc)
@@ -479,7 +480,7 @@ class Event:
             return Event(
                 name=self.name,
                 start_time=new_start,
-                end_time=new_start.add(duration, TimeUnit.MINUTES),
+                end_time=new_start.add(int(duration), TimeUnit.MINUTES),
                 description=self.description,
                 recurrence=self.recurrence,
                 tags=self.tags.copy(),
@@ -618,7 +619,8 @@ class Schedule:
             if event.overlaps(new_event)
         ]
 
-    def _calculate_tags_distribution(self, events: List[Event]) -> Dict[str, int]:
+    @staticmethod
+    def _calculate_tags_distribution(events: List[Event]) -> Dict[str, int]:
         """Calculate the distribution of tags across events."""
         distribution = {}
         for event in events:

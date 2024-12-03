@@ -1,287 +1,299 @@
 Toolkits Module
 ===============
 
-.. module:: true.toolkits
-  :no-index:
-
-A comprehensive collection of utilities and decorators for enhancing code quality, performance, and maintainability.
+The toolkits module provides a comprehensive collection of utility functions, decorators, and context managers designed to enhance Python applications with robust functionality for debugging, profiling, caching, logging, multithreading, and more.
 
 Key Features
 ------------
 
-- **Performance optimization** tools
-- **Error handling** decorators
-- **Monitoring and metrics** collection
-- **Caching** mechanisms
-- **Retry logic** with backoff strategies
+* Console Output Control
+* Type Checking Utilities
+* Decorators for Various Purposes
+* Context Managers
+* Multithreading Utilities
+* Network Connectivity Tools
+* Singleton Pattern Implementation
+* Pointer and Memory Management
+* Constants Management
+* Deferred Value Processing
+
+Console Output Control
+----------------------
+
+.. py:function:: stop_console_printing(include_stderr: bool = False) -> None
+
+   Redirects standard output (and optionally standard error) to null device.
+
+   :param include_stderr: If True, also redirects stderr to null device
+   :type include_stderr: bool
+   :raises UserWarning: If include_stderr is True
+
+.. py:function:: start_console_printing() -> None
+
+   Restores standard output and standard error to their original values.
+
+.. py:function:: stop_print() -> None
+
+   Replaces the built-in print function with an empty function.
+
+.. py:function:: start_print() -> None
+
+   Restores the built-in print function to its original state.
+
+Type Checking Utilities
+-----------------------
+
+.. py:function:: is_iterable(x: Any) -> bool
+
+   Checks if an object is iterable.
+
+.. py:function:: is_iterator(x: Any) -> bool
+
+   Checks if an object is an iterator.
+
+.. py:function:: is_generator(x: Any) -> bool
+
+   Checks if an object is a generator.
+
+.. py:function:: is_hashable(value: T) -> bool
+
+   Checks if a value is hashable.
+
+.. py:function:: is_mutable(value: T) -> bool
+
+   Checks if a value is mutable.
 
 Decorators
 ----------
 
-retry
-~~~~~
+.. py:function:: trace(func: Callable[..., T]) -> Callable[..., T]
 
-.. py:decorator:: retry(max_attempts: int = 3, delay: float = 1.0, backoff: float = 2.0, exceptions: Tuple[Type[Exception], ...] = (Exception,))
-   Robust retry mechanism with exponential backoff.
+   A decorator that traces function calls and their results.
 
-   **Key Features:**
-   
-   - Exponential backoff
-   - Custom exception handling
-   - Retry count tracking
-   - Logging integration
-   
-   .. code-block:: python
+.. py:function:: profile(func: Callable) -> Callable
 
-      from true.toolkits import retry
-      
-      @retry(max_attempts=3, delay=1, backoff=2)
-      def fetch_data(url: str) -> dict:
-          """Fetch data with automatic retry on failure."""
-          response = requests.get(url)
-          response.raise_for_status()
-          return response.json()
-      
-      # With custom exceptions
-      @retry(exceptions=(ConnectionError, TimeoutError))
-      def connect_database():
-          return db.connect()
+   Simple profiling wrapper using 'cProfile'.
 
-monitor
+.. py:function:: simple_debugger(func: Callable) -> Callable
+
+   A decorator that provides simple debugging capabilities.
+
+.. py:function:: retry(exception: Type[Exception] = Exception, max_attempts: int = 5, delay: float = 1.0) -> Callable
+  :no-index:
+
+   A decorator that retries a function execution upon specified exception.
+
+   :param exception: The exception type to catch and retry on
+   :param max_attempts: Maximum number of retry attempts
+   :param delay: Delay in seconds between retries
+
+.. py:function:: simple_exception(func: Callable) -> Callable
+
+   A decorator that provides simple exception handling and logging.
+
+.. py:function:: memoize(func: Callable[P, T]) -> Callable[P, T]
+
+   Caches the results of function calls based on input arguments.
+
+.. py:function:: run_once(func: Callable) -> Callable
+
+   Ensures a function is executed only once.
+
+.. py:function:: monitor(func: Callable) -> Callable
+  :no-index:
+
+   Monitors and logs function execution time and status.
+
+.. py:function:: multithreaded(max_workers: int = 5) -> Callable
+
+   Executes a function in multiple threads.
+
+   :param max_workers: Maximum number of worker threads
+
+.. py:function:: singleton(cls: Type[T]) -> Type[T]
+
+   Decorator that implements the singleton pattern.
+
+Context Managers
+----------------
+
+.. py:function:: log_level(level: int, name: str) -> ContextManager[logging.Logger]
+
+   Temporarily changes the logging level of a logger within a context.
+
+   :param level: The logging level to set
+   :param name: The name of the logger
+   :yields: The logger with the temporarily changed level
+
+.. py:function:: ignore_warnings() -> ContextManager[None]
+
+   Context manager to temporarily suppress all warnings.
+
+Utility Functions
+-----------------
+
+.. py:function:: get_module_size(module: Any) -> int
+
+   Calculates the approximate memory size of a module.
+
+.. py:function:: find_path(node: str, cwd: str = ".") -> Optional[str]
+
+   Search for a file 'node' starting from the directory 'cwd'.
+
+.. py:function:: check_internet_connectivity(url: str) -> None
+
+   Checks if there is an active internet connection to the specified URL.
+
+   :param url: The URL to check connectivity against
+   :raises URLError: If connection cannot be established
+
+Classes
+-------
+
+Constants
+~~~~~~~~~
+
+.. py:class:: Constants
+
+   A class for creating immutable constant objects.
+
+   .. py:method:: from_dict(**kwargs) -> Constants
+      :classmethod:
+
+      Create a Constants instance from a dictionary.
+
+   .. py:method:: from_nonmapping_iterable(iterable: Iterable[Tuple[str, Any]]) -> Constants
+      :classmethod:
+
+      Create a Constants instance from an iterable of key-value pairs.
+
+Pointer
 ~~~~~~~
 
-.. py:decorator:: monitor(name: Optional[str] = None, metrics: Optional[List[str]] = None)
+.. py:class:: Pointer
 
-   Comprehensive function monitoring.
+   A class that implements pointer-like behavior in Python.
 
-   **Capabilities:**
-   
-   - Execution time tracking
-   - Memory usage monitoring
-   - Error rate tracking
-   - Custom metrics collection
-   
-   .. code-block:: python
+   .. py:method:: value -> Any
 
-      from true.toolkits import monitor
-      
-      @monitor(metrics=["execution_time", "memory_usage"])
-      def process_large_dataset(data: pd.DataFrame) -> pd.DataFrame:
-          """Process data with performance monitoring."""
-          return data.groupby("category").agg(metrics)
-      
-      # With custom metric
-      @monitor(metrics=["rows_processed"])
-      def transform_data(data: pd.DataFrame) -> pd.DataFrame:
-          monitor.record("rows_processed", len(data))
-          return data.transform(transform_func)
+      Get the current value of the pointer.
 
-cache
-~~~~~
+   .. py:method:: get() -> Any
 
-.. py:decorator:: cache(ttl: int = 3600, max_size: int = 1000, strategy: str = "lru")
+      Dereference the pointer to access the value.
 
-   Flexible caching mechanism with multiple strategies.
+   .. py:method:: set(value: Any) -> None
 
-   **Features:**
-   
-   - Multiple cache strategies (LRU, LFU)
-   - Time-based expiration
-   - Size limits
-   - Cache statistics
-   
-   .. code-block:: python
+      Dereference the pointer and set the new value.
 
-      from true.toolkits import cache
-      
-      @cache(ttl=3600, strategy="lru")
-      def expensive_calculation(x: int) -> float:
-          """Cache expensive calculation results."""
-          return sum(math.sin(i) for i in range(x))
-      
-      # With custom key function
-      @cache(key_func=lambda x: f"data_{x['id']}")
-      def fetch_user_data(user_info: dict) -> dict:
-          return database.get_user(user_info["id"])
+   .. py:method:: address() -> int
 
-Utilities
----------
+      Return the 'address' of the pointer (its id).
 
-PerformanceTracker
-~~~~~~~~~~~~~~~~~~
+   .. py:method:: point_to(other_pointer: Pointer) -> None
 
-.. py:class:: PerformanceTracker
+      Point this pointer to the memory location of another pointer.
 
-   Track and analyze performance metrics.
+   .. py:method:: is_null() -> bool
 
-   **Capabilities:**
-   
-   - Real-time monitoring
-   - Statistical analysis
-   - Threshold alerts
-   - Custom metrics
-   
-   .. code-block:: python
+      Check if the pointer is null (points to None).
 
-      from true.toolkits import PerformanceTracker
-      
-      tracker = PerformanceTracker()
-      
-      with tracker.track("database_query"):
-          results = db.execute_query(query)
-      
-      # Get statistics
-      stats = tracker.get_statistics("database_query")
-      print(f"Average query time: {stats.mean:.2f}s")
+DeferredValue
+~~~~~~~~~~~~~
 
-ErrorHandler
-~~~~~~~~~~~~
+.. py:class:: DeferredValue
 
-.. py:class:: ErrorHandler
+   A class that defers the evaluation of a value and provides a way to access the deferred value.
+   The update interval is dynamically calculated based on CPU frequency.
 
-   Comprehensive error handling and logging.
+   .. py:method:: set(value: Any) -> None
 
-   **Features:**
-   
-   - Error categorization
-   - Custom handlers
-   - Error aggregation
-   - Notification integration
-   
-   .. code-block:: python
+      Sets the value to be deferred.
 
-      from true.toolkits import ErrorHandler
-      
-      handler = ErrorHandler()
-      
-      @handler.catch(notify=True)
-      def critical_operation():
-          # Your code here
-          pass
-      
-      # Custom error handling
-      handler.on_error(DatabaseError, lambda e: cleanup_connection())
+   .. py:method:: get() -> Any
 
-Best Practices
---------------
+      Returns the deferred value.
 
-1. **Retry Strategy**
+UnifiedOperation
+~~~~~~~~~~~~~~~~
 
-   Choose appropriate retry parameters:
+.. py:class:: UnifiedOperation
 
-   .. code-block:: python
+   A descriptor that handles both sync and async operations transparently.
+   The actual implementation is chosen based on the caller's context.
 
-      # Good - specific exceptions with reasonable retry
-      @retry(
-          max_attempts=3,
-          exceptions=(ConnectionError, TimeoutError),
-          delay=1
-      )
-      def network_operation():
-          pass
-      
-      # Bad - too many retries, generic exception
-      @retry(max_attempts=10)
-      def any_operation():
-          pass
+   .. py:method:: create_unified_operation(sync_fn: Callable[P, R], async_fn: Callable[P, Awaitable[R]]) -> UnifiedOperation
+      :staticmethod:
 
-2. **Monitoring Usage**
+      Helper method to create unified operations with proper type hints.
 
-   Monitor critical operations:
+Examples
+--------
 
-   .. code-block:: python
+Console Output Control::
 
-      # Good - specific metrics
-      @monitor(metrics=["execution_time", "memory_usage"])
-      def process_data():
-          pass
-      
-      # Better - with custom metrics
-      @monitor(metrics=["processed_items"])
-      def batch_process(items):
-          monitor.record("processed_items", len(items))
-          for item in items:
-              process_item(item)
+    # Suppress all console output
+    stop_console_printing()
+    print("This won't be displayed")
+    start_console_printing()
+    print("This will be displayed")
 
-3. **Cache Configuration**
+Type Checking::
 
-   Configure cache appropriately:
+    assert is_iterable([1, 2, 3]) == True
+    assert is_iterator(iter([1, 2, 3])) == True
+    assert is_generator((x for x in range(3))) == True
 
-   .. code-block:: python
+Decorators::
 
-      # Good - specific TTL and size limit
-      @cache(ttl=3600, max_size=1000)
-      def get_user_preferences(user_id: int) -> dict:
-          return db.fetch_preferences(user_id)
-      
-      # Bad - infinite cache
-      @cache()
-      def accumulate_data(data: list) -> dict:
-          return process_data(data)
+    @retry(exception=ValueError, max_attempts=3)
+    def may_fail():
+        # Function that might raise ValueError
 
-Advanced Usage
---------------
+    @memoize
+    def expensive_computation(x):
+        # Results will be cached based on input x
 
-1. **Custom Monitoring**
+    @singleton
+    class DatabaseConnection:
+        # Only one instance will ever be created
 
-   Create specialized monitoring:
+Context Managers::
 
-   .. code-block:: python
+    with log_level(logging.DEBUG, "my_logger"):
+        # Temporarily increase logging detail
+        logger.debug("Detailed information")
 
-      class APIMonitor:
-          def __init__(self):
-              self.tracker = PerformanceTracker()
-          
-          def track_endpoint(self, endpoint: str):
-              def decorator(func):
-                  @monitor(name=f"api_{endpoint}")
-                  def wrapped(*args, **kwargs):
-                      with self.tracker.track(endpoint):
-                          return func(*args, **kwargs)
-                  return wrapped
-              return decorator
+    with ignore_warnings():
+        # Warnings will be suppressed in this block
+        warnings.warn("This warning is suppressed")
 
-2. **Smart Caching**
+Constants and Pointers::
 
-   Implement advanced caching:
+    # Create immutable constants
+    config = Constants.from_dict(
+        HOST="localhost",
+        PORT=8080,
+        DEBUG=True
+    )
 
-   .. code-block:: python
+    # Use pointer-like behavior
+    ptr1 = Pointer(42)
+    ptr2 = Pointer(None)
+    ptr2.point_to(ptr1)
+    assert ptr2.get() == 42
 
-      class SmartCache:
-          def __init__(self, base_ttl: int = 3600):
-              self.base_ttl = base_ttl
-          
-          def adaptive_cache(self, hit_multiplier: float = 1.5):
-              def decorator(func):
-                  @cache(ttl=self.base_ttl)
-                  def wrapped(*args, **kwargs):
-                      result = func(*args, **kwargs)
-                      if cache.hit_rate > 0.8:
-                          # Increase TTL for frequently accessed items
-                          cache.update_ttl(self.base_ttl * hit_multiplier)
-                      return result
-                  return wrapped
-              return decorator
+Deferred Values::
 
-3. **Error Recovery**
+    # Create a deferred value that updates based on CPU frequency
+    dv = DeferredValue(initial_value=100)
+    dv.set(200)  # Update will be deferred
+    current_value = dv.get()  # Get the current value
 
-   Implement sophisticated error recovery:
+Notes
+-----
 
-   .. code-block:: python
-
-      class RecoveryManager:
-          def __init__(self):
-              self.error_handler = ErrorHandler()
-              self.recovery_strategies = {}
-          
-          def register_strategy(self, error_type: Type[Exception]):
-              def decorator(strategy_func):
-                  self.recovery_strategies[error_type] = strategy_func
-                  return strategy_func
-              return decorator
-          
-          def recover(self, error: Exception):
-              strategy = self.recovery_strategies.get(type(error))
-              if strategy:
-                  return strategy(error)
-              raise error
+- All decorators can be used with or without arguments thanks to the :func:`make_decorator` utility.
+- The module is designed with type safety in mind and includes comprehensive type hints.
+- Memory management utilities like :class:`Pointer` and :class:`DeferredValue` provide fine-grained control when needed.
+- Thread safety is ensured in relevant components through proper locking mechanisms.

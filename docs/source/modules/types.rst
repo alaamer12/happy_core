@@ -1,289 +1,373 @@
 Types Module
 ============
 
-.. module:: true.types
-  :no-index:
-
-A comprehensive type system providing robust type safety and validation for Python applications.
+The types module provides a comprehensive set of classes and utilities for working with various data types, including version strings, numerical types, identifiers, and serialization formats. It focuses on enforcing validation rules and providing robust error handling.
 
 Key Features
 ------------
 
-- **Type safety** with runtime validation
-- **Custom type definitions**
-- **Type conversion** utilities
-- **Performance optimized** validation
-- **Rich type metadata**
+* Version validation and parsing (SemVer, CalVer, Date Versioning)
+* Validated numeric types with constraints
+* UUID and ULID handling with versioning
+* Scientific number validation
+* Serialization support (JSON, YAML, TOML)
+* Type hints and generic utilities
 
-Core Types
-----------
+Version Types
+-------------
 
-JsonDict
-~~~~~~~~
+Version Base Classes
+~~~~~~~~~~~~~~~~~~~~
 
-.. py:class:: JsonDict
+.. py:class:: VersionValidatorMixin
 
-   Type-safe dictionary for JSON-compatible data.
+   A mixin that provides version validation functionality.
 
-   **Features:**
-   
-   - Runtime validation
-   - Schema enforcement
-   - Nested structure support
-   - Serialization helpers
-   
-   .. code-block:: python
+.. py:class:: Version
 
-      from true.types import JsonDict, validate_json
-      
-      @validate_json
-      def process_config(config: JsonDict) -> JsonDict:
-          """Process configuration with type validation."""
-          return {
-              "processed": True,
-              "values": config.get("values", []),
-              "timestamp": time.time()
-          }
+   Base class for version objects.
 
-DataFrameType
+   .. py:attribute:: PATTERNS
+      :type: ClassVar[set]
+
+      Set of supported version patterns.
+
+   .. py:attribute:: major
+      :type: str
+
+      Major version number.
+
+   .. py:attribute:: minor
+      :type: str
+
+      Minor version number.
+
+   .. py:attribute:: patch
+      :type: str
+      :value: Optional
+
+      Patch version number.
+
+   .. py:attribute:: tag
+      :type: str
+      :value: Optional
+
+      Version tag (e.g., alpha, beta).
+
+Version Implementation Classes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. py:class:: SemVersion
+
+   Semantic Versioning implementation (MAJOR.MINOR.PATCH[-TAG]).
+
+.. py:class:: DateVersion
+
+   Date-based versioning implementation (YYYY.MM.DD[-TAG]).
+
+.. py:class:: CalVersion
+
+   Calendar versioning implementation (YY.MM[-TAG]).
+
+.. py:class:: MajorMinorVersion
+
+   Simple major.minor versioning without patch numbers.
+
+Numeric Types
+-------------
+
+Base Classes
+~~~~~~~~~~~~
+
+.. py:class:: ValidatedNumber(Generic[T])
+
+   Base class for validated numeric types.
+
+   .. py:classmethod:: validate(cls, value: Union[int, float]) -> bool
+
+      Validate the input value.
+
+   .. py:classmethod:: get_error_message(cls, value: Union[int, float]) -> str
+
+      Get the error message for invalid values.
+
+Integer Types
 ~~~~~~~~~~~~~
 
-.. py:class:: DataFrameType
+.. py:class:: ValidatedInt(ValidatedNumber[int])
 
-   Type-safe pandas DataFrame with schema validation.
+   Base class for validated integer types.
 
-   **Capabilities:**
-   
-   - Column type validation
-   - Missing value handling
-   - Schema evolution
-   - Performance optimization
-   
-   .. code-block:: python
+.. py:class:: PositiveInt(ValidatedInt)
 
-      from true.types import DataFrameType, validate_schema
-      
-      @validate_schema
-      def process_data(df: DataFrameType) -> DataFrameType:
-          """Process DataFrame with schema validation."""
-          return df.transform({
-              "numeric_col": "float64",
-              "date_col": "datetime64[ns]"
-          })
+   Integer type that must be positive.
 
-Type Validators
----------------
+.. py:class:: NegativeInt(ValidatedInt)
 
-validate_json
-~~~~~~~~~~~~~
+   Integer type that must be negative.
 
-.. py:decorator:: validate_json
+.. py:class:: UnsignedInt(ValidatedInt)
 
-   JSON schema validation decorator.
+   Integer type that must be non-negative.
 
-   **Features:**
-   
-   - Schema validation
-   - Custom error messages
-   - Performance caching
-   - Partial validation
-   
-   .. code-block:: python
+.. py:class:: BigInt
 
-      from true.types import validate_json
-      
-      schema = {
-          "type": "object",
-          "properties": {
-              "name": {"type": "string"},
-              "age": {"type": "integer", "minimum": 0}
-          }
-      }
-      
-      @validate_json(schema)
-      def create_user(user_data: JsonDict) -> JsonDict:
-          return user_data
+   Class for handling large integers with architecture-aware bounds.
 
-validate_schema
-~~~~~~~~~~~~~~~
+   :param value: Integer value
+   :param strict: Enable strict validation
+   :param context: Validation context ("Positive", "Negative", "Unsigned")
 
-.. py:decorator:: validate_schema
+Float Types
+~~~~~~~~~~~
 
-   DataFrame schema validation decorator.
+.. py:class:: ValidatedFloat(ValidatedNumber[float])
 
-   **Capabilities:**
-   
-   - Column type checking
-   - Missing value validation
-   - Custom validation rules
-   - Performance optimization
-   
-   .. code-block:: python
+   Base class for validated float types.
 
-      from true.types import validate_schema
-      
-      schema = {
-          "columns": {
-              "user_id": "int64",
-              "name": "string",
-              "signup_date": "datetime64[ns]"
-          },
-          "index": {"name": "user_id", "unique": True}
-      }
-      
-      @validate_schema(schema)
-      def process_users(df: DataFrameType) -> DataFrameType:
-          return df.sort_values("signup_date")
+.. py:class:: PositiveFloat(ValidatedFloat)
 
-Type Conversion
----------------
+   Float type that must be positive.
 
-TypeConverter
-~~~~~~~~~~~~~
+.. py:class:: NegativeFloat(ValidatedFloat)
 
-.. py:class:: TypeConverter
+   Float type that must be negative.
 
-   Flexible type conversion utility.
+.. py:class:: UnsignedFloat(ValidatedFloat)
 
-   **Features:**
-   
-   - Safe type conversion
-   - Custom conversion rules
-   - Batch conversion
-   - Error handling
-   
-   .. code-block:: python
+   Float type that must be non-negative.
 
-      from true.types import TypeConverter
-      
-      converter = TypeConverter()
-      
-      # Register custom conversion
-      @converter.register(source=str, target=datetime)
-      def str_to_datetime(value: str) -> datetime:
-          return datetime.strptime(value, "%Y-%m-%d")
-      
-      # Use conversion
-      date = converter.convert("2024-01-01", target=datetime)
+.. py:class:: BigDecimal
 
-Best Practices
---------------
+   Class for handling large decimal numbers.
 
-1. **Type Validation**
+   :param value: Decimal value
+   :param strict: Enable strict validation
+   :param context: Validation context ("Positive", "Negative", "Unsigned")
+   :param stop_warnings: Suppress warnings
 
-   Always validate input data:
+Scientific Numbers
+~~~~~~~~~~~~~~~~~~
 
-   .. code-block:: python
+.. py:class:: ScientificNumber
 
-      # Good - explicit validation
-      @validate_json(schema)
-      def process_data(data: JsonDict) -> JsonDict:
-          return transform_data(data)
-      
-      # Bad - no validation
-      def process_data(data: dict) -> dict:
-          return transform_data(data)
+   Class for handling numbers in scientific notation.
 
-2. **Schema Definition**
+   .. py:classmethod:: is_scientific_notation(num_str: str) -> bool
 
-   Define clear and specific schemas:
+      Check if a string represents scientific notation.
 
-   .. code-block:: python
+Special Number Types
+~~~~~~~~~~~~~~~~~~~~
 
-      # Good - specific schema
-      schema = {
-          "type": "object",
-          "required": ["name", "age"],
-          "properties": {
-              "name": {"type": "string", "minLength": 1},
-              "age": {"type": "integer", "minimum": 0}
-          }
-      }
-      
-      # Bad - too permissive
-      schema = {"type": "object"}
+.. py:class:: NaN
 
-3. **Type Conversion**
+   Not-a-Number type with validation.
 
-   Use safe type conversion:
+.. py:data:: Infinity
+   :type: NewType("Infinity", float)
 
-   .. code-block:: python
+   Type for representing infinity.
 
-      # Good - safe conversion
-      try:
-          value = TypeConverter.safe_convert(input_value, target_type)
-      except ConversionError:
-          handle_error()
-      
-      # Bad - unsafe conversion
-      value = target_type(input_value)
+.. py:data:: PositiveInfinity
+   :value: Infinity(float("inf"))
 
-Advanced Usage
---------------
+.. py:data:: NegativeInfinity
+   :value: Infinity(float("-inf"))
 
-1. **Custom Type Definitions**
+Identifier Types
+----------------
 
-   Create domain-specific types:
+UUID Types
+~~~~~~~~~~
 
-   .. code-block:: python
+.. py:class:: UUIDType
 
-      from true.types import CustomType, validate_type
-      
-      class EmailType(CustomType):
-          def validate(self, value: str) -> bool:
-              return bool(re.match(r"[^@]+@[^@]+\.[^@]+", value))
-          
-          def clean(self, value: str) -> str:
-              return value.lower().strip()
-      
-      @validate_type(email=EmailType())
-      def create_user(email: str) -> dict:
-          return {"email": email}
+   Base class for UUID handling.
 
-2. **Complex Validation**
+.. py:class:: StrUUIDType(UUIDType)
 
-   Implement advanced validation rules:
+   String-based UUID with validation.
 
-   .. code-block:: python
+.. py:class:: IntUUIDType(UUIDType)
 
-      class DataValidator:
-          def __init__(self, schema: dict):
-              self.schema = schema
-              self.validators = []
-          
-          def add_rule(self, rule_func):
-              self.validators.append(rule_func)
-              return self
-          
-          def validate(self, data: Any) -> bool:
-              return all(v(data) for v in self.validators)
+   Integer-based UUID with validation.
 
-3. **Type Introspection**
+Versioned UUID Types
+~~~~~~~~~~~~~~~~~~~~
 
-   Utilize type information:
+.. py:class:: UUIDVersionMixin
 
-   .. code-block:: python
+   Mixin for versioned UUID support.
 
-      class TypeInspector:
-          @classmethod
-          def get_type_info(cls, obj: Any) -> dict:
-              """Extract type information."""
-              return {
-                  "type": type(obj).__name__,
-                  "attributes": cls._get_attributes(obj),
-                  "methods": cls._get_methods(obj)
-              }
-          
-          @classmethod
-          def _get_attributes(cls, obj: Any) -> dict:
-              return {
-                  name: type(value).__name__
-                  for name, value in vars(obj).items()
-              }
-          
-          @classmethod
-          def _get_methods(cls, obj: Any) -> list:
-              return [
-                  name for name, value in vars(type(obj)).items()
-                  if callable(value)
-              ]
+.. py:class:: UUIDV1
+
+   UUID version 1 implementation (time-based).
+
+.. py:class:: UUIDV2
+
+   UUID version 2 implementation (DCE Security).
+
+.. py:class:: UUIDV3
+
+   UUID version 3 implementation (MD5 hash-based).
+
+.. py:class:: UUIDV4
+
+   UUID version 4 implementation (random).
+
+.. py:class:: UUIDV5
+
+   UUID version 5 implementation (SHA-1 hash-based).
+
+.. py:class:: StrUUIDV1
+
+   String-based UUID version 1.
+
+.. py:class:: StrUUIDV2
+
+   String-based UUID version 2.
+
+.. py:class:: StrUUIDV3
+
+   String-based UUID version 3.
+
+.. py:class:: StrUUIDV4
+
+   String-based UUID version 4.
+
+.. py:class:: StrUUIDV5
+
+   String-based UUID version 5.
+
+.. py:class:: IntUUIDV1
+
+   Integer-based UUID version 1.
+
+.. py:class:: IntUUIDV2
+
+   Integer-based UUID version 2.
+
+.. py:class:: IntUUIDV3
+
+   Integer-based UUID version 3.
+
+.. py:class:: IntUUIDV4
+
+   Integer-based UUID version 4.
+
+.. py:class:: IntUUIDV5
+
+   Integer-based UUID version 5.
+
+ULID Types
+~~~~~~~~~~
+
+.. py:class:: ULIDType
+
+   Base class for ULID handling.
+
+.. py:class:: StrULIDType(ULIDType)
+
+   String-based ULID with validation.
+
+.. py:class:: IntULIDType(ULIDType)
+
+   Integer-based ULID with validation.
+
+Serialization Types
+-------------------
+
+.. py:class:: JsonMixin
+
+   Mixin for JSON serialization support.
+
+   .. py:classmethod:: to_json(cls, value)
+   .. py:classmethod:: from_json(cls, value)
+
+.. py:class:: YamlMixin
+
+   Mixin for YAML serialization support.
+
+   .. py:classmethod:: to_yaml(cls, value)
+   .. py:classmethod:: from_yaml(cls, value)
+
+.. py:class:: TomlMixin
+
+   Mixin for TOML serialization support.
+
+   .. py:classmethod:: to_toml(cls, value)
+   .. py:classmethod:: from_toml(cls, value)
+
+Type Aliases
+------------
+
+.. py:data:: JsonType
+   :type: NewType('JsonType', dict)
+
+.. py:data:: XmlType
+   :type: NewType('XmlType', dict)
+
+.. py:data:: YamlType
+   :type: NewType('YamlType', dict)
+
+.. py:data:: TomlType
+   :type: NewType('TomlType', dict)
+
+Examples
+--------
+
+Version Handling::
+
+    # Create a semantic version
+    version = SemVersion("1.2.3-beta")
+    
+    # Create a calendar version
+    cal_version = CalVersion("23.04")
+
+Numeric Validation::
+
+    # Create a positive integer
+    pos_int = PositiveInt(42)
+    
+    # Create a big integer with constraints
+    big_int = BigInt(1000000, strict=True, context="Positive")
+    
+    # Create a scientific number
+    sci_num = ScientificNumber("1.23e-4")
+
+UUID Handling::
+
+    # Create a string UUID
+    uuid_str = StrUUIDType("550e8400-e29b-41d4-a716-446655440000")
+    
+    # Create a version 4 UUID
+    uuid_v4 = UUIDV4("550e8400-e29b-41d4-a716-446655440000")
+
+ULID Handling::
+
+    # Create a string ULID
+    ulid_str = StrULIDType("01ARZ3NDEKTSV4RRFFQ69G5FAV")
+    
+    # Create an integer ULID
+    ulid_int = IntULIDType(1234567890)
+
+Serialization::
+
+    class MyType(JsonMixin):
+        def __init__(self, data):
+            self.data = data
+    
+    # Convert to/from JSON
+    obj = MyType({"key": "value"})
+    json_data = obj.to_json()
+    new_obj = MyType.from_json(json_data)
+
+Notes
+-----
+
+- All numeric types include validation to ensure values meet specified constraints.
+- UUID and ULID implementations support both string and integer representations.
+- Version classes support various versioning schemes with proper validation.
+- Serialization mixins provide consistent interfaces for different formats.
+- All classes include proper type hints for better IDE support.

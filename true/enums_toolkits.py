@@ -2,17 +2,18 @@
 This module provides a robust framework for defining specialized Enum classes in Python, extending
 the native Enum capabilities. The included classes and decorators enable advanced metadata handling,
 serialization, and validation across different data types, such as integers, floats, bytes, dictionaries,
-and complex numbers. Key features include:
+and complex numbers.
 
-- `metadata`: A decorator to enhance Enums with metadata configuration for detailed descriptions and
-  custom attributes.
-- `SerializedEnumMeta`: A metaclass for Enums that allows dictionary and JSON-based initialization
-  and serialization.
-- `DynamicEnum` and `DynamicEnumMember`: A flexible class for dynamic enum generation, supporting
-  custom member addition and removal.
-- Specialized Enum classes (`IterableEnum`, `IteratorEnum`, `GeneratorEnum`, `RangingEnum`,
-  `ByteEnum`, `FloatEnum`, `ComplexNumberEnum`, `DictEnum`, `SetEnum`): Each class ensures values
-  conform to specific types or data structures, raising appropriate errors for invalid assignments.
+Keys:
+    - `metadata`: A decorator to enhance Enums with metadata configuration for detailed descriptions and
+    custom attributes.
+    - `SerializedEnumMeta`: A metaclass for Enums that allows dictionary and JSON-based initialization
+    and serialization.
+    - `DynamicEnum` and `DynamicEnumMember`: A flexible class for dynamic enum generation, supporting
+    custom member addition and removal.
+    - Specialized Enum classes (`IterableEnum`, `IteratorEnum`, `GeneratorEnum`, `RangingEnum`,
+      `ByteEnum`, `FloatEnum`, `ComplexNumberEnum`, `DictEnum`, `SetEnum`): Each class ensures values
+      conform to specific types or data structures, raising appropriate errors for invalid assignments.
 
 These enhancements allow for increased type safety, custom error handling, and adaptable usage
 across various applications, particularly useful in scenarios requiring dynamic enum definitions
@@ -21,17 +22,17 @@ or type-enforced enumerations.
 
 import json
 from enum import EnumMeta, unique, ReprEnum
-from typing import TypeVar, Generic, Iterable, Iterator, Generator, Callable
+from typing import Generic, Iterator, Generator, Callable
 
 from true.exceptions import EnumTypeError, EnumValidationError
 from true.toolkits import is_iterable, is_iterator, is_generator
 from true.types import JsonType
-
-T = TypeVar('T')
-
 from enum import Enum
 from typing import Type, Union, NoReturn, Dict, Any, Optional, ClassVar, TypeVar
 from dataclasses import dataclass
+from true.exceptions import EnumMetadataError
+
+T = TypeVar('T')
 
 E = TypeVar('E', bound=Enum)
 
@@ -45,26 +46,18 @@ class MetadataConfig:
     default_value: Any = "N/A"
 
 
-class EnumMetadataError(Exception):
-    """Custom exception for enum metadata-related errors."""
-    pass
-
-
 def metadata(config: Optional[MetadataConfig] = None) -> Callable[[Type[E]], Type[E]]:
-    """
-    Decorator to add metadata capabilities to Enum classes.
+    """A decorator that adds metadata capabilities to Enum classes.
 
     Args:
-        config (Optional[MetadataConfig]): Configuration for metadata generation.
+        config: Configuration object for metadata handling.
+            If not provided, default configuration will be used.
 
     Returns:
-        Callable[[Type[T]], Type[T]]: Decorated enum class.
+        A decorator function that enhances the Enum class with metadata capabilities.
 
-    Example:
-        @metadata()
-        class Status(Enum):
-            ACTIVE = 1
-            INACTIVE = 0
+    Raises:
+        EnumMetadataError: If there are issues with metadata configuration.
     """
     config = config or MetadataConfig()
 
@@ -88,6 +81,7 @@ def metadata(config: Optional[MetadataConfig] = None) -> Callable[[Type[E]], Typ
             description.extend(f"{key}: {value}" for key, value in attributes.items())
             return "\n".join(description)
 
+        # noinspection PyIncorrectDocstring,PyUnusedLocal
         def set_description(self, *args: str, **kwargs: Any) -> Union[str, NoReturn]:
             """
             Set a custom description for the enum member.
@@ -118,11 +112,12 @@ def metadata(config: Optional[MetadataConfig] = None) -> Callable[[Type[E]], Typ
             attributes = dict(zip(["Type", "Value", "Size (bits)", "Default"], args))
             return "\n".join(f"{key}: {value}" for key, value in attributes.items())
 
+        # noinspection PyUnusedLocal
         def delete_description(self) -> None:
             """Reset the description to default."""
             pass
 
-        # noinspection PyDecorator,PyUnresolvedReferences
+        # noinspection PyDecorator,PyUnresolvedReferences,PyIncorrectDocstring,PyShadowingNames
         @classmethod
         def extend_description(cls, member: Union[str, T], additional_info: Dict[str, Any]) -> str:
             """
@@ -222,7 +217,7 @@ class DynamicEnum:
     dynamically while maintaining the familiar enum interface.
 
     Attributes:
-        _value2member_map_ (Dict[Any, 'DynamicEnum']): Mapping of values to enum members.
+        _value2member_map_ (Dict[Any, Any]): Mapping of values to enum members.
     """
 
     _value2member_map_: Dict[Any, 'DynamicEnum'] = {}
@@ -230,7 +225,7 @@ class DynamicEnum:
     def __init__(self, **kwargs):
         self._member_names_ = []
         self._member_map_ = {}
-        self._value2member_map_ = {}
+        self._value2member_map_: Dict[Any, Any] = {}
 
         # Initialize with provided members
         for name, value in kwargs.items():
@@ -387,9 +382,6 @@ class IterableEnum(Generic[T]):
 
     This class ensures that the value is an iterable.
 
-    Args:
-        value (Iterable): The iterable value to be validated and stored.
-
     Raises:
         EnumTypeError: If the provided value is not iterable.
     """
@@ -408,9 +400,6 @@ class IteratorEnum(Generic[T]):
 
     This class ensures that the value is an iterator.
 
-    Args:
-        value (Iterator): The iterator value to be validated and stored.
-
     Raises:
         EnumTypeError: If the provided value is not an iterator.
     """
@@ -421,16 +410,13 @@ class IteratorEnum(Generic[T]):
         super().__init_subclass__(**kwargs)
         for name, member in cls.__dict__.items():
             if not name.startswith("_") and not is_iterator(member):
-                raise EnumTypeError('Iterator', type(value).__name__)
+                raise EnumTypeError('Iterator', type(kwargs).__name__)
 
 
 class GeneratorEnum(Generic[T], Enum):
     """Enumeration for generator objects.
 
     This class ensures that the value is a generator.
-
-    Args:
-        value (Generator): The generator value to be validated and stored.
 
     Raises:
         EnumTypeError: If the provided value is not a generator.
@@ -453,40 +439,10 @@ class GeneratorEnum(Generic[T], Enum):
 
 
 @unique
-class RangingEnum(int, ReprEnum):
-    """Enumeration for integer values within a specified range.
-
-    This class ensures that values are of type int and fall within the
-    provided minimum and maximum limits.
-
-    Args:
-        value (int): The integer value to be validated and stored.
-        min_value (int): The minimum allowed value (inclusive).
-        max_value (int): The maximum allowed value (inclusive).
-
-    Raises:
-        EnumTypeError: If the provided value is not an int.
-        EnumValidationError: If the value is not within the specified range.
-    """
-
-    # TODO: make it takes iterable to represents a range
-    # def __new__(cls, value: int, min_value: int, max_value: int):
-    #     if not isinstance(value, int):
-    #         raise EnumTypeError('int', type(value).__name__)
-    #     if not (min_value <= value <= max_value):
-    #         raise EnumValidationError(f"Value must be between {min_value} and {max_value}.")
-    #     obj = int.__new__(cls, value)
-    #     return obj
-
-
-@unique
 class ByteEnum(bytes, ReprEnum):
     """Enumeration for byte values.
 
     This class ensures that values are of type bytes.
-
-    Args:
-        value (bytes): The byte value to be validated and stored.
 
     Raises:
         EnumTypeError: If the provided value is not of type bytes.
@@ -504,9 +460,6 @@ class FloatEnum(float, ReprEnum):
     """Enumeration for float values.
 
     This class ensures that values are of type float.
-
-    Args:
-        value (float): The float value to be validated and stored.
 
     Raises:
         EnumTypeError: If the provided value is not of type float.
@@ -551,9 +504,6 @@ class SetEnum(set, ReprEnum):
 
     This class ensures that the provided value is of type set, list, or tuple.
 
-    Args:
-        iterable (set): An iterable (set, list, or tuple) to be validated and stored.
-
     Raises:
         EnumTypeError: If the provided value is not of type set, list, or tuple.
     """
@@ -571,9 +521,6 @@ class ListEnum(list, ReprEnum):
 
     This class ensures that the provided value is of type list or tuple.
 
-    Args:
-        iterable (list): An iterable (list or tuple) to be validated and stored.
-
     Raises:
         EnumTypeError: If the provided value is not of type list or tuple.
     """
@@ -590,9 +537,6 @@ class TupleEnum(tuple, ReprEnum):
     """Enumeration for tuple values.
 
     This class ensures that the provided value is of type list or tuple.
-
-    Args:
-        iterable (Any): An iterable (list or tuple) to be validated and stored.
 
     Raises:
         EnumTypeError: If the provided value is not of type list or tuple.

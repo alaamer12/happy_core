@@ -17,6 +17,7 @@ import logging.handlers
 import mimetypes
 import os
 import pathlib
+import platform
 import queue
 import shutil
 import stat
@@ -34,7 +35,6 @@ from datetime import timedelta
 from functools import lru_cache, wraps
 from pathlib import Path
 from typing import List, Dict, Union, Optional, Generator, Tuple, Any
-from typing import ParamSpec
 from typing import TypeVar, Callable
 
 import pydub.generators
@@ -46,8 +46,7 @@ from watchdog.observers import Observer
 from true.exceptions import (StorageFullError, RecycleBinError, ItemNotFoundError, RestoreError)
 from true.toolkits import retry
 
-R = TypeVar('R')
-P = ParamSpec('P')
+
 T = TypeVar('T')
 
 __all__ = [
@@ -1258,6 +1257,62 @@ class OSUtils:
         except Exception as e:
             self.logger.error(f"Error deleting {path}: {str(e)}")
             return False
+
+    def force_delete(self, path: str) -> bool:
+        """
+        Forcefully delete a file or directory, using extreme measures for both Unix and Windows.
+
+        Args:
+            path (str): Path to delete
+
+        Returns:
+            bool: True if deletion was successful, False otherwise
+        """
+        try:
+            full_path = os.path.join(self.base_path, path)
+            if not os.path.exists(full_path):
+                return True
+
+            if platform.system() == "Windows":
+                self._force_delete_windows(full_path)
+            else:
+                self._force_delete_unix(full_path)
+
+            self._log_operation('force_delete', {'path': path})
+            return True
+        except Exception as e:
+            self.logger.error(f"Error force deleting {path}: {str(e)}")
+            return False
+
+    def _force_delete_windows(self, path: str) -> None:
+        try:
+            import win32con
+            import win32file
+        except ImportError:
+            raise ImportError("Install windows api to force deleting.")
+
+        if os.path.isfile(path):
+            win32file.SetFileAttributes(path, win32con.FILE_ATTRIBUTE_NORMAL)
+            os.chmod(path, 0o777)
+            os.unlink(path)
+        elif os.path.isdir(path):
+            for root, dirs, files in os.walk(path, topdown=False):
+                for name in files + dirs:
+                    self._force_delete_windows(os.path.join(root, name))
+            os.rmdir(path)
+
+    @staticmethod
+    def _force_delete_unix(path: str) -> None:
+        if os.path.isfile(path):
+            os.chmod(path, 0o777)
+            os.unlink(path)
+        elif os.path.isdir(path):
+            for root, dirs, files in os.walk(path, topdown=False):
+                for name in files + dirs:
+                    item_path = os.path.join(root, name)
+                    os.chmod(item_path, 0o777)
+                    os.remove(item_path) if os.path.isfile(item_path) else os.rmdir(item_path)
+            os.rmdir(path)
 
     @staticmethod
     def _secure_delete_file(path: str, passes: int = 3) -> None:
