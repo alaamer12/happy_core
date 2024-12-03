@@ -92,7 +92,6 @@ pip install true-core
 
 ```python
 from true.enum_registry import EnumRegistry
-from true.enums_toolkits import DynamicEnum, metadata, MetadataConfig
 from true.collections import OSUtils
 from true.time import Time, Schedule, Event
 from true.types import BigInt, Version
@@ -135,7 +134,7 @@ utils.watch_directory("path/to/dir", callback=lambda event: print(f"Change: {eve
 
 ## Documentation
 
-For detailed documentation, see [docs/index.md](docs/index.md).
+For detailed documentation, see [docs](https://true-core.readthedocs.io/en/latest/).
 
 ## License
 
@@ -155,3 +154,13 @@ For support:
 1. Check the documentation
 2. Search existing issues
 3. Create a new issue if needed
+
+## Author
+
+Alaamer - https://github.com/alaamer12
+
+## Acknowledgments
+
+- [PyPI](https://pypi.org/project/true-core/)
+- [GitHub](https://github.com/alaamer12/true-core)
+- [Python](https://www.python.org/)
