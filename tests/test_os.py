@@ -1,10 +1,11 @@
+import json
 import os
 import shutil
 import tempfile
 import time
 from datetime import datetime, timedelta
+
 import pytest
-import json
 
 # Import the classes to test
 from true.collections import (
@@ -258,6 +259,8 @@ def test_temp_directory_creation():
         if temp_dir.exists:
             shutil.rmtree(temp_dir.full_path)
 
+
 from pathlib import Path
+
 if Path("osutils.log").exists():
     os.remove("osutils.log")

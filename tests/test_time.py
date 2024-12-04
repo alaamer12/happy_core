@@ -1,11 +1,12 @@
+import time
+import unittest
 from datetime import datetime, timezone, timedelta
 
 import pytest
-import unittest
-import time
+
+from true.exceptions import ScheduleConflictError
 from true.time import Time, TimeFormat, TimeUnit, timer, \
     Schedule, Event
-from true.exceptions import ScheduleConflictError
 
 
 @pytest.fixture(scope="function")
@@ -230,6 +231,7 @@ class TestTimeStaticMethods:
         assert "UTC" in timezones
         assert "America/New_York" in timezones
 
+
 class TestSchedule(unittest.TestCase):
     def setUp(self):
         self.schedule = Schedule()
@@ -292,6 +294,7 @@ class TestSchedule(unittest.TestCase):
     #     self.assertIsNotNone(next_occurrence)
     #     self.assertEqual(next_occurrence.start_time, self.now.add(1, TimeUnit.DAYS))
     #     self.assertEqual(next_occurrence.end_time, self.now.add(1, TimeUnit.DAYS).add(1, TimeUnit.HOURS))
+
 
 if __name__ == '__main__':
     unittest.main()

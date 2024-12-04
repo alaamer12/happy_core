@@ -33,14 +33,13 @@ Utility Functions:
 
 import platform
 import re
+import uuid
 import warnings
 from abc import ABC
 from dataclasses import dataclass
 from decimal import Decimal
 from types import ModuleType
 from typing import Union, NewType, NoReturn, Type, Generic, TypeVar, Literal, Optional, ClassVar
-
-import uuid
 
 from .exceptions import UnsuitableBigIntError, UnsuitableBigDecimalError, InvalidUUIDError, \
     InvalidUUIDVersionError, \
@@ -62,62 +61,63 @@ TomlType = NewType('TomlType', dict)
 
 __all__ = [
     # Version Classes
-    'Version',              # Base version class
-    'SemVersion',          # Semantic versioning
-    'DateVersion',         # Date-based versioning
-    'CalVersion',          # Calendar versioning
-    'MajorMinorVersion',   # Major.Minor versioning
-    
+    'Version',  # Base version class
+    'SemVersion',  # Semantic versioning
+    'DateVersion',  # Date-based versioning
+    'CalVersion',  # Calendar versioning
+    'MajorMinorVersion',  # Major.Minor versioning
+
     # Number Types
-    'ValidatedNumber',     # Base validated number class
-    'ValidatedInt',        # Base validated integer
-    'ValidatedFloat',      # Base validated float
-    'PositiveInt',         # Positive integers
-    'NegativeInt',         # Negative integers
-    'UnsignedInt',         # Unsigned integers
-    'PositiveFloat',       # Positive floats
-    'NegativeFloat',       # Negative floats
-    'UnsignedFloat',       # Unsigned floats
-    'BigInt',              # Large integer handling
-    'BigDecimal',          # Large decimal handling
-    'ScientificNumber',    # Scientific notation
-    'NaN',                 # Not a Number type
-    
+    'ValidatedNumber',  # Base validated number class
+    'ValidatedInt',  # Base validated integer
+    'ValidatedFloat',  # Base validated float
+    'PositiveInt',  # Positive integers
+    'NegativeInt',  # Negative integers
+    'UnsignedInt',  # Unsigned integers
+    'PositiveFloat',  # Positive floats
+    'NegativeFloat',  # Negative floats
+    'UnsignedFloat',  # Unsigned floats
+    'BigInt',  # Large integer handling
+    'BigDecimal',  # Large decimal handling
+    'ScientificNumber',  # Scientific notation
+    'NaN',  # Not a Number type
+
     # UUID Classes
-    'UUIDType',           # Base UUID type
-    'StrUUIDType',        # String UUID
-    'IntUUIDType',        # Integer UUID
+    'UUIDType',  # Base UUID type
+    'StrUUIDType',  # String UUID
+    'IntUUIDType',  # Integer UUID
     'UUIDV1', 'UUIDV2', 'UUIDV3', 'UUIDV4', 'UUIDV5',  # UUID versions
     'StrUUIDV1', 'StrUUIDV2', 'StrUUIDV3', 'StrUUIDV4', 'StrUUIDV5',  # String UUID versions
     'IntUUIDV1', 'IntUUIDV2', 'IntUUIDV3', 'IntUUIDV4', 'IntUUIDV5',  # Integer UUID versions
-    
+
     # ULID Classes
-    'ULIDType',           # Base ULID type
-    'StrULIDType',        # String ULID
-    'IntULIDType',        # Integer ULID
-    
+    'ULIDType',  # Base ULID type
+    'StrULIDType',  # String ULID
+    'IntULIDType',  # Integer ULID
+
     # Type Utilities
-    'ClassType',          # Class type utility
-    
+    'ClassType',  # Class type utility
+
     # Serialization Mixins
-    'JsonMixin',          # JSON serialization
-    'YamlMixin',          # YAML serialization
-    'TomlMixin',          # TOML serialization
-    
+    'JsonMixin',  # JSON serialization
+    'YamlMixin',  # YAML serialization
+    'TomlMixin',  # TOML serialization
+
     # Type Aliases
-    'JsonType',           # JSON type alias
-    'XmlType',            # XML type alias
-    'YamlType',           # YAML type alias
-    'TomlType',           # TOML type alias
-    'Infinity',           # Infinity type
-    
+    'JsonType',  # JSON type alias
+    'XmlType',  # XML type alias
+    'YamlType',  # YAML type alias
+    'TomlType',  # TOML type alias
+    'Infinity',  # Infinity type
+
     # Constants
-    'PositiveInfinity',   # Positive infinity constant
-    'NegativeInfinity',   # Negative infinity constant
-    
+    'PositiveInfinity',  # Positive infinity constant
+    'NegativeInfinity',  # Negative infinity constant
+
     # Functions
     'is_scientific_notation',  # Scientific notation checker
 ]
+
 
 def __dir__():
     """Return a sorted list of names in this module."""
@@ -397,7 +397,7 @@ class BigDecimal(Decimal):
 
     @classmethod
     def _validate_strict_mode(cls, float_value: float, decimal_value: 'BigDecimal',
-                            stop_warnings: bool) -> None:
+                              stop_warnings: bool) -> None:
         """Validate value against float limits in strict mode."""
         abs_float_value = abs(float_value)
 
@@ -414,7 +414,7 @@ class BigDecimal(Decimal):
 
     @classmethod
     def _check_boundary_conditions(cls, abs_float_value: float, decimal_value: 'BigDecimal',
-                                 stop_warnings: bool) -> None:
+                                   stop_warnings: bool) -> None:
         """Check and warn for boundary conditions."""
         if (abs_float_value == cls._FLOAT_MAX or abs_float_value == cls._FLOAT_MIN) \
                 and not stop_warnings:
@@ -423,7 +423,7 @@ class BigDecimal(Decimal):
 
     @staticmethod
     def _validate_context(float_value: float, decimal_value: 'BigDecimal',
-                         context: Literal["Positive", "Negative", "Unsigned"]) -> None:
+                          context: Literal["Positive", "Negative", "Unsigned"]) -> None:
         """Validate value against specified context."""
         if context == "Positive" and float_value < 0:
             raise UnsuitableBigDecimalError(
@@ -638,7 +638,6 @@ class TomlMixin:
         except ImportError:
             warnings.warn("Have you installed tomlkit!")
         self.tomlkit: ModuleType = tomlkit
-
 
     def to_toml(self, value):
         return self.tomlkit.dumps(value)

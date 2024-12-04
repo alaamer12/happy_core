@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+
 class InvalidEnumTypeError(Exception):
     """Raised when an invalid enum type is provided."""
     pass
+
 
 class IncompatibleTypesError(Exception):
     pass
@@ -11,6 +13,7 @@ class IncompatibleTypesError(Exception):
 class EnumMetadataError(Exception):
     """Custom exception for enum metadata-related errors."""
     pass
+
 
 class EnumValidationError(Exception):
     """Custom error for invalid enum values."""

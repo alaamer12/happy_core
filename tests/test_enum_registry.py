@@ -1,9 +1,9 @@
 from enum import Enum
 
 import pytest
-from true.exceptions import InvalidEnumTypeError
 
 from true.enum_registry import EnumRegistry, EnumMetadata, EnumStats
+from true.exceptions import InvalidEnumTypeError
 
 
 class SampleEnum(Enum):
@@ -57,13 +57,12 @@ def test_register_method():
 def test_deregister_method():
     """Test deregistering enums using the deregister method."""
     old_registry = EnumRegistry([SampleEnum, AnotherEnum])
-    
+
     # Deregister single enum
     new_registry = old_registry.deregister([SampleEnum])
     # assert new_registry != old_registry
-    e:tuple = new_registry.enums
+    e: tuple = new_registry.enums
     assert len(e) == 1
-
 
     # # Test deregistering multiple enums
     # empty_registry = registry.deregister([SampleEnum, AnotherEnum])
@@ -72,6 +71,7 @@ def test_deregister_method():
 
 def test_dregister_decorator():
     """Test registering enums using the dregister decorator."""
+
     class DecoratedEnum(Enum):
         ITEM_1 = 1
         ITEM_2 = 2
@@ -82,23 +82,25 @@ def test_dregister_decorator():
 
 def test_dderegister_decorator():
     """Test deregistering enums using the dderegister decorator."""
+
     class ToDeregisterEnum(Enum):
         TEST_A = "test_a"
         TEST_B = "test_b"
 
     registry = EnumRegistry([ToDeregisterEnum])
     assert ToDeregisterEnum in registry.enums
-    
+
     new_registry = registry.deregister([ToDeregisterEnum])
     assert not new_registry.enums
 
 
 def test_invalid_registration():
     """Test that registering invalid enum types raises appropriate errors."""
+
     # Test with non-enum type
     class NotAnEnum:
         pass
-    
+
     with pytest.raises(InvalidEnumTypeError):
         EnumRegistry([NotAnEnum])
 

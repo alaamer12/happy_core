@@ -6,7 +6,7 @@ import pytest_asyncio
 
 from true.exceptions import UnificationError
 from true.toolkits import (create_unified_operation, UnifiedOperation,
-                                 DynamicUnifiedOperation)
+                           DynamicUnifiedOperation)
 
 
 def custom_sync_op(x: float, y: float) -> float:

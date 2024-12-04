@@ -1,5 +1,7 @@
 from enum import Enum
+
 from true.enums_toolkits import SerializedEnumMeta, metadata, MetadataConfig
+
 
 # Create a test enum with metadata
 @metadata(MetadataConfig(include_bit_length=True, custom_attributes={'category': 'http_status'}))
@@ -7,6 +9,7 @@ class HttpStatus(Enum, metaclass=SerializedEnumMeta):
     SUCCESS = 200
     NOT_FOUND = 404
     ERROR = 500
+
 
 # Test serialization
 print("\nOriginal enum:")

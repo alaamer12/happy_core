@@ -50,20 +50,21 @@ TimeType = Optional[Union[float, str, datetime]]
 
 __all__ = [
     # Public Classes
-    'TimeFormat',      # Enum for different time formats
-    'TimeUnit',        # Enum for time units
-    'TimeConfig',      # Configuration class for Time settings
-    'Time',           # Main time handling class
-    'Event',          # Scheduled event class
-    'Schedule',       # Advanced scheduling system
-    
+    'TimeFormat',  # Enum for different time formats
+    'TimeUnit',  # Enum for time units
+    'TimeConfig',  # Configuration class for Time settings
+    'Time',  # Main time handling class
+    'Event',  # Scheduled event class
+    'Schedule',  # Advanced scheduling system
+
     # Public Functions
-    'timeout',        # Decorator for function timeout
-    'timer',          # Decorator for timing execution
-    
+    'timeout',  # Decorator for function timeout
+    'timer',  # Decorator for timing execution
+
     # Public Type Aliases
-    'TimeType',       # Type alias for time inputs
+    'TimeType',  # Type alias for time inputs
 ]
+
 
 def __dir__():
     """Return a sorted list of names in this module."""

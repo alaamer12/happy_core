@@ -4,8 +4,8 @@ import shutil
 import pytest
 
 from true.collections import (DummyFile, PDFFileCreator, TXTFileCreator,
-                                    JPGFileCreator, PNGFileCreator, GIFFileCreator, ZIPFileCreator,
-                                    EPUBFileCreator, DOCXFileCreator, XLSXFileCreator)
+                              JPGFileCreator, PNGFileCreator, GIFFileCreator, ZIPFileCreator,
+                              EPUBFileCreator, DOCXFileCreator, XLSXFileCreator)
 
 
 @pytest.fixture

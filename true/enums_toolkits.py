@@ -21,47 +21,49 @@ or type-enforced enumerations.
 """
 
 import json
+from dataclasses import dataclass
+from enum import Enum
 from enum import EnumMeta, unique, ReprEnum
 from typing import Generic, Iterator, Generator, Callable
+from typing import Type, Union, NoReturn, Dict, Any, Optional, ClassVar, TypeVar
 
+from true.exceptions import EnumMetadataError
 from true.exceptions import EnumTypeError, EnumValidationError
 from true.toolkits import is_iterable, is_iterator, is_generator
 from true.types import JsonType
-from enum import Enum
-from typing import Type, Union, NoReturn, Dict, Any, Optional, ClassVar, TypeVar
-from dataclasses import dataclass
-from true.exceptions import EnumMetadataError
 
 __all__ = [
     # Public Classes
-    'MetadataConfig',      # Configuration for enum metadata
+    'MetadataConfig',  # Configuration for enum metadata
     'SerializedEnumMeta',  # Metaclass for serializable enums
-    'DynamicEnum',         # Dynamic enumeration class
-    'DynamicEnumMember',   # Member class for DynamicEnum
-    
+    'DynamicEnum',  # Dynamic enumeration class
+    'DynamicEnumMember',  # Member class for DynamicEnum
+
     # Type-specific Enum Classes
-    'IterableEnum',        # For iterable objects
-    'IteratorEnum',        # For iterator objects
-    'GeneratorEnum',       # For generator objects
-    'ByteEnum',           # For byte values
-    'FloatEnum',          # For float values
-    'ComplexNumberEnum',   # For complex numbers
-    'DictEnum',           # For dictionary values
-    'SetEnum',            # For set values
-    'ListEnum',           # For list values
-    'TupleEnum',          # For tuple values
-    
+    'IterableEnum',  # For iterable objects
+    'IteratorEnum',  # For iterator objects
+    'GeneratorEnum',  # For generator objects
+    'ByteEnum',  # For byte values
+    'FloatEnum',  # For float values
+    'ComplexNumberEnum',  # For complex numbers
+    'DictEnum',  # For dictionary values
+    'SetEnum',  # For set values
+    'ListEnum',  # For list values
+    'TupleEnum',  # For tuple values
+
     # Public Functions
-    'metadata',           # Decorator for adding metadata to enums
-    
+    'metadata',  # Decorator for adding metadata to enums
+
     # Public Type Variables
-    'T',                  # Generic type variable
-    'E',                  # Enum-bound type variable
+    'T',  # Generic type variable
+    'E',  # Enum-bound type variable
 ]
+
 
 def __dir__():
     """Return a sorted list of names in this module."""
     return sorted(__all__)
+
 
 T = TypeVar('T')
 
