@@ -9,7 +9,9 @@ Missing Dependencies
 ModuleNotFoundError: No module named 'tomlkit'
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 **Problem:**
-............ code-block:: python
+When running Python code, you encounter the following error:
+
+.. code-block:: python
 
     ModuleNotFoundError: No module named 'tomlkit'
 
@@ -23,7 +25,9 @@ Install the missing dependency:
 ModuleNotFoundError: No module named 'yaml'
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 **Problem:**
-............ code-block:: python
+When running Python code, you encounter the following error:
+
+.. code-block:: python
 
     ModuleNotFoundError: No module named 'yaml'
 
@@ -37,7 +41,9 @@ Install PyYAML:
 ModuleNotFoundError: No module named 'watchdog'
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 **Problem:**
-............ code-block:: python
+When working with OSUtils, you may encounter the following error:
+
+.. code-block:: python
 
     ModuleNotFoundError: No module named 'watchdog'
 

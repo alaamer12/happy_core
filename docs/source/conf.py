@@ -42,7 +42,7 @@ html_css_files = [
 # GitHub repository
 html_context = {
     'display_github': True,
-    'github_user': 'true-core',
+    'github_user': 'alaamer12',
     'github_repo': 'true-core',
     'github_version': 'main',
 }
