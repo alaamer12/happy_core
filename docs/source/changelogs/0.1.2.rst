@@ -1,0 +1,27 @@
+Version 0.1.1
+=============
+
+Feature Update
+--------------
+
+Released on September 10, 2025
+
+Enhancements
+~~~~~~~~~~~~
+- Enhanced BigDecimal validation
+- Improved enum registry filtering
+- Added more comprehensive type checking
+- Enhanced error messages
+- Added warning system for optional dependencies
+
+Bug Fixes
+~~~~~~~~~
+- Fixed MoviePy video creation fps parameter
+- Resolved enum registry metadata filtering issues
+- Fixed type validation edge cases
+
+Documentation
+~~~~~~~~~~~~~
+- Added more code examples
+- Improved API documentation
+- Enhanced error message descriptions

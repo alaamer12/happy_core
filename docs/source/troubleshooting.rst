@@ -1,15 +1,15 @@
 Troubleshooting Guide
-===================
+=====================
 
 This guide covers common issues you might encounter while using True-Core and their solutions.
 
 Missing Dependencies
-------------------
+--------------------
 
 ModuleNotFoundError: No module named 'tomlkit'
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 **Problem:**
-.. code-block:: python
+............ code-block:: python
 
     ModuleNotFoundError: No module named 'tomlkit'
 
@@ -21,9 +21,9 @@ Install the missing dependency:
     pip install tomlkit
 
 ModuleNotFoundError: No module named 'yaml'
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 **Problem:**
-.. code-block:: python
+............ code-block:: python
 
     ModuleNotFoundError: No module named 'yaml'
 
@@ -35,9 +35,9 @@ Install PyYAML:
     pip install pyyaml
 
 ModuleNotFoundError: No module named 'watchdog'
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 **Problem:**
-.. code-block:: python
+............ code-block:: python
 
     ModuleNotFoundError: No module named 'watchdog'
 
@@ -49,10 +49,10 @@ Install watchdog:
     pip install watchdog
 
 Enum Registry Issues
-------------------
+--------------------
 
 Using enum.auto() Instead of true.enum_registry.auto()
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 **Problem:**
 Using ``enum.auto()`` from the standard library causes crashes:
 
@@ -74,10 +74,10 @@ Always use ``true.enum_registry.auto()``:
         VALUE = auto()  # This works correctly
 
 Type System Issues
-----------------
+------------------
 
 BigDecimal Validation Errors
-~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 **Problem:**
 Unexpected validation errors with BigDecimal:
 
@@ -96,10 +96,10 @@ Ensure proper decimal string format and consider precision limits:
     value = BigDecimal("123.456789", precision=6)
 
 File Operations
--------------
+---------------
 
 FileNotFoundError with Directory Operations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 **Problem:**
 Errors when trying to access directories:
 
@@ -119,7 +119,7 @@ Ensure directory exists before operations:
     dir.create(parents=True)  # Creates parent directories if needed
 
 MoviePy Video Creation Issues
-~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 **Problem:**
 Video creation fails without fps parameter:
 
@@ -137,10 +137,10 @@ Always specify the fps parameter:
     create_static_video("input.jpg", "output.mp4", fps=24)
 
 Installation Issues
-----------------
+-------------------
 
 Poetry Installation Failures
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 **Problem:**
 Poetry fails to install dependencies.
 
@@ -166,10 +166,10 @@ Try these steps:
        poetry install --with dev,docs
 
 Development Environment
---------------------
+-----------------------
 
 Missing Type Hints
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 **Problem:**
 Type checking errors or missing type hints.
 
@@ -189,7 +189,7 @@ Then run type checking:
     mypy true
 
 Still Having Issues?
------------------
+--------------------
 If you're still experiencing problems:
 
 1. Check the :doc:`changelog` for known issues in your version

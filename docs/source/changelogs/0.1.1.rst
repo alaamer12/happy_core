@@ -1,0 +1,29 @@
+Version 0.1.0
+=============
+
+Breakchang Release
+------------------
+
+Released on September 1, 2024
+
+Core Features
+~~~~~~~~~~~~~
+- Initial implementation of core utilities
+- Basic type system with BigDecimal support
+- Enum registry framework
+- Collection utilities
+- Basic toolkits
+
+Modules
+~~~~~~~
+- ``true.types``: Core type system
+- ``true.enum_registry``: Enum management framework
+- ``true.collections``: File and directory utilities
+- ``true.toolkits``: Common utility functions
+- ``true.time``: Time manipulation utilities
+
+Documentation
+~~~~~~~~~~~~~
+- Initial API documentation
+- Basic usage examples
+- Installation guide
