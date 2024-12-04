@@ -24,18 +24,44 @@ Type Aliases:
 
 This module is designed to provide powerful features for working with Enums, ideal for use cases involving complex data models and advanced enum manipulation.
 """
-
+import random
 from abc import ABC
 from collections import OrderedDict, defaultdict
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, field
 from datetime import datetime
 from enum import Enum
 from functools import total_ordering
-from typing import Generic, Iterable, Iterator, List, Callable, Set, Type, Any, Dict, Optional, Union, NoReturn, Tuple, \
-    TypeVar, TypedDict
+from typing import (Generic, Iterable, Iterator, List, Callable, Set,
+                    Type, Any, Dict, Optional, Union, NoReturn, Tuple,
+                    TypeVar, TypedDict)
 
 from true.exceptions import InvalidEnumTypeError, IncompatibleTypesError
 
+__all__ = [
+    # Public Classes
+    'EnumRegistry',  # Main registry class for managing multiple Enum classes
+    'EnumData',  # Type definition for enum metadata
+    'EnumStats',  # Statistics about the enum registry
+    'BaseMetadata',  # Base class for metadata
+    'EnumMetadata',  # Metadata for enum members
+
+    # Public Type Aliases
+    'NoneMappingEnumTypes',  # Union type for non-mapped enum types
+    'MappedEnumTypes',  # Dict type for mapped enum types
+    'ValidEnumType',  # Union of valid enum input types
+
+    # Public Exceptions
+    'InvalidEnumTypeError',  # Error for invalid enum types
+    'IncompatibleTypesError'  # Error for incompatible operations
+]
+
+
+def __dir__():
+    """Return a sorted list of names in this module."""
+    return sorted(__all__)
+
+
+# noinspection PyProtectedMember
 class EnumMapping(ABC):
     """Base class for enum mappings"""
 
@@ -54,6 +80,31 @@ class EnumMapping(ABC):
     def count(self) -> int:
         """Get total count of enum members"""
         return len(self.registry._members)
+import random
+
+class State:
+    map = set()  # Use a set to efficiently track used values.
+
+class Auto:
+    def __init__(self):
+        self._value = self._generate_unique_value()
+
+    @staticmethod
+    def _generate_unique_value():
+        """Generate a unique random value not already in the map."""
+        while True:
+            value = random.random() * 100000.000001
+            if value not in State.map:
+                State.map.add(value)
+                return value
+
+    @property
+    def value(self):
+        return self._value
+
+def auto():
+    return Auto().value
+
 
 
 class EnumData(TypedDict):
@@ -95,6 +146,7 @@ class EnumMetadata(BaseMetadata):
     """Metadata for enum members"""
     aliases: List[str] = None
     category: str = ""
+    extra: Dict[Any, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         self.tags = self.tags or set()
@@ -104,6 +156,9 @@ class EnumMetadata(BaseMetadata):
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
+
+    def __getitem__(self, item):
+        return self.extra.get(item, None)
 
 
 NoneMappingEnumTypes = Union[Tuple[Type[Enum]], List[Type[Enum]], Set[Type[Enum]]]
@@ -137,16 +192,19 @@ class EnumRegistry(Generic[T]):
      """
 
     def __init__(self, enums: Optional[ValidEnumType] = None, duplication: bool = False) -> None:
+        self.enums: Tuple[Type[Enum], ...]
+        self._metadata: Optional[EnumMetadata]
         self.enums, self._metadata = self._validate_enums(enums)
         self._members: Dict[str, Tuple[Enum, Dict]] = OrderedDict()
         self._value_map: Dict[Any, List[Enum]] = defaultdict(list)
         self._created_at = datetime.now().isoformat()
+        self.duplication = duplication
 
         # Initialize mappings
         self._initialize_instances()
 
         # Initialize members
-        self._initialize_members(duplication)
+        self._initialize_members(self.duplication)
 
         # Initialize metadata
         if self._metadata is None:
@@ -171,7 +229,7 @@ class EnumRegistry(Generic[T]):
             else:
                 raise InvalidEnumTypeError(f"All items in the collection must be Enum instances.")
         elif isinstance(enums, dict):
-            if all(isinstance(value, Enum) for value in enums.values()):  # Ensure dictionary values are Enum instances
+            if all(issubclass(key, Enum) for key in enums.keys()):
                 return self._validate_mapped_enums(enums)
             else:
                 raise InvalidEnumTypeError(f"All dictionary values must be Enum instances.")
@@ -185,11 +243,11 @@ class EnumRegistry(Generic[T]):
         return tuple(enum for enum in enums if issubclass(enum, Enum))
 
     @staticmethod
-    def _validate_mapped_enums(enums: MappedEnumTypes) -> Tuple[Type[Enum], EnumMetadata]:
+    def _validate_mapped_enums(enums: MappedEnumTypes) -> Tuple[Tuple[Type[Enum], ...], EnumMetadata]:
         for enum_type, metadata in enums.items():
-            if not issubclass(enum_type, Enum) and isinstance(metadata, EnumMetadata):
-                raise InvalidEnumTypeError(f"Enum type {enum_type} is not a valid Enum subclass.")  # noqa: F821
-            return enum_type, metadata
+            if not isinstance(metadata, EnumMetadata):
+                raise InvalidEnumTypeError(f"Metadata for enum {enum_type} must be an instance of EnumMetadata.")
+        return tuple(enums.keys()), enums  # Ensure proper return structure
 
     def _initialize_instances(self):
         self.values = self._ValueMapping(self)
@@ -199,14 +257,22 @@ class EnumRegistry(Generic[T]):
 
     def _initialize_members(self, allow_duplicates: bool) -> None:
         """Initialize internal member mappings"""
+        # Clear existing members
+        self._members.clear()
+        self._value_map.clear()
+
+        # Add new members
         for enum_class in self.enums:
             for member in enum_class:
-                if not allow_duplicates and member.value in self._value_map:
+                value = member.value
+                if not allow_duplicates and value in self._value_map:
                     raise ValueError(
-                        f"Duplicate value {member.value} found in {enum_class.__name__}"
+                        f"Duplicate value {value} found in {enum_class.__name__}"
                     )
-                self._members[member.name] = (member, {})  # Placeholder for member metadata
-                self._value_map[member.value].append(member)
+                # Use (enum_class.__name__, member.name) as the key to prevent overwrites
+                key = (enum_class.__name__, member.name)
+                self._members[key] = (member, {})  # Placeholder for member metadata
+                self._value_map[value].append(member)
 
     def _initialize_metadata(self) -> 'EnumMetadata':
         # Initialize metadata
@@ -221,52 +287,38 @@ class EnumRegistry(Generic[T]):
         )
         return self._metadata
 
-    @classmethod
-    def register(cls, enums: ValidEnumType) -> "EnumRegistry":
+    def register(self, enums: ValidEnumType) -> "EnumRegistry":
         """Register new enums to the registry."""
-        instance = cls()
-        instance.enums, instance._metadata = instance._validate_enums(enums)
-        instance._initialize_members(False)
-        return instance
+        new_enums, new_metadata = self._validate_enums(enums)
+        if not self.enums:
+            self.enums = new_enums
+        else:
+            self.enums = self.enums + new_enums
+        self._initialize_members(False)
+        return self
 
-    @classmethod
-    def deregister(cls, enums: ValidEnumType) -> "EnumRegistry":
+    def deregister(self, enums: ValidEnumType) -> "EnumRegistry":
         """Deregister enums from the registry."""
-        instance = cls()
-        to_remove, _ = instance._validate_enums(enums)
-        instance.enums = tuple(enum for enum in instance.enums if enum not in to_remove)
-        instance._initialize_members(False)
-        return instance
+        to_remove, _ = self._validate_enums(enums)
+        self.enums = tuple(enum for enum in self.enums if enum not in to_remove)
+        self._initialize_members(False)
+        return self
 
-    @classmethod
-    def dregister(cls):
+    def dregister(self, enum_class=None):
         """Decorator to register an enum class."""
+        if enum_class is None:
+            def wrapper(cls_):
+                if not issubclass(cls_, Enum):
+                    raise InvalidEnumTypeError(f"Enum type {cls_} is not a valid Enum subclass.")
+                self.register([cls_])
+                return cls_
 
-        def wrapper(enum_class):
-            if not isinstance(enum_class, Iterable):
-                enum_class = (enum_class,)
-            for ec in enum_class:
-                if not issubclass(ec, Enum):
-                    raise InvalidEnumTypeError(f"Enum type {ec} is not a valid Enum subclass.")
-            cls.register(enum_class)
-            return enum_class
+            return wrapper
 
-        return wrapper
-
-    @classmethod
-    def dderegister(cls):
-        """Decorator to deregister an enum class."""
-
-        def wrapper(enum_class):
-            if not isinstance(enum_class, Iterable):
-                enum_class = (enum_class,)
-            for ec in enum_class:
-                if not issubclass(ec, Enum):
-                    raise InvalidEnumTypeError(f"Enum type {ec} is not a valid Enum subclass.")
-            cls.deregister(enum_class)
-            return enum_class
-
-        return wrapper
+        if not issubclass(enum_class, Enum):
+            raise InvalidEnumTypeError(f"Enum type {enum_class} is not a valid Enum subclass.")
+        self.register([enum_class])
+        return enum_class
 
     def get_enum_metadata(self, member: Enum) -> Dict[str, Any]:
         """Get metadata for an enum member"""
@@ -278,7 +330,7 @@ class EnumRegistry(Generic[T]):
 
     def set_member_metadata(self, member: Enum, **kwargs) -> None:
         """Set metadata for an enum member"""
-        member, metadata = self._members[member.name]
+        member, metadata = self._members.get(member.name, (member, {}))
         metadata.update(kwargs)
         self._members[member.name] = (member, metadata)
 
@@ -286,11 +338,10 @@ class EnumRegistry(Generic[T]):
         """Get metadata for an enum member"""
         return self._members.get(member.name, None)[1]
 
-    @staticmethod
-    def _create_filtered_instance(members: Iterable[Enum]) -> 'EnumRegistry':
+    def _create_filtered_instance(self, members: Iterable[Enum]) -> 'EnumRegistry':
         """Helper method to create new instance from filtered members."""
         unique_enum_classes = {member.__class__ for member in members}
-        return EnumRegistry(unique_enum_classes)
+        return EnumRegistry(unique_enum_classes, duplication=self.duplication)
 
     def to_dict(self) -> Dict[str, List[EnumData]]:
         """Convert registry to dictionary format"""
@@ -324,32 +375,19 @@ class EnumRegistry(Generic[T]):
 
     def members(self) -> Dict[Type[Enum], List[Enum]]:
         """Group members by their original enum class."""
-        grouped: Dict[Type[Enum], List[Enum]] = {
-            enum_class: [] for enum_class in self.enums
-        }
-        for member in self._members.values():
-            grouped[member[0].__class__].append(member[0])
-        return grouped
+        grouped: Dict[Type[Enum], List[Enum]] = defaultdict(list)
+        for member, _ in self._members.values():
+            grouped[member.__class__].append(member)
+        # Sort by the order they were defined in the original enum class
+        for enum_class in grouped:
+            grouped[enum_class].sort(key=lambda x: list(enum_class).index(x))
+        return dict(grouped)
 
     def merge(self, *combine_enums: 'EnumRegistry') -> 'EnumRegistry':
         """Merge multiple CombineEnums instances into a new instance."""
         all_enums = [self.enums + tuple(e) for e in combine_enums]
         unique_enums = EnumRegistry(all_enums).unique()
         return unique_enums
-
-    def subset(self, names: Iterable[str]) -> 'EnumRegistry':
-        """Create a new EnumRegistry instance with only specified members."""
-        valid_names = set(names) & set(self._members.keys())
-        if not valid_names:
-            raise ValueError("No valid enum names provided")
-
-        filtered_members = {name: self._members[name] for name in valid_names}
-        new_registry = EnumRegistry()
-        new_registry._members = filtered_members
-        new_registry._value_map = {member[0].value: [member[0]] for member in filtered_members.values()}
-        new_registry._created_at = datetime.now().isoformat()
-        new_registry.enums = tuple({member[0].__class__ for member in filtered_members.values()})
-        return new_registry
 
     def __add__(self, other: Union['EnumRegistry', Type[Enum]]) -> 'EnumRegistry':
         """
@@ -365,10 +403,13 @@ class EnumRegistry(Generic[T]):
         Raises:
             IncompatibleTypesError: If other is not a CombineEnums instance or Enum class
         """
+        should_duplicate = False
+        if self.duplication or other.duplication:
+            should_duplicate = True
         if isinstance(other, EnumRegistry):
-            return EnumRegistry(self.enums + tuple(other.enums))
+            return EnumRegistry(self.enums + tuple(other.enums), duplication=should_duplicate)
         elif self.is_enum(other):
-            return EnumRegistry(self.enums, tuple(other))
+            return EnumRegistry(self.enums + tuple(other), duplication=should_duplicate)
         raise IncompatibleTypesError(f"Cannot add {type(other)} to CombineEnums")
 
     def __sub__(self, other: Union['EnumRegistry', Type[Enum]]) -> 'EnumRegistry':
@@ -385,6 +426,9 @@ class EnumRegistry(Generic[T]):
         Raises:
             IncompatibleTypesError: If other is not a CombineEnums instance or Enum class
         """
+        should_duplicate = False
+        if self.duplication or other.duplication:
+            should_duplicate = True
         if isinstance(other, EnumRegistry):
             remaining_enums = [enum for enum in self.enums if enum not in other.enums]
         elif self.is_enum(other):
@@ -392,40 +436,11 @@ class EnumRegistry(Generic[T]):
         else:
             raise IncompatibleTypesError(f"Cannot subtract {type(other)} from CombineEnums")
 
-        return EnumRegistry(remaining_enums) if remaining_enums else EnumRegistry([])
+        return EnumRegistry(remaining_enums, duplication=should_duplicate) if remaining_enums else EnumRegistry([], duplication=should_duplicate)
 
     @staticmethod
     def is_enum(other: Any) -> bool:
         return isinstance(other, type) and issubclass(other, Enum)
-
-    def intersect(self, other: Union['EnumRegistry', Type[Enum]]) -> 'EnumRegistry':
-        """
-        Multiply with another CombineEnums instance or Enum class.
-        Returns a new CombineEnums instance containing only common members.
-
-        Args:
-            other: Another CombineEnums instance or Enum class
-
-        Returns:
-            EnumRegistry: A new instance containing common members
-
-        Raises:
-            IncompatibleTypesError: If other is not a CombineEnums instance or Enum class
-        """
-        if isinstance(other, EnumRegistry):
-            common_enums = [enum for enum in self.enums if enum in other.enums]
-        elif isinstance(other, type) and issubclass(other, Enum):
-            common_enums = [enum for enum in self.enums if enum == other]
-        else:
-            raise IncompatibleTypesError(f"Cannot multiply CombineEnums with {type(other)}")
-
-        return EnumRegistry(common_enums) if common_enums else EnumRegistry([])
-
-    def unique(self) -> 'EnumRegistry':
-        """
-        Return a new CombineEnums instance with only unique members.
-        """
-        return self - self.intersect(self)
 
     def format_debug(self) -> str:
         """
@@ -486,10 +501,6 @@ class EnumRegistry(Generic[T]):
         """Get the next enum member."""
         return next(iter(self))
 
-    def __len__(self) -> int:
-        """Get the total number of enum members."""
-        return len(self._members)
-
     def __str__(self) -> str:
         if not self.enums:
             return f"{self.__class__.__name__}(empty)"
@@ -497,32 +508,47 @@ class EnumRegistry(Generic[T]):
         # Group members by their enum class
         grouped_members = self.members()
 
+        # Find duplicate values
+        value_counts = defaultdict(int)
+        for members in grouped_members.values():
+            for member in members:
+                value_counts[member.value] += 1
+        duplicate_values = {value for value, count in value_counts.items() if count > 1}
+
         # Format each enum class and its members
         enum_lines = []
         for enum_class, members in grouped_members.items():
-            member_str = ", ".join(member.name for member in members)
+            member_strs = []
+            for member in members:
+                if member.value in duplicate_values:
+                    member_strs.append(f"{member.name}={member.value!r}")
+                else:
+                    member_strs.append(member.name)
+            member_str = ", ".join(member_strs)
             enum_lines.append(f"  {enum_class.__name__}: {member_str}")
 
         # Combine all lines
-        return "{self.__class__.__name__}(\n" + "\n".join(enum_lines) + "\n)"
+        return f"{self.__class__.__name__}(\n" + "\n".join(enum_lines) + "\n)"
 
     def __repr__(self) -> str:
         if not self.enums:
-            return "{self.__class__.__name__}<empty>"
+            return f"{self.__class__.__name__}<empty>"
 
-        unique_types = {type(member.value).__name__ for member in self._members.values()}
-        duplicates = len(self._members) - len(set(member.value for member in self._members.values()))
+        unique_names = set(member.name for member, _ in self._members.values())
+        duplicates = len(self._members) - len(unique_names)
+        value_distribution = defaultdict(int)
+        for member, _ in self._members.values():
+            value_distribution[type(member.value).__name__] += 1
 
-        # Format the information
         details = [
             f"  classes=[{', '.join(enum.__name__ for enum in self.enums)}]",
             f"  members={len(self._members)}",
             f"  unique_values={len(self._value_map)}",
             f"  duplicates={duplicates}",
-            f"  value_types=[{', '.join(sorted(unique_types))}]"
+            f"  unique_value_distribution={dict(value_distribution)}"
         ]
 
-        return "{self.__class__.__name__}<\n" + "\n".join(details) + "\n>"
+        return f"{self.__class__.__name__}<\n" + "\n".join(details) + "\n>"
 
     def __hash__(self) -> int:
         """Generate hash based on enum members."""
@@ -532,7 +558,7 @@ class EnumRegistry(Generic[T]):
         """Compare equality with another CombineEnums instance."""
         if not isinstance(other, EnumRegistry):
             return NotImplemented
-        return self.enums == other.enums
+        return (self.enums == other.enums) or hash(self) == hash(other)
 
     def __lt__(self, other: Any) -> bool:
         """Compare less than with another CombineEnums instance."""
@@ -594,20 +620,65 @@ class EnumRegistry(Generic[T]):
 
         def by_metadata(self, **kwargs) -> 'EnumRegistry':
             """Filter members by metadata attributes"""
-            filtered = [
-                member for member, metadata in self.parent._members.values()
-                if all(getattr(metadata, k, None) == v for k, v in kwargs.items())
-            ]
-            return self.parent._create_filtered_instance(filtered)
+            result = EnumRegistry([], duplication=self.parent.duplication)
 
-        def by_value_range(self, start: Any, end: Any) -> 'EnumRegistry':
-            """Filter members by value range (inclusive)"""
-            filtered = [
-                member
-                for member, _ in self.parent._members.values()
-                if start <= member.value <= end
-            ]
-            return self.parent._create_filtered_instance(filtered)
+            for key, (member, metadata) in self.parent._members.items():
+                if self._matches_metadata(metadata, kwargs):
+                    self._add_member_to_result(result, key, member, metadata)
+
+            return result
+
+        @staticmethod
+        def _matches_metadata(metadata: Dict[str, Any], criteria: Dict[str, Any]) -> bool:
+            for attr, value in criteria.items():
+                if attr not in metadata:
+                    return False
+                if isinstance(value, set):
+                    if not (value & metadata[attr]):
+                        return False
+                elif metadata[attr] != value:
+                    return False
+            return True
+
+        @staticmethod
+        def _add_member_to_result(result: 'EnumRegistry', key: str, member: Enum, metadata: Dict[str, Any]) -> None:
+            result._members[key] = (member, metadata.copy())
+            result._value_map[member.value].append(member)
+            if member.__class__ not in result.enums:
+                result.enums = result.enums + (member.__class__,)
+
+        def within_values_range(self,*, start: Any, end: Any, skip_non_numeric: bool = True) -> 'EnumRegistry':
+            """
+            Filter members by value range (inclusive)
+
+            Args:
+                start: Start value of the range (inclusive)
+                end: End value of the range (inclusive)
+                skip_non_numeric: If True, skip members with non-numeric values instead of raising error
+
+            Returns:
+                EnumRegistry: A new registry containing only members within the value range
+            """
+            result = EnumRegistry([], duplication=self.parent.duplication)
+
+            for key, (member, metadata) in self.parent._members.items():
+                member_value = member.value
+
+                # Handle non-numeric values
+                if not isinstance(member_value, (int, float)):
+                    if skip_non_numeric:
+                        continue
+                    else:
+                        raise TypeError(f"Member {member.name} has non-numeric value: {member_value}")
+
+                # Check if value is within range
+                if start <= member_value <= end:
+                    result._members[key] = (member, metadata.copy())
+                    result._value_map[member.value].append(member)
+                    if member.__class__ not in result.enums:
+                        result.enums = result.enums + (member.__class__,)
+
+            return result
 
         def exclude(self, *members: Enum) -> 'EnumRegistry':
             """Exclude specific enum members"""
@@ -621,7 +692,7 @@ class EnumRegistry(Generic[T]):
     class _ValueMapping(EnumMapping):
         """Maps enum values to their corresponding members"""
 
-        def by(self, value: Any) -> List[Enum]:
+        def by(self, *, value: Any) -> List[Enum]:
             """Get all enum members with a specific value"""
             if value not in self._cache:
                 self._cache[value] = self.registry._value_map.get(value, [])
@@ -681,7 +752,7 @@ class EnumRegistry(Generic[T]):
     class _NameMapping(EnumMapping):
         """Maps and manages enum names"""
 
-        def by(self, name: str) -> Optional[Enum]:
+        def by(self, *, name: str) -> Optional[Enum]:
             """Get enum member by name"""
             member_tuple = self.registry._members.get(name)
             return member_tuple[0] if member_tuple else None
@@ -692,15 +763,16 @@ class EnumRegistry(Generic[T]):
             regex = re.compile(pattern, re.IGNORECASE)
             return [
                 member[0] for name, member in self.registry._members.items()
-                if regex.search(name)
+                if regex.search(name[1])
             ]
 
+        # noinspection PyTypeChecker,PyUnresolvedReferences
         def conflicts_with(self) -> Dict[str, List[Type[Enum]]]:
             """Find name conflicts between different enum classes"""
             conflicts: Dict[str, List[Type[Enum]]] = defaultdict(list)
             for enum_class in self.registry.enums:
                 for name in enum_class.__members__:
-                    conflicts[name].append(Type[Enum](enum_class))
+                    conflicts[name].append(enum_class)
             return {
                 name: classes
                 for name, classes in conflicts.items()

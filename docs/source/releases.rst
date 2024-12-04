@@ -1,24 +1,19 @@
 Releases
 ========
 
-Latest Release
---------------
+Current Release
+---------------
+The current stable release is version 0.1.2.
 
-The latest stable release is version 0.1.0.
-
-Installation
-------------
-
-You can install the latest version using pip:
-
-.. code-block:: bash
-
-   pip install true-core
-
-Release History
+Version History
 ---------------
 
-* 0.1.0 (YYYY-MM-DD)
-    * Initial release
-    * Core functionality implementation
-    * Basic documentation
+.. toctree::
+   :maxdepth: 1
+   :caption: Release Notes
+
+   changelogs/0.1.2
+   changelogs/0.1.1
+   changelogs/0.1.0
+
+For detailed information about each release, please visit the respective changelog pages.

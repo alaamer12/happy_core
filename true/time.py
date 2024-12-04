@@ -48,6 +48,27 @@ from true.exceptions import ScheduleError, ScheduleConflictError, ScheduleValida
 
 TimeType = Optional[Union[float, str, datetime]]
 
+__all__ = [
+    # Public Classes
+    'TimeFormat',      # Enum for different time formats
+    'TimeUnit',        # Enum for time units
+    'TimeConfig',      # Configuration class for Time settings
+    'Time',           # Main time handling class
+    'Event',          # Scheduled event class
+    'Schedule',       # Advanced scheduling system
+    
+    # Public Functions
+    'timeout',        # Decorator for function timeout
+    'timer',          # Decorator for timing execution
+    
+    # Public Type Aliases
+    'TimeType',       # Type alias for time inputs
+]
+
+def __dir__():
+    """Return a sorted list of names in this module."""
+    return sorted(__all__)
+
 
 def timeout(timeout_: float):
     """Decorator that raises TimeoutError if function execution exceeds specified timeout in seconds."""
@@ -252,8 +273,8 @@ class Time:
         """Parse various input formats to a datetime object."""
         if time_input is None:
             return datetime.now(timezone.utc)
-        if isinstance(time_input, float):
-            return datetime.fromtimestamp(time_input, timezone.utc)
+        if isinstance(time_input, int) or isinstance(time_input, float):
+            return datetime.fromtimestamp(float(time_input), timezone.utc)
         if isinstance(time_input, str):
             try:
                 # Try multiple common datetime formats
@@ -338,12 +359,13 @@ class Time:
         new_datetime = self._datetime + additions[unit](amount)
         return Time(new_datetime, str(self._timezone))
 
-    def _add_months(self, months: int) -> datetime:
-        """Helper method to add months to a date."""
+    def _add_months(self, months: int) -> timedelta:
+        """Helper method to calculate the timedelta for adding months."""
         year = self._datetime.year + ((self._datetime.month + months - 1) // 12)
         month = ((self._datetime.month + months - 1) % 12) + 1
         day = min(self._datetime.day, calendar.monthrange(year, month)[1])
-        return self._datetime.replace(year=year, month=month, day=day)
+        new_date = self._datetime.replace(year=year, month=month, day=day)
+        return new_date - self._datetime
 
     def is_dst(self) -> bool:
         """Check if the current time is in DST."""

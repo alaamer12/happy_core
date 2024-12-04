@@ -26,7 +26,7 @@ From source
 
 .. code-block:: bash
 
-   git clone https://github.com/yourusername/true-core.git
+   git clone https://github.com/alaamer12/true-core.git
    cd true-core
    pip install -r requirements.txt
 

@@ -30,7 +30,3 @@ clean:
 build-docs:
 	cd docs && sphinx-build -b html source build/html
 
-#bump:
-#	python scripts/update_version.py -- type
-
-release: test coverage build upload

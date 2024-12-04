@@ -9,6 +9,30 @@ The enum registry module provides a sophisticated framework for managing and com
 Key Components
 --------------
 
+.. warning::
+   When defining enum values, always use ``true.enum_registry.auto()`` instead of ``enum.auto()``. 
+   Using ``enum.auto()`` from the standard library can cause crashes and unexpected behavior.
+   
+   **Correct usage:**
+   
+   .. code-block:: python
+   
+       from true.enum_registry import auto
+       
+       class MyEnum(Enum):
+           VALUE_1 = auto()  # Correct
+           VALUE_2 = auto()  # Correct
+   
+   **Incorrect usage:**
+   
+   .. code-block:: python
+   
+       from enum import auto  # Do not use this!
+       
+       class MyEnum(Enum):
+           VALUE_1 = auto()  # Will cause crashes
+           VALUE_2 = auto()  # Will cause crashes
+
 - :class:`EnumRegistry`: Main registry class for managing multiple Enum classes
 - :class:`EnumMapping`: Base class for enum mappings with caching support
 - :class:`EnumData`: TypedDict for enum metadata

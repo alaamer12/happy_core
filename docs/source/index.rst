@@ -17,6 +17,7 @@ True is a comprehensive utility toolkit designed for Python developers seeking c
 
    installation
    examples
+   troubleshooting
 
 .. toctree::
    :maxdepth: 2

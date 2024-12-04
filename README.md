@@ -93,7 +93,7 @@ pip install true-core
 ```python
 from true.enum_registry import EnumRegistry
 from true.collections import OSUtils
-from true.time import Time, Schedule, Event
+from true.time import Time, Schedule, Event, TimeUnit
 from true.types import BigInt, Version
 from enum import Enum
 
@@ -108,7 +108,7 @@ int_values = registry.filter.by_value_type(int)
 # Time Management Example
 time = Time.now()
 schedule = Schedule()
-event = Event(name="Meeting", start_time=time, end_time=time.add(1, "hours"))
+event = Event(name="Meeting", start_time=time, end_time=time.add(1, TimeUnit.HOURS))
 schedule.add_event(event)
 
 # Type Validation Example

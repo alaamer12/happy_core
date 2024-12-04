@@ -33,12 +33,14 @@ Utility Functions:
 
 import platform
 import re
+import warnings
 from abc import ABC
 from dataclasses import dataclass
 from decimal import Decimal
+from types import ModuleType
 from typing import Union, NewType, NoReturn, Type, Generic, TypeVar, Literal, Optional, ClassVar
 
-import uuid_utils as uuid
+import uuid
 
 from .exceptions import UnsuitableBigIntError, UnsuitableBigDecimalError, InvalidUUIDError, \
     InvalidUUIDVersionError, \
@@ -57,6 +59,69 @@ JsonType = NewType('JsonType', dict)
 XmlType = NewType('XmlType', dict)
 YamlType = NewType('YamlType', dict)
 TomlType = NewType('TomlType', dict)
+
+__all__ = [
+    # Version Classes
+    'Version',              # Base version class
+    'SemVersion',          # Semantic versioning
+    'DateVersion',         # Date-based versioning
+    'CalVersion',          # Calendar versioning
+    'MajorMinorVersion',   # Major.Minor versioning
+    
+    # Number Types
+    'ValidatedNumber',     # Base validated number class
+    'ValidatedInt',        # Base validated integer
+    'ValidatedFloat',      # Base validated float
+    'PositiveInt',         # Positive integers
+    'NegativeInt',         # Negative integers
+    'UnsignedInt',         # Unsigned integers
+    'PositiveFloat',       # Positive floats
+    'NegativeFloat',       # Negative floats
+    'UnsignedFloat',       # Unsigned floats
+    'BigInt',              # Large integer handling
+    'BigDecimal',          # Large decimal handling
+    'ScientificNumber',    # Scientific notation
+    'NaN',                 # Not a Number type
+    
+    # UUID Classes
+    'UUIDType',           # Base UUID type
+    'StrUUIDType',        # String UUID
+    'IntUUIDType',        # Integer UUID
+    'UUIDV1', 'UUIDV2', 'UUIDV3', 'UUIDV4', 'UUIDV5',  # UUID versions
+    'StrUUIDV1', 'StrUUIDV2', 'StrUUIDV3', 'StrUUIDV4', 'StrUUIDV5',  # String UUID versions
+    'IntUUIDV1', 'IntUUIDV2', 'IntUUIDV3', 'IntUUIDV4', 'IntUUIDV5',  # Integer UUID versions
+    
+    # ULID Classes
+    'ULIDType',           # Base ULID type
+    'StrULIDType',        # String ULID
+    'IntULIDType',        # Integer ULID
+    
+    # Type Utilities
+    'ClassType',          # Class type utility
+    
+    # Serialization Mixins
+    'JsonMixin',          # JSON serialization
+    'YamlMixin',          # YAML serialization
+    'TomlMixin',          # TOML serialization
+    
+    # Type Aliases
+    'JsonType',           # JSON type alias
+    'XmlType',            # XML type alias
+    'YamlType',           # YAML type alias
+    'TomlType',           # TOML type alias
+    'Infinity',           # Infinity type
+    
+    # Constants
+    'PositiveInfinity',   # Positive infinity constant
+    'NegativeInfinity',   # Negative infinity constant
+    
+    # Functions
+    'is_scientific_notation',  # Scientific notation checker
+]
+
+def __dir__():
+    """Return a sorted list of names in this module."""
+    return sorted(__all__)
 
 
 class VersionValidatorMixin:
@@ -301,37 +366,73 @@ class BigDecimal(Decimal):
 
     def __new__(cls, value: Union[float, Decimal, Infinity, NaN],
                 strict: bool = False,
-                context: Literal["Positive", "Negative", "Unsigned"] = "Positive", stop_warnings: bool = False) -> \
-            Union['BigDecimal', NoReturn]:
+                context: Literal["Positive", "Negative", "Unsigned"] = "Positive",
+                stop_warnings: bool = False) -> Union['BigDecimal', NoReturn]:
+
+        decimal_value = cls._create_decimal(value)
+        float_value = cls._convert_to_float(decimal_value)
+        if strict:
+            cls._validate_strict_mode(float_value, decimal_value, stop_warnings)
+
+        cls._validate_context(float_value, decimal_value, context)
+        return decimal_value
+
+    @classmethod
+    def _create_decimal(cls, value: Union[float, Decimal, Infinity, NaN]) -> 'BigDecimal':
+        """Convert input value to Decimal."""
         try:
-            decimal_value = super(BigDecimal, cls).__new__(cls, value)
+            return super(BigDecimal, cls).__new__(cls, value)
         except (ValueError, TypeError):
             raise UnsuitableBigDecimalError(f"Value '{value}' cannot be converted to Decimal.")
 
+    @staticmethod
+    def _convert_to_float(decimal_value: 'BigDecimal') -> float:
+        """Convert Decimal to float for range checking."""
         try:
-            float_value = float(decimal_value)
+            return float(decimal_value)
         except OverflowError as e:
-            raise UnsuitableBigDecimalError(f"BigDecimal value '{decimal_value}' exceeds float range.") from e
+            raise UnsuitableBigDecimalError(
+                f"BigDecimal value '{decimal_value}' exceeds float range."
+            ) from e
 
+    @classmethod
+    def _validate_strict_mode(cls, float_value: float, decimal_value: 'BigDecimal',
+                            stop_warnings: bool) -> None:
+        """Validate value against float limits in strict mode."""
         abs_float_value = abs(float_value)
 
-        if strict:
-            # Check if the number didn't exceed the float limits.
-            if abs_float_value > cls._FLOAT_MAX:
-                raise UnsuitableBigDecimalError(f"BigDecimal exceeds float maximum: {decimal_value}")
-            # Check if the number is below the float minimum.
-            if abs_float_value < cls._FLOAT_MIN:
-                raise UnsuitableBigDecimalError(f"BigDecimal is below float minimum: {decimal_value}")
-            if abs_float_value == cls._FLOAT_MAX or abs_float_value == cls._FLOAT_MIN and not stop_warnings:
-                import warnings
-                warnings.warn(f"BigDecimal at the limit: {decimal_value}", stacklevel=2)
+        cls._check_float_limits(abs_float_value, decimal_value)
+        cls._check_boundary_conditions(abs_float_value, decimal_value, stop_warnings)
 
+    @classmethod
+    def _check_float_limits(cls, abs_float_value: float, decimal_value: 'BigDecimal') -> None:
+        """Check if value exceeds float limits."""
+        if abs_float_value > cls._FLOAT_MAX:
+            raise UnsuitableBigDecimalError(f"BigDecimal exceeds float maximum: {decimal_value}")
+        if abs_float_value < cls._FLOAT_MIN:
+            raise UnsuitableBigDecimalError(f"BigDecimal is below float minimum: {decimal_value}")
+
+    @classmethod
+    def _check_boundary_conditions(cls, abs_float_value: float, decimal_value: 'BigDecimal',
+                                 stop_warnings: bool) -> None:
+        """Check and warn for boundary conditions."""
+        if (abs_float_value == cls._FLOAT_MAX or abs_float_value == cls._FLOAT_MIN) \
+                and not stop_warnings:
+            import warnings
+            warnings.warn(f"BigDecimal at the limit: {decimal_value}", stacklevel=2)
+
+    @staticmethod
+    def _validate_context(float_value: float, decimal_value: 'BigDecimal',
+                         context: Literal["Positive", "Negative", "Unsigned"]) -> None:
+        """Validate value against specified context."""
         if context == "Positive" and float_value < 0:
-            raise UnsuitableBigDecimalError(f"BigDecimal expected a positive value, got: {decimal_value}")
+            raise UnsuitableBigDecimalError(
+                f"BigDecimal expected a positive value, got: {decimal_value}"
+            )
         if context == "Negative" and float_value > 0:
-            raise UnsuitableBigDecimalError(f"BigDecimal expected a negative value, got: {decimal_value}")
-
-        return decimal_value
+            raise UnsuitableBigDecimalError(
+                f"BigDecimal expected a negative value, got: {decimal_value}"
+            )
 
 
 class UUIDType(ABC):
@@ -531,12 +632,16 @@ class YamlMixin:
 
 
 class TomlMixin:
-    import tomlkit
+    def __init__(self):
+        try:
+            import tomlkit
+        except ImportError:
+            warnings.warn("Have you installed tomlkit!")
+        self.tomlkit: ModuleType = tomlkit
 
-    @classmethod
-    def to_toml(cls, value):
-        return cls.tomlkit.dumps(value)
 
-    @classmethod
-    def from_toml(cls, value):
-        return cls.tomlkit.loads(value)
+    def to_toml(self, value):
+        return self.tomlkit.dumps(value)
+
+    def from_toml(self, value):
+        return self.tomlkit.loads(value)

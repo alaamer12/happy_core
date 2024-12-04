@@ -1,14 +1,12 @@
 Changelog
 =========
 
-Version 0.1.0
--------------
+This section contains detailed changelogs for each version of True-Core.
 
-Initial release.
+.. toctree::
+   :maxdepth: 2
+   :caption: Version History
 
-* Basic file system operations
-* Developer tools implementation
-* Core module collection
-* Type checking and hints
-* Performance monitoring tools
-* Debugging utilities
+   changelogs/0.1.2
+   changelogs/0.1.1
+   changelogs/0.1.0

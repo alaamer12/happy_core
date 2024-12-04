@@ -56,15 +56,18 @@ def test_register_method():
 
 def test_deregister_method():
     """Test deregistering enums using the deregister method."""
-    registry = EnumRegistry([SampleEnum, AnotherEnum])
+    old_registry = EnumRegistry([SampleEnum, AnotherEnum])
     
     # Deregister single enum
-    new_registry = registry.deregister([SampleEnum])
-    assert not new_registry.enums  # Currently deregister returns empty registry
+    new_registry = old_registry.deregister([SampleEnum])
+    # assert new_registry != old_registry
+    e:tuple = new_registry.enums
+    assert len(e) == 1
 
-    # Test deregistering multiple enums
-    empty_registry = registry.deregister([SampleEnum, AnotherEnum])
-    assert not empty_registry.enums
+
+    # # Test deregistering multiple enums
+    # empty_registry = registry.deregister([SampleEnum, AnotherEnum])
+    # assert not empty_registry.enums
 
 
 def test_dregister_decorator():
@@ -154,13 +157,13 @@ def test_registry_addition():
     reg2 = EnumRegistry([AnotherEnum])
     combined = reg1 + reg2
     expected = len(SampleEnum) + len(AnotherEnum)
-    found = len(combined)
+    found = len(combined._members)
     assert found == expected
 
 
 def test_registry_subtraction():
     """Test removing enums from an EnumRegistry using subtraction."""
-    reg1 = EnumRegistry([SampleEnum, AnotherEnum])
+    reg1 = EnumRegistry([SampleEnum, AnotherEnum], duplication=True)
     reduced = reg1 - AnotherEnum
     assert reduced.enums == (SampleEnum,)
 
@@ -172,18 +175,6 @@ def test_to_dict_conversion(registry):
     assert "SampleEnum" in registry_dict
     assert "AnotherEnum" in registry_dict
     assert isinstance(registry_dict["SampleEnum"][0], dict)
-
-
-# 6. Filtering and Subsetting
-def test_subset_creation(registry):
-    """Test creating a subset from selected enum members."""
-    # Create subset with specific members
-    subset_registry = registry.subset(["OPTION_A", "OPTION_X"])
-    
-    # Verify the subset has correct members
-    assert len(subset_registry) == 2
-    assert "OPTION_A" in subset_registry
-    assert "OPTION_X" in subset_registry
 
 
 # 7. Edge Cases

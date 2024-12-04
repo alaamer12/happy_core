@@ -32,6 +32,37 @@ from typing import Type, Union, NoReturn, Dict, Any, Optional, ClassVar, TypeVar
 from dataclasses import dataclass
 from true.exceptions import EnumMetadataError
 
+__all__ = [
+    # Public Classes
+    'MetadataConfig',      # Configuration for enum metadata
+    'SerializedEnumMeta',  # Metaclass for serializable enums
+    'DynamicEnum',         # Dynamic enumeration class
+    'DynamicEnumMember',   # Member class for DynamicEnum
+    
+    # Type-specific Enum Classes
+    'IterableEnum',        # For iterable objects
+    'IteratorEnum',        # For iterator objects
+    'GeneratorEnum',       # For generator objects
+    'ByteEnum',           # For byte values
+    'FloatEnum',          # For float values
+    'ComplexNumberEnum',   # For complex numbers
+    'DictEnum',           # For dictionary values
+    'SetEnum',            # For set values
+    'ListEnum',           # For list values
+    'TupleEnum',          # For tuple values
+    
+    # Public Functions
+    'metadata',           # Decorator for adding metadata to enums
+    
+    # Public Type Variables
+    'T',                  # Generic type variable
+    'E',                  # Enum-bound type variable
+]
+
+def __dir__():
+    """Return a sorted list of names in this module."""
+    return sorted(__all__)
+
 T = TypeVar('T')
 
 E = TypeVar('E', bound=Enum)
@@ -145,8 +176,9 @@ def metadata(config: Optional[MetadataConfig] = None) -> Callable[[Type[E]], Typ
         cls._metadata_config: ClassVar[MetadataConfig] = config
 
         # Add properties and methods
-        cls.describe = property(fget=get_description, fset=set_description, fdel=delete_description)
+        cls.describe = property(fget=get_description, fset=None, fdel=delete_description)
         cls.extend_description = extend_description
+        cls.set_description = set_description
 
         return cls
 
@@ -173,14 +205,45 @@ class SerializedEnumMeta(EnumMeta):
 
         return cls
 
+    # Update from_dict method
     @classmethod
-    def from_dict(cls, name: str, members: Dict[str, Any]) -> Type[Enum]:
-        """Generate an Enum class from a dictionary of member names and values."""
-        return Enum(name, members)
+    def from_dict(cls, name: str, members: Dict[str, Any], *, preserve_original: bool = True) -> Type[Enum]:
+        """Generate an Enum class from a dictionary of member names and values.
 
+        Args:
+            name: Name for the new enum class
+            members: Dictionary mapping member names to their values
+            preserve_original: If True, preserves original enum class metadata
+
+        Returns:
+            A new Enum class with the specified members
+        """
+        # Create the new enum class
+        enum_cls = Enum(name, members)
+
+        # Copy any metadata from original class if available
+        if preserve_original and hasattr(cls, '_metadata_config'):
+            enum_cls._metadata_config = cls._metadata_config
+
+        return enum_cls
+
+    # Update from_json method
     @classmethod
-    def from_json(cls, name: str, json_data: JsonType) -> Type[Enum]:
-        """Generate an Enum class from a JSON string or dictionary."""
+    def from_json(cls, name: str, json_data: JsonType, *, preserve_original: bool = True) -> Type[Enum]:
+        """Generate an Enum class from a JSON string or dictionary.
+
+        Args:
+            name: Name for the new enum class
+            json_data: JSON string or dictionary containing enum members
+            preserve_original: If True, preserves original enum class metadata
+
+        Returns:
+            A new Enum class with the specified members
+
+        Raises:
+            ValueError: If invalid JSON data is provided
+            TypeError: If json_data is neither a string nor dictionary
+        """
         if isinstance(json_data, str):
             try:
                 members = json.loads(json_data)
@@ -191,22 +254,34 @@ class SerializedEnumMeta(EnumMeta):
         else:
             raise TypeError("from_json expects a JSON string or a dictionary.")
 
-        return cls.from_dict(name, members)
+        return cls.from_dict(name, members, preserve_original=preserve_original)
 
-    def to_dict(cls):
-        """
+    # Update to_dict method
+    def to_dict(cls) -> Dict[str, Any]:
+        """Convert enum class to a dictionary representation.
 
-        :return: Dict[str, Any]
+        Returns:
+            Dictionary containing member names mapped to their values
         """
-        return {member.name: member.value for member in cls}
+        result = {
+            'name': cls.__name__,
+            'members': {member.name: member.value for member in cls}
+        }
 
-    def to_json(cls):
-        """
+        # Include metadata if available
+        if hasattr(cls, '_metadata_config'):
+            result['metadata'] = cls._metadata_config.__dict__
 
-        :return: JsonType
+        return result
+
+    # Update to_json method
+    def to_json(cls) -> str:
+        """Convert enum class to a JSON string representation.
+
+        Returns:
+            JSON string containing the enum class data
         """
-        d = cls.to_dict()
-        return json.dumps(d)
+        return json.dumps(cls.to_dict(), default=str)
 
 
 class DynamicEnum:
