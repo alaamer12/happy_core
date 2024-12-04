@@ -41,13 +41,19 @@ from typing import TypeVar, Callable
 import pydub.generators
 from PIL import Image
 from moviepy.editor import ImageSequenceClip, ImageClip
+
 try:
     from watchdog.events import FileSystemEventHandler
     from watchdog.observers import Observer
 except ImportError:
-    class FileSystemEventHandler: ...
+    class FileSystemEventHandler:
+        ...
+
+
     class Observer:
         def start(e): ...
+
+
     warnings.warn("Some functionality won't work correctly unless you install watchdog")
 except Exception as e:
     warnings.warn("Some errors could be caused of uninstalled watchdog library")
@@ -56,55 +62,56 @@ except Exception as e:
 from true.exceptions import (StorageFullError, RecycleBinError, ItemNotFoundError, RestoreError)
 from true.toolkits import retry
 
-
 T = TypeVar('T')
 
 __all__ = [
     # Public Classes
-    'FileStats',          # Enhanced data class for file statistics
-    'File',              # Enhanced file class
-    'Directory',         # Enhanced directory class
-    'RecycleBin',        # Advanced RecycleBin implementation
-    'FileMetadata',      # Store metadata for recycled files
-    'OSUtils',           # Enhanced OS utility class
-    'FileCreator',       # Abstract base class for file creation
-    'DummyFile',         # Class to manage creation of dummy files
-    'PDFFileCreator',    # PDF file creator
-    'EPUBFileCreator',   # EPUB file creator
-    'DOCXFileCreator',   # DOCX file creator
-    'XLSXFileCreator',   # XLSX file creator
-    'TXTFileCreator',    # Text file creator
-    'JPGFileCreator',    # JPG file creator
-    'PNGFileCreator',    # PNG file creator
-    'GIFFileCreator',    # GIF file creator
-    'ZIPFileCreator',    # ZIP file creator
-    'TarFileCreator',    # TAR file creator
-    'Mp3FileCreator',    # MP3 file creator
-    'WavFileCreator',    # WAV file creator
-    'Mp4FileCreator',    # MP4 file creator
-    
-    # Public Functions
-    'is_image',              # Check if file is an image
-    'copy_dir',              # Copy directory and contents
-    'copy_file',             # Copy single file
-    'copy_dir_to_same_depth',# Copy directory maintaining depth
-    'create_temp_file',      # Create temporary file
-    'create_temp_directory', # Create temporary directory
-    'lazy_method',           # Decorator for lazy evaluation
-    
-    # Public Exceptions
-    'StorageFullError',      # When recycle bin is full
-    'RecycleBinError',       # Base recycle bin error
-    'ItemNotFoundError',     # When item not found
-    'RestoreError',           # When restore fails
+    'FileStats',  # Enhanced data class for file statistics
+    'File',  # Enhanced file class
+    'Directory',  # Enhanced directory class
+    'RecycleBin',  # Advanced RecycleBin implementation
+    'FileMetadata',  # Store metadata for recycled files
+    'OSUtils',  # Enhanced OS utility class
+    'FileCreator',  # Abstract base class for file creation
+    'DummyFile',  # Class to manage creation of dummy files
+    'PDFFileCreator',  # PDF file creator
+    'EPUBFileCreator',  # EPUB file creator
+    'DOCXFileCreator',  # DOCX file creator
+    'XLSXFileCreator',  # XLSX file creator
+    'TXTFileCreator',  # Text file creator
+    'JPGFileCreator',  # JPG file creator
+    'PNGFileCreator',  # PNG file creator
+    'GIFFileCreator',  # GIF file creator
+    'ZIPFileCreator',  # ZIP file creator
+    'TarFileCreator',  # TAR file creator
+    'Mp3FileCreator',  # MP3 file creator
+    'WavFileCreator',  # WAV file creator
+    'Mp4FileCreator',  # MP4 file creator
 
-    'LazyDescriptor',        # Create lazy descriptors
+    # Public Functions
+    'is_image',  # Check if file is an image
+    'copy_dir',  # Copy directory and contents
+    'copy_file',  # Copy single file
+    'copy_dir_to_same_depth',  # Copy directory maintaining depth
+    'create_temp_file',  # Create temporary file
+    'create_temp_directory',  # Create temporary directory
+    'lazy_method',  # Decorator for lazy evaluation
+
+    # Public Exceptions
+    'StorageFullError',  # When recycle bin is full
+    'RecycleBinError',  # Base recycle bin error
+    'ItemNotFoundError',  # When item not found
+    'RestoreError',  # When restore fails
+
+    'LazyDescriptor',  # Create lazy descriptors
     'LazyMetaClass'
 ]
+
 
 def __dir__():
     """Return a sorted list of names in this module."""
     return sorted(__all__)
+
 
 def _to_numeric(value: Any) -> Union[int, float]:
     """Convert value to a numeric type suitable for bitwise operations"""

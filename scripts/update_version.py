@@ -1,12 +1,14 @@
+import argparse
 import os
 import sys
-import argparse
 from pathlib import Path
 from typing import Optional
+
 from colorama import init, Fore, Style
 
 # Initialize colorama
 init()
+
 
 def get_version_increment(current_version: str, increment_type: str) -> str:
     """Calculate new version based on increment type."""
@@ -21,6 +23,7 @@ def get_version_increment(current_version: str, increment_type: str) -> str:
     else:
         raise ValueError("Invalid version increment type")
 
+
 def update_version_in_file(file_path: Path, old_version: str, new_version: str) -> None:
     """Update version number in a single file."""
     try:
@@ -34,6 +37,7 @@ def update_version_in_file(file_path: Path, old_version: str, new_version: str) 
     except Exception as e:
         print(f"{Fore.RED}✗ Error updating {file_path}: {e}{Style.RESET_ALL}")
 
+
 def get_current_version(file_path: Path) -> str:
     """Extract current version from pyproject.toml."""
     try:
@@ -42,6 +46,7 @@ def get_current_version(file_path: Path) -> str:
             return content.split('version = "')[1].split('"')[0]
     except Exception as e:
         raise ValueError(f"Failed to extract version: {e}")
+
 
 def update_version(root_dir: Path, increment_type: Optional[str] = None, quiet: bool = False) -> None:
     """Main function to update version numbers."""
@@ -103,6 +108,7 @@ def update_version(root_dir: Path, increment_type: Optional[str] = None, quiet: 
         print(f"  {Fore.YELLOW}Old version:{Style.RESET_ALL} {current_version}")
         print(f"  {Fore.GREEN}New version:{Style.RESET_ALL} {new_version}")
 
+
 def cli():
     """Command line interface for the version updater."""
     parser = argparse.ArgumentParser(
@@ -146,6 +152,7 @@ Examples:
     except Exception as e:
         print(f"\n{Fore.RED}❌ Error: {e}{Style.RESET_ALL}", file=sys.stderr)
         sys.exit(1)
+
 
 if __name__ == "__main__":
     cli()

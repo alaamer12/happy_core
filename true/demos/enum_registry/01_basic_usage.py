@@ -3,7 +3,9 @@ Basic usage examples of the EnumRegistry class.
 """
 
 from enum import Enum
+
 from true.enum_registry import EnumRegistry, EnumMetadata, auto
+
 
 # Define some example enums
 class Colors(Enum):
@@ -11,15 +13,18 @@ class Colors(Enum):
     GREEN = "green"
     BLUE = "blue"
 
+
 class Sizes(Enum):
     SMALL = auto()
     MEDIUM = auto()
     LARGE = auto()
 
+
 class Priorities(Enum):
     LOW = 1
     MEDIUM = 2
     HIGH = 3
+
 
 def demo_basic_creation():
     """Demonstrate basic EnumRegistry creation and inspection."""
@@ -36,6 +41,7 @@ def demo_basic_creation():
     print("\nAll members:")
     for member, metadata in registry:
         print(f"- {member} = {metadata}")
+
 
 def demo_metadata():
     """Demonstrate working with enum metadata."""
@@ -69,6 +75,7 @@ def demo_metadata():
     print(f"Tags: {red_metadata}")
     print(f"Aliases: {red_metadata}")
 
+
 def demo_member_access():
     """Demonstrate different ways to access enum members."""
     print("\n=== Member Access ===")
@@ -92,6 +99,7 @@ def demo_member_access():
     print("\nFilter by value type:")
     filtered_registry = registry.filter.by_predicate(lambda member: isinstance(member.value, str))
     print(filtered_registry)
+
 
 if __name__ == "__main__":
     # demo_basic_creation()

@@ -5,29 +5,29 @@ This directory contains comprehensive examples demonstrating the features and ca
 ## Demo Files
 
 1. **01_basic_usage.py**
-   - Basic Time object creation
-   - Time formatting options
-   - Accessing time components
-   - Locale support
+    - Basic Time object creation
+    - Time formatting options
+    - Accessing time components
+    - Locale support
 
 2. **02_time_operations.py**
-   - Time arithmetic (add, subtract)
-   - Time rounding operations
-   - Time comparisons
-   - Working with time ranges
+    - Time arithmetic (add, subtract)
+    - Time rounding operations
+    - Time comparisons
+    - Working with time ranges
 
 3. **03_scheduling.py**
-   - Event creation and management
-   - Schedule operations
-   - Schedule analysis and statistics
-   - Conflict detection
-   - Finding free time slots
+    - Event creation and management
+    - Schedule operations
+    - Schedule analysis and statistics
+    - Conflict detection
+    - Finding free time slots
 
 4. **04_performance_tools.py**
-   - Timeout decorator usage
-   - Timer decorator
-   - Timer context manager
-   - Performance comparison tools
+    - Timeout decorator usage
+    - Timer decorator
+    - Timer context manager
+    - Performance comparison tools
 
 ## Running the Demos
 

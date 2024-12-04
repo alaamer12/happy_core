@@ -1,32 +1,33 @@
 # EnumToolkits Demos
 
-This directory contains comprehensive examples demonstrating the features and capabilities of the True-Core enums_toolkits module.
+This directory contains comprehensive examples demonstrating the features and capabilities of the True-Core
+enums_toolkits module.
 
 ## Demo Files
 
 1. **01_basic_enums.py**
-   - Specialized enum types (ByteEnum, FloatEnum, etc.)
-   - Collection-based enums (DictEnum, SetEnum, etc.)
-   - Type validation
-   - Basic enum operations
+    - Specialized enum types (ByteEnum, FloatEnum, etc.)
+    - Collection-based enums (DictEnum, SetEnum, etc.)
+    - Type validation
+    - Basic enum operations
 
 2. **02_metadata_and_serialization.py**
-   - Metadata decorator usage
-   - Custom metadata configuration
-   - Serialization features
-   - JSON and dictionary conversion
+    - Metadata decorator usage
+    - Custom metadata configuration
+    - Serialization features
+    - JSON and dictionary conversion
 
 3. **03_dynamic_enums.py**
-   - Dynamic enum creation
-   - Runtime member manipulation
-   - Converting from regular enums
-   - Error handling
+    - Dynamic enum creation
+    - Runtime member manipulation
+    - Converting from regular enums
+    - Error handling
 
 4. **04_iterable_enums.py**
-   - Iterable enum types
-   - Iterator enum types
-   - Generator enum types
-   - Combined usage patterns
+    - Iterable enum types
+    - Iterator enum types
+    - Generator enum types
+    - Combined usage patterns
 
 ## Features Demonstrated
 

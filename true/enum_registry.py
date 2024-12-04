@@ -24,7 +24,6 @@ Type Aliases:
 
 This module is designed to provide powerful features for working with Enums, ideal for use cases involving complex data models and advanced enum manipulation.
 """
-import random
 from abc import ABC
 from collections import OrderedDict, defaultdict
 from dataclasses import dataclass, asdict, field
@@ -80,10 +79,14 @@ class EnumMapping(ABC):
     def count(self) -> int:
         """Get total count of enum members"""
         return len(self.registry._members)
+
+
 import random
+
 
 class State:
     map = set()  # Use a set to efficiently track used values.
+
 
 class Auto:
     def __init__(self):
@@ -102,9 +105,9 @@ class Auto:
     def value(self):
         return self._value
 
+
 def auto():
     return Auto().value
-
 
 
 class EnumData(TypedDict):
@@ -436,7 +439,8 @@ class EnumRegistry(Generic[T]):
         else:
             raise IncompatibleTypesError(f"Cannot subtract {type(other)} from CombineEnums")
 
-        return EnumRegistry(remaining_enums, duplication=should_duplicate) if remaining_enums else EnumRegistry([], duplication=should_duplicate)
+        return EnumRegistry(remaining_enums, duplication=should_duplicate) if remaining_enums else EnumRegistry([],
+                                                                                                                duplication=should_duplicate)
 
     @staticmethod
     def is_enum(other: Any) -> bool:
@@ -647,7 +651,7 @@ class EnumRegistry(Generic[T]):
             if member.__class__ not in result.enums:
                 result.enums = result.enums + (member.__class__,)
 
-        def within_values_range(self,*, start: Any, end: Any, skip_non_numeric: bool = True) -> 'EnumRegistry':
+        def within_values_range(self, *, start: Any, end: Any, skip_non_numeric: bool = True) -> 'EnumRegistry':
             """
             Filter members by value range (inclusive)
 

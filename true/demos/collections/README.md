@@ -25,17 +25,20 @@ python 02_directory_operations.py
 ## Features Demonstrated
 
 ### Basic Operations
+
 - File creation and manipulation
 - Directory traversal and management
 - File metadata and statistics
 
 ### Advanced Features
+
 - Recycle bin operations
 - File system monitoring
 - Batch processing
 - Secure file operations
 
 ### Utilities
+
 - Dummy file creation
 - File type detection
 - Directory watching

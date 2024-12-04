@@ -1,27 +1,28 @@
 # EnumRegistry Demos
 
-This directory contains comprehensive examples demonstrating the features and capabilities of the True-Core EnumRegistry module.
+This directory contains comprehensive examples demonstrating the features and capabilities of the True-Core EnumRegistry
+module.
 
 ## Demo Files
 
 1. **01_basic_usage.py**
-   - Basic EnumRegistry creation
-   - Working with metadata
-   - Member access methods
-   - Basic enumeration operations
+    - Basic EnumRegistry creation
+    - Working with metadata
+    - Member access methods
+    - Basic enumeration operations
 
 2. **02_operations.py**
-   - Arithmetic operations (add, subtract, intersect)
-   - Filtering operations
-   - Value analysis and statistics
-   - Duplicate detection
+    - Arithmetic operations (add, subtract, intersect)
+    - Filtering operations
+    - Value analysis and statistics
+    - Duplicate detection
 
 3. **03_advanced_features.py**
-   - Decorator usage
-   - Serialization features
-   - Advanced filtering
-   - Conflict detection
-   - Debug utilities
+    - Decorator usage
+    - Serialization features
+    - Advanced filtering
+    - Conflict detection
+    - Debug utilities
 
 ## Features Demonstrated
 
