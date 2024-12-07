@@ -1,0 +1,7 @@
+0.1.1
+=====
+
+* Added support for additional data types
+* Enhanced error handling
+* Improved documentation
+* Bug fixes and performance improvements

@@ -3,6 +3,14 @@ API Documentation
 
 True-Core is a comprehensive Python utility library providing advanced functionality for enum management, type validation, time handling, regular expressions, and file operations.
 
+.. raw:: html
+
+   <div class="banner-container">
+      <img src="_static/light_true_banner.png" class="banner light-banner" alt="True Storage Banner">
+      <img src="_static/dark_true_banner.png" class="banner dark-banner" alt="True Storage Banner">
+   </div>
+
+
 Core Components
 ---------------
 

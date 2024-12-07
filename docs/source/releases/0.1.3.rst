@@ -1,0 +1,8 @@
+0.1.3
+=====
+
+* Major feature additions
+* Performance optimizations
+* Enhanced error handling
+* Comprehensive documentation updates
+* Bug fixes and improvements

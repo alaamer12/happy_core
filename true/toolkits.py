@@ -138,6 +138,7 @@ def __dir__():
     return sorted(__all__)
 
 
+
 def stop_console_printing(include_stderr: bool = False) -> None:
     """
     Redirects standard output (and optionally standard error) to null device.

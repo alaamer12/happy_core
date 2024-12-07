@@ -9,6 +9,7 @@ author = 'True Core Team'
 version = '1.0'
 release = '1.0'
 
+
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
@@ -18,6 +19,10 @@ extensions = [
     'myst_parser',
     'sphinx_rtd_theme',
     'sphinx_rtd_dark_mode',
+    'sphinx_copybutton',
+    'sphinx_design',
+    'sphinx_tabs.tabs',  # Add tabs support
+    'sphinx_togglebutton',  # Add toggle buttons
 ]
 
 templates_path = ['_templates']
@@ -31,20 +36,29 @@ html_theme_options = {
     'navigation_depth': 4,
     'collapse_navigation': True,
     'sticky_navigation': True,
-    'style_nav_header_background': '#2980B9',
+    'style_nav_header_background': '#2b2b2b',
 }
 
 # Dark mode configuration
 dark_mode_preset = 'auto'  # Use 'light', 'dark', or 'auto'
+dark_mode_code = True
+dark_mode_static = True
+dark_mode_force_default_theme = True
+dark_mode_disable_show_theme_credit = True  # This will remove the credit line
 html_css_files = [
+  'css/custom.css',
     'dark.css',
+]
+
+html_js_files = [
+    'js/custom.js',
 ]
 
 # GitHub repository
 html_context = {
     'display_github': True,
     'github_user': 'alaamer12',
-    'github_repo': 'true-core',
+    'github_repo': 'true-storage',
     'github_version': 'main',
 }
 
@@ -83,4 +97,17 @@ intersphinx_mapping = {
 myst_enable_extensions = [
     "colon_fence",
     "deflist",
+    "html_image",
+    "html_admonition",
+    "attrs_inline",
+    "replacements",
+    "smartquotes",
 ]
+
+# Copybutton settings
+copybutton_prompt_text = r">>> |\.\.\. |\$ |In \[\d*\]: | {2,5}\.\.\.: | {5,8}: "
+copybutton_prompt_is_regexp = True
+
+html_show_sourcelink = False
+html_show_sphinx = False
+html_show_copyright = True

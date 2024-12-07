@@ -1,0 +1,7 @@
+0.1.2
+=====
+
+* Extended functionality
+* Added new features
+* Improved stability
+* Documentation updates

@@ -1,6 +1,13 @@
 Welcome to True Core's documentation!
 =====================================
 
+.. raw:: html
+
+   <div class="banner-container">
+      <img src="_static/light_true_banner.png" class="banner light-banner" alt="True Storage Banner">
+      <img src="_static/dark_true_banner.png" class="banner dark-banner" alt="True Storage Banner">
+   </div>
+
 .. image:: https://img.shields.io/badge/python-3.7%2B-blue
    :alt: Python Version
 
@@ -39,6 +46,12 @@ True is a comprehensive utility toolkit designed for Python developers seeking c
 
    changelog
    releases
+
+.. toctree::
+   :maxdepth: 2
+   :caption: See Also ⭐
+
+   packages
 
 Features
 --------
