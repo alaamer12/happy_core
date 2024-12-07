@@ -3,6 +3,14 @@ API Reference
 
 This page contains detailed API reference documentation for all True-Core modules.
 
+.. raw:: html
+
+   <div class="banner-container">
+      <img src="_static/light_true_banner.png" class="banner light-banner" alt="True Storage Banner">
+      <img src="_static/dark_true_banner.png" class="banner dark-banner" alt="True Storage Banner">
+   </div>
+
+
 .. module:: true
    :no-index:
 

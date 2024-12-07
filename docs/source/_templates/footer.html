@@ -1,0 +1,35 @@
+{% extends "!footer.html" %}
+
+{% block extrafooter %}
+<div class="footer-custom">
+    <div class="footer-content">
+        <div class="footer-info">
+            <span>True Core</span>
+            <span class="footer-meta">
+                <span>🐍 Python 3.7+</span>
+                <span>📜 MIT License</span>
+                <span>🔄 v{{ version }}</span>
+            </span>
+        </div>
+        
+        <div class="footer-packages">
+            <a href="https://github.com/alaamer12/true-core" class="footer-package">
+                <span class="status-dot available"></span>
+                True Core
+            </a>
+            <a href="https://github.com/alaamer12/true-storage" class="footer-package">
+                <span class="status-dot new"></span>
+                True Storage
+            </a>
+            <a href="https://github.com/alaamer12/true-generating" class="footer-package">
+                <span class="status-dot next"></span>
+                True Generating
+            </a>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>Built with 💙 using <a href="https://www.sphinx-doc.org/">Sphinx</a></p>
+    </div>
+</div>
+{% endblock %}
