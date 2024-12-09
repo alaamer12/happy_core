@@ -52,6 +52,7 @@ True is a comprehensive utility toolkit designed for Python developers seeking c
    :caption: See Also ⭐
 
    packages
+   packages_references
 
 Features
 --------

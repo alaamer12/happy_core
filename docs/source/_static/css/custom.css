@@ -522,6 +522,16 @@ button.copybtn:hover {
     color: var(--neutral-600) !important;
 }
 
+.badge-beta-stage {
+    font-size: 16px !important;
+    color: var(--info-700) !important;
+}
+
+.badge-coming-soon {
+    font-size: 16px !important;
+    color: var(--accent-400) !important;
+}
+
 /* Footer Styling */
 .footer-custom {
     margin-top: 2rem;
@@ -642,4 +652,36 @@ button.copybtn:hover {
     .footer-package:hover {
         transform: translateX(2px);
     }
+}
+
+.badge-link {
+    display: inline-block;
+    transition: all 0.3s ease-out;
+    text-decoration: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    margin-right: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    z-index: 2;  /* Ensure badges are above grid items */
+}
+
+.badge-link:hover {
+    transform: scale(1.05);
+    text-decoration: none !important;
+    color: white !important;
+}
+
+:root:not([data-theme="dark"]) .badge-link:hover {
+    color: var(--primary-600) !important;
+}
+
+.grid-item-card {
+    position: relative;
+}
+
+.grid-item-card .badge-link {
+    pointer-events: auto;  /* Ensure links are clickable */
 }

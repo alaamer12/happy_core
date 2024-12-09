@@ -6,28 +6,52 @@ Packages
     :margin: 4
 
     .. grid-item-card:: 📦 True Core
-        :link: https://github.com/alaamer12/true-core
         :class-card: package-card
         
         Core functionality package
 
         |available|
 
+        .. raw:: html
+
+            <a href="https://github.com/alaamer12/true-core" class="badge badge-secondary badge-link" style="margin-right: 4px;">💻 GitHub</a>
+            <a href="https://true-core.readthedocs.io" class="badge badge-info badge-link">📚 Docs</a>
+
+    .. grid-item-card:: 📝 True Logging
+        :class-card: package-card
+        
+        Advanced logging system
+
+        |new|
+
+        .. raw:: html
+
+            <a href="https://github.com/alaamer12/true-logging" class="badge badge-secondary badge-link" style="margin-right: 4px;">💻 GitHub</a>
+            <a href="https://true-logging.readthedocs.io" class="badge badge-info badge-link">📚 Docs</a>
+
     .. grid-item-card:: 💾 True Storage
-        :link: https://github.com/alaamer12/true-storage
         :class-card: package-card
         
         Storage management package
 
         |new|
 
+        .. raw:: html
+
+            <a href="https://github.com/alaamer12/true-storage" class="badge badge-secondary badge-link" style="margin-right: 4px;">💻 GitHub</a>
+            <a href="https://true-storage.readthedocs.io" class="badge badge-info badge-link">📚 Docs</a>
+
     .. grid-item-card:: ⚙️ True Generating
-        :link: https://github.com/alaamer12/true-generating
         :class-card: package-card
         
         Code generation utilities
 
         |next|
+
+        .. raw:: html
+
+            <a href="https://github.com/alaamer12/true-generating" class="badge badge-secondary badge-link" style="margin-right: 4px;">💻 GitHub</a>
+            <a href="https://true-generating.readthedocs.io" class="badge badge-info badge-link">📚 Docs</a>
 
     .. grid-item-card:: 🔒 True Auth
         :class-card: package-card package-disabled
@@ -107,3 +131,11 @@ Packages
 .. |coming| raw:: html
 
     <span class="badge badge-secondary">Coming Soon</span>
+
+.. |github| raw:: html
+
+    <a href="{}" class="badge badge-secondary" style="margin-right: 4px;">💻 GitHub</a>
+
+.. |docs| raw:: html
+
+    <a href="{}" class="badge badge-info">📚 Docs</a>
