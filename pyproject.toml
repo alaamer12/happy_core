@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "true-core"
-version = "0.1.3"
+version = "0.2.0"
 description = "A boilerplate utility package"
 authors = ["alaamer12 <ahmedmuhmmed239@gmail.com>"]
 license = "MIT"

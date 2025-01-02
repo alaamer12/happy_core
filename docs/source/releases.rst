@@ -12,6 +12,7 @@ Version History
    :maxdepth: 1
    :caption: Release Notes
 
+   releases/0.2.0
    releases/0.1.3
    releases/0.1.2
    releases/0.1.1

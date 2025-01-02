@@ -151,13 +151,40 @@ spelling_ignore_python_builtins = True
 spelling_ignore_importable_modules = True
 
 # Version warning configuration
-versionwarning_enabled = True
-versionwarning_message = 'You are viewing an older version. The latest stable version is {latest}'
-versionwarning_admonition_type = 'warning'
-versionwarning_banner_title = 'Version Warning'
+versionwarning_messages = {
+    'latest': ('You are viewing the development version. '
+              'The latest stable version is {latest}'),
+    '0.1.3': ('You are viewing version 0.1.3 documentation. '
+              'This version contains components that have been moved to separate packages in 0.2.0. '
+              'See the :doc:`migration_v0.2.0` and :doc:`changelogs/0.2.0` for details.'),
+    '0.1.2': ('You are viewing version 0.1.2 documentation. '
+              'This version contains components that have been moved to separate packages in 0.2.0. '
+              'Please upgrade to version 0.2.0 and follow the migration guide.'),
+    '0.1.1': ('You are viewing version 0.1.1 documentation. '
+              'This version contains components that have been moved to separate packages in 0.2.0. '
+              'Please upgrade to version 0.2.0 and follow the migration guide.'),
+    '0.1.0': ('You are viewing version 0.1.0 documentation. '
+              'This version contains components that have been moved to separate packages in 0.2.0. '
+              'Please upgrade to version 0.2.0 and follow the migration guide.'),
+}
+
+versionwarning_default_message = ('You are viewing an old version of True Core documentation. '
+                                'Some components shown here have been moved to separate packages in version 0.2.0.')
+
+versionwarning_banner_title = 'Version Notice'
 versionwarning_body_selector = 'div[role="main"]'
+versionwarning_project_version = release
 versionwarning_project_slug = 'true-core'
-versionwarning_project_version = release  # Using the release variable we defined above
+versionwarning_admonition_type = 'warning'
+versionwarning_banner_included_versions = True
+versionwarning_default_admonition_type = 'warning'
+
+versionwarning_page_messages = {
+    'api_reference.html': ('⚠️ API Breaking Changes: Many components shown in this version '
+                         'have been moved to separate packages in version 0.2.0.'),
+    'installation.html': ('⚠️ Installation Changes: As of version 0.2.0, additional packages '
+                        'need to be installed for full functionality.'),
+}
 
 # OpenGraph configuration
 ogp_site_url = "https://true-core.readthedocs.io/"

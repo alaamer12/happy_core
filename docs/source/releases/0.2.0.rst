@@ -1,0 +1,234 @@
+Release Notes for Version 0.2.0
+===============================
+
+Release Date: 2025-01-02
+
+Release Summary
+---------------
+
+Version 0.2.0 represents a significant milestone in the True Core project's evolution,
+focusing on better separation of concerns through package splitting. This release
+moves specialized functionality into dedicated packages, allowing for more focused
+development and maintenance of each component.
+
+Package Split Details
+---------------------
+
+true-enumeration Package
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+All enumeration-related functionality has been moved to this dedicated package:
+
+* ``enum_registry`` Module
+    - Purpose: Centralized enum registration and management
+    - Key Components:
+        * ``EnumRegistry`` class
+        * Registration decorators
+        * Registry hooks
+    - Example Usage:
+
+    .. code-block:: python
+
+        # Old way
+        from true.enum_registry import EnumRegistry
+        from true.enum_toolkits import EnumToolkit
+
+        registry = EnumRegistry()
+        toolkit = EnumToolkit()
+
+        # New way
+        from true_enumeration.registry import EnumRegistry
+        from true_enumeration.toolkits import EnumToolkit
+
+        registry = EnumRegistry()  # Enhanced version
+        toolkit = EnumToolkit()    # With additional features
+
+* ``enum_toolkits`` Module
+    - Purpose: Enum manipulation and utility functions
+    - Key Features:
+        * Enum conversion utilities
+        * Value mapping tools
+        * Comparison helpers
+    - Migration Example:
+
+    .. code-block:: python
+
+        # Old way
+        from true.enum_toolkits import convert_enum
+
+        # New way
+        from true_enumeration.toolkits import convert_enum
+        # Now with additional conversion options
+
+* ``enums`` Functionality
+    - Core enum implementations
+    - Custom enum types
+    - Utility classes
+
+true-types Package
+~~~~~~~~~~~~~~~~~~
+
+Type system components have been moved to a dedicated package:
+
+* Core Features
+    - Type definitions
+    - Type checking
+    - Validation systems
+    
+* Migration Example:
+
+.. code-block:: python
+
+    # Old way
+    from true.types import CustomType, TypeValidator
+
+    # New way
+    from true_types import CustomType, TypeValidator
+    # Enhanced with additional type checking capabilities
+
+true-blobs Package
+~~~~~~~~~~~~~~~~~~
+
+File and binary data handling functionality:
+
+* ``DummyFile`` Class
+    - Enhanced Implementation
+    - New Features:
+        * Improved memory management
+        * Better stream handling
+        * Additional file-like interfaces
+    
+    .. code-block:: python
+
+        # Old way
+        from true.utils import DummyFile
+
+        # New way
+        from true_blobs import DummyFile
+        # Now with enhanced functionality
+
+Removed Components
+------------------
+
+Pointer Class
+~~~~~~~~~~~~~
+* Status: Permanently Removed
+* Reason: Redundant with Python's built-in reference system
+* Alternative: Use Python's native object references
+* Example Migration:
+
+.. code-block:: python
+
+    # Old way (no longer available)
+    from true.utils import Pointer
+    ptr = Pointer(some_object)
+
+    # New way (using Python references)
+    ref = some_object  # Direct reference
+    # Use weakref if weak references are needed
+    import weakref
+    weak_ref = weakref.ref(some_object)
+
+Recyclebin Functionality
+~~~~~~~~~~~~~~~~~~~~~~~~
+* Status: Temporarily Removed
+* Future Plans:
+    - Planned for reintroduction in future versions
+    - Currently being redesigned
+    - Will include improved features
+* Temporary Alternative:
+    .. code-block:: python
+
+        # Implement a basic temporary solution
+        class TemporaryRecycleBin:
+            def __init__(self):
+                self._items = []
+            
+            def add(self, item):
+                self._items.append(item)
+            
+            def restore(self, item):
+                if item in self._items:
+                    self._items.remove(item)
+                    return item
+                return None
+
+Migration Guide
+---------------
+
+Step-by-Step Migration
+~~~~~~~~~~~~~~~~~~~~~~
+
+1. Update Dependencies
+    .. code-block:: bash
+
+        pip install true-enumeration true-types true-blobs
+
+2. Update Imports
+    * Replace all imports from ``true`` package
+    * Use new package-specific imports
+    * Update any affected type hints
+
+3. Handle Removed Components
+    * Replace Pointer usage with Python references
+    * Implement temporary solutions for Recyclebin if needed
+
+4. Test Migration
+    * Verify all enum functionality
+    * Check type system integration
+    * Test file handling with new DummyFile
+
+Common Issues and Solutions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. Import Errors
+    * Solution: Update import paths to new packages
+    * Check package versions compatibility
+
+2. Type Hints
+    * Update type hints to use new packages
+    * Verify type checking still passes
+
+3. DummyFile Changes
+    * Review new API in true-blobs
+    * Update file handling code
+
+Future Plans
+------------
+
+1. Recyclebin Functionality
+    * Planned reintroduction
+    * Enhanced features
+    * Better integration
+
+2. Package Development
+    * Continued enhancement of split packages
+    * Regular updates and improvements
+    * New features in specialized packages
+
+Additional Resources
+--------------------
+
+* Documentation:
+    - `true-enumeration docs <https://true-enumeration.readthedocs.io/>`_
+    - `true-types docs <https://true-types.readthedocs.io/>`_
+    - `true-blobs docs <https://true-blobs.readthedocs.io/>`_
+
+* Source Code:
+    - `true-enumeration repository <https://github.com/alaamer12/true-enumeration>`_
+    - `true-types repository <https://github.com/alaamer12/true-types>`_
+    - `true-blobs repository <https://github.com/alaamer12/true-blobs>`_
+
+* Issue Tracking:
+    - Report migration issues in respective repositories
+    - Feature requests welcome
+    - Contribution guidelines available
+
+Version Compatibility
+---------------------
+
+* Python Versions: 3.8+
+* Package Versions:
+    - true-enumeration >= 1.0.0
+    - true-types >= 1.0.0
+    - true-blobs >= 1.0.0

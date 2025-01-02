@@ -30,6 +30,26 @@ From source
    cd true-core
    pip install -r requirements/dev.txt
 
+Package Split Notice
+--------------------
+
+.. important::
+   As of version 0.2.0, several components have been moved to separate packages.
+   Depending on your needs, you may need to install additional packages:
+
+   .. code-block:: bash
+
+      # For enumeration functionality
+      pip install true-enumeration
+
+      # For type system
+      pip install true-types
+
+      # For DummyFile and blob handling
+      pip install true-blobs
+
+   See :doc:`releases/0.2.0` for detailed migration instructions.
+
 Development Installation
 ------------------------
 

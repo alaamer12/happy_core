@@ -1,7 +1,21 @@
 API Reference
 =============
 
-This page contains detailed API reference documentation for all True-Core modules.
+.. warning::
+   **Component Migration Notice (Version 0.2.0)**
+   
+   Several components previously documented here have been moved to separate packages:
+
+   - For enumeration documentation, see `true-enumeration docs <https://true-enumeration.readthedocs.io/>`_
+   - For type system documentation, see `true-types docs <https://true-types.readthedocs.io/>`_
+   - For blob handling documentation, see `true-blobs docs <https://true-blobs.readthedocs.io/>`_
+
+   The following components are no longer available:
+   
+   - ``Pointer`` class has been removed
+   - ``Recyclebin`` functionality has been temporarily removed
+
+   Please update your dependencies and code accordingly.
 
 .. raw:: html
 

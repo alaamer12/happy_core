@@ -7,7 +7,7 @@ seeking clean, efficient, and maintainable solutions.
 """
 
 __title__ = "true"
-__version__ = "0.1.3"
+__version__ = "0.2.0"
 __author__ = "alaamer12"
 __author_email__ = "ahmedmuhmmed239@gmail.com"
 __license__ = "MIT"

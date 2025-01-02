@@ -1,0 +1,115 @@
+Changelog for Version 0.2.0
+===========================
+
+Release Date: 2025-01-02
+
+Major Changes and Package Split
+-------------------------------
+
+This version introduces significant architectural changes, splitting functionality into dedicated packages
+for better maintainability and focused development.
+
+Breaking Changes
+----------------
+
+Moved to true-enumeration
+~~~~~~~~~~~~~~~~~~~~~~~~~
+The following enumeration-related modules have been moved to the ``true-enumeration`` package:
+
+* ``enum_registry`` module
+    - All registry functionality for enums
+    - Enum registration and management systems
+    - Registry hooks and callbacks
+
+* ``enum_toolkits`` module
+    - Enum manipulation utilities
+    - Toolkit functions for enum operations
+    - Enum conversion helpers
+
+* ``enums`` functionality classes
+    - Base enum implementations
+    - Custom enum types
+    - Enum utility classes
+
+Moved to true-types
+~~~~~~~~~~~~~~~~~~~
+All type-related functionality has been moved to the ``true-types`` package:
+
+* Type system components
+    - Core type definitions
+    - Type checking utilities
+    - Type conversion systems
+
+* Type utilities
+    - Type validation helpers
+    - Type registration system
+    - Custom type implementations
+
+Moved to true-blobs
+~~~~~~~~~~~~~~~~~~~
+File and binary data handling has been moved to the ``true-blobs`` package:
+
+* ``DummyFile`` functionality
+    - Enhanced implementation
+    - Improved memory management
+    - Additional file-like interfaces
+    - Better stream handling
+
+Removed Components
+~~~~~~~~~~~~~~~~~~
+The following components have been completely removed:
+
+* ``Pointer`` class
+    - Removed without replacement
+    - Users should use Python's built-in reference system
+
+* ``Recyclebin`` functionality
+    - Temporarily removed
+    - May return in future versions
+    - Currently under redesign
+
+Detailed Changelog
+------------------
+
+Added
+~~~~~
+No new features were added in this version due to focus on restructuring.
+
+Changed
+~~~~~~~
+* Major architectural changes
+    - Split functionality into dedicated packages
+    - Improved package organization
+    - Better separation of concerns
+
+* Documentation updates
+    - New migration guides
+    - Updated API references
+    - Revised examples
+
+Deprecated
+~~~~~~~~~~
+No deprecations in this version.
+
+Removed
+~~~~~~~
+* ``enum_registry`` module (→ ``true-enumeration``)
+* ``enum_toolkits`` module (→ ``true-enumeration``)
+* ``enums`` functionality (→ ``true-enumeration``)
+* Types module (→ ``true-types``)
+* ``DummyFile`` class (→ ``true-blobs``)
+* ``Pointer`` class (removed entirely)
+* ``Recyclebin`` functionality (temporarily)
+
+Fixed
+~~~~~
+No bug fixes in this version due to focus on restructuring.
+
+Security
+~~~~~~~~
+No security updates in this version.
+
+Migration Notes
+---------------
+Please refer to :doc:`../migration_v0.2.0` for detailed migration instructions
+and examples for each moved component.

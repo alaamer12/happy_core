@@ -20,13 +20,12 @@ True is a comprehensive utility toolkit designed for Python developers seeking c
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents
+   :caption: Getting Started
 
    installation
    api_reference
    examples
-   version_test
-   opengraph_test
+   migration_v0.2.0
 
 .. toctree::
    :maxdepth: 2
@@ -51,6 +50,22 @@ True is a comprehensive utility toolkit designed for Python developers seeking c
 
    packages
    packages_references
+
+.. warning::
+   **Breaking Changes in Version 0.2.0**
+
+   Several major components have been moved to separate packages:
+
+   - Enumeration functionality → ``true-enumeration`` package
+   - Type system → ``true-types`` package
+   - ``DummyFile`` → ``true-blobs`` package
+   
+   Some components have been removed:
+   
+   - ``Pointer`` class has been removed entirely
+   - ``Recyclebin`` functionality has been temporarily removed
+   
+   Please see :doc:`releases/0.2.0` for migration instructions.
 
 Features
 --------
