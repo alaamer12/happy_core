@@ -20,17 +20,19 @@ True is a comprehensive utility toolkit designed for Python developers seeking c
 
 .. toctree::
    :maxdepth: 2
-   :caption: Getting Started
+   :caption: Contents
 
    installation
+   api_reference
    examples
+   version_test
+   opengraph_test
 
 .. toctree::
    :maxdepth: 2
    :caption: API Reference
 
    api
-   api_reference
    modules/collections
    modules/time
    modules/re
@@ -45,7 +47,7 @@ True is a comprehensive utility toolkit designed for Python developers seeking c
 
 .. toctree::
    :maxdepth: 2
-   :caption: See Also ⭐
+   :caption: See Also 
 
    packages
    packages_references

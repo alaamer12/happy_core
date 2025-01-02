@@ -1,6 +1,6 @@
 # Makefile
 
-.PHONY: install test coverage build upload
+.PHONY: install test coverage build upload spelling
 
 install:
 	pip install -e .[dev]
@@ -25,8 +25,8 @@ publish:
 clean:
 	-Remove-Item -Recurse -Force docs\build
 
-
-
 build-docs:
 	cd docs && sphinx-build -b html source build/html
 
+spelling:
+	cd docs && sphinx-build -b spelling source build/spelling

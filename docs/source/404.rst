@@ -1,0 +1,97 @@
+:orphan:
+
+Page Not Found
+==============
+
+.. raw:: html
+
+    <div class="section" id="page-not-found">
+        <div class="notfound-wrapper">
+            <div class="notfound-content">
+                <div class="notfound-image">
+                    <svg width="150" height="150" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 4L3 20H21L12 4Z" stroke="var(--primary-500)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 15H12.01" stroke="var(--primary-500)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 9V13" stroke="var(--primary-500)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                
+                <p class="notfound-message">
+                    Oops! The page you're looking for seems to have wandered off.
+                </p>
+                
+                <div class="notfound-actions">
+                    <a href="/" class="btn btn-neutral" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                        <i class="fa fa-home"></i> Back to Homepage
+                    </a>
+                    
+                    <div class="search-container" style="margin-top: 2rem;">
+                        <p>Try searching for what you need:</p>
+                        <form class="search" action="/search.html" method="get" style="display: flex; gap: 0.5rem; max-width: 400px; margin: 1rem auto;">
+                            <input type="text" name="q" placeholder="Search documentation..." style="flex: 1; padding: 0.75rem; border: 2px solid var(--neutral-200); border-radius: 4px; font-size: 1rem;" />
+                            <button type="submit" class="btn btn-neutral" style="padding: 0.75rem 1rem;">🔍</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="notfound-suggestions" style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--neutral-200);">
+                    <h3 style="color: var(--neutral-800); margin-bottom: 1rem;">You might want to check:</h3>
+                    <ul style="list-style: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
+                        <li><a href="/installation.html" class="reference internal" style="color: var(--primary-500); text-decoration: none; padding: 0.5rem 1rem; border: 1px solid var(--primary-200); border-radius: 4px;">Installation Guide</a></li>
+                        <li><a href="/api_reference.html" class="reference internal" style="color: var(--primary-500); text-decoration: none; padding: 0.5rem 1rem; border: 1px solid var(--primary-200); border-radius: 4px;">API Reference</a></li>
+                        <li><a href="/examples.html" class="reference internal" style="color: var(--primary-500); text-decoration: none; padding: 0.5rem 1rem; border: 1px solid var(--primary-200); border-radius: 4px;">Examples</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .notfound-wrapper {
+            text-align: center;
+            padding: 4rem 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .notfound-content {
+            background: var(--background-color);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .notfound-message {
+            font-size: 1.25rem;
+            color: var(--color-foreground-primary);
+            margin: 1.5rem 0;
+        }
+
+        .notfound-image svg {
+            margin: 2rem auto;
+        }
+
+        .notfound-actions .btn:hover {
+            transform: translateY(-1px);
+            transition: transform 0.2s ease;
+        }
+
+        .notfound-suggestions a:hover {
+            background: var(--color-background-hover);
+            border-color: var(--color-brand-primary);
+            transform: translateY(-1px);
+            transition: all 0.2s ease;
+        }
+
+        @media (max-width: 768px) {
+            .notfound-suggestions ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .notfound-suggestions a {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>

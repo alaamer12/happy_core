@@ -1,0 +1,46 @@
+# Custom words to be ignored by the spell checker
+true-core
+alaamer12
+PyPI
+readthedocs
+sitemap
+numpy
+docstring
+init
+ivar
+rtype
+bysource
+typehints
+myst
+rtd
+css
+js
+
+# Technical terms
+regex
+strftime
+enum
+Enum
+changelog
+Changelog
+Breakchang
+literalinclude
+url
+stderr
+cwd
+OAuth
+OAuth2
+
+# Programming concepts
+pre
+Pre
+Multithreading
+Toolkits
+Analytics
+Formatters
+Profiler
+Colorspace
+Roadmap
+
+# Sphinx directives
+literalinclude

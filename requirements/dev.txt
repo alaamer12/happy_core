@@ -1,18 +1,5 @@
 watchdog~=6.0.0
-pylint
-setuptools~=75.3.0
-twine
-pytest~=8.3.3
-pytest-asyncio
 poetry
 
-# Core dependencies
-moviepy~=1.0.3
-pydub~=0.25.1
-Pillow~=9.5.0
-colorama~=0.4.6
-pytz~=2022.7.1
-psutil~=6.1.0
-uuid_utils~=0.9.0
-
--r docs.txt
+-r build.txt
+-r test.txt

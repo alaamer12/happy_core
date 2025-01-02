@@ -4,7 +4,7 @@ import sys
 sys.path.insert(0, os.path.abspath('../..'))
 
 project = 'True Core'
-copyright = '2024, True Core Team'
+copyright = '2025, True Core Team'
 author = 'True Core Team'
 version = '1.0'
 release = '1.0'
@@ -21,8 +21,14 @@ extensions = [
     'sphinx_rtd_dark_mode',
     'sphinx_copybutton',
     'sphinx_design',
-    'sphinx_tabs.tabs',  # Add tabs support
-    'sphinx_togglebutton',  # Add toggle buttons
+    'sphinx_tabs.tabs',
+    'sphinx_togglebutton',
+    'notfound.extension',
+    'sphinx_last_updated_by_git',
+    'sphinxcontrib.spelling',
+    'sphinx_sitemap',
+    'versionwarning.extension',
+    'sphinxext.opengraph',
 ]
 
 templates_path = ['_templates']
@@ -58,8 +64,20 @@ html_js_files = [
 html_context = {
     'display_github': True,
     'github_user': 'alaamer12',
-    'github_repo': 'true-storage',
+    'github_repo': 'true-core',
     'github_version': 'main',
+     # Social media links
+    'display_github': True,
+    'github_user': 'alaamer12',
+    'github_repo': 'true-core',
+    'github_version': 'main',
+    # Additional social links
+    'extra_nav_links': {
+        'GitHub': 'https://github.com/alaamer12/true-core',
+        'PyPI': 'https://pypi.org/project/true-core/',
+        # 'Twitter': 'https://twitter.com/alaamer12',  # Replace with your Twitter
+        'LinkedIn': 'https://linkedin.com/in/alaamer12',  # Replace with your LinkedIn
+    }
 }
 
 html_logo = '_static/light_true_icon.png'
@@ -107,6 +125,56 @@ myst_enable_extensions = [
 # Copybutton settings
 copybutton_prompt_text = r">>> |\.\.\. |\$ |In \[\d*\]: | {2,5}\.\.\.: | {5,8}: "
 copybutton_prompt_is_regexp = True
+
+# Sitemap configuration
+html_baseurl = 'https://true-core.readthedocs.io/'
+sitemap_filename = 'sitemap.xml'
+sitemap_url_scheme = '{link}'
+sitemap_locales = [None]
+sitemap_include_hidden = False
+
+# 404 page configuration
+notfound_template = '404.rst'  # Just the filename, not the path
+notfound_pagename = '404'
+notfound_default_language = 'en'
+notfound_urls_prefix = ''
+
+# Last updated by git configuration
+html_last_updated_fmt = '%Y-%m-%d'
+git_last_updated_mode = 'date'
+
+# Spelling configuration
+spelling_lang = 'en_US'
+spelling_word_list_filename = 'spelling_wordlist.txt'
+spelling_ignore_pypi_package_names = True
+spelling_ignore_python_builtins = True
+spelling_ignore_importable_modules = True
+
+# Version warning configuration
+versionwarning_enabled = True
+versionwarning_message = 'You are viewing an older version. The latest stable version is {latest}'
+versionwarning_admonition_type = 'warning'
+versionwarning_banner_title = 'Version Warning'
+versionwarning_body_selector = 'div[role="main"]'
+versionwarning_project_slug = 'true-core'
+versionwarning_project_version = release  # Using the release variable we defined above
+
+# OpenGraph configuration
+ogp_site_url = "https://true-core.readthedocs.io/"
+ogp_site_name = "True Core Documentation"
+ogp_image = "_static/light_true_icon.png"
+ogp_use_first_image = True
+ogp_description_length = 300
+ogp_type = "website"
+ogp_custom_meta_tags = [
+    # '<meta name="twitter:card" content="summary_large_image">',
+    # '<meta name="twitter:site" content="@alaamer12">',  # Replace with your Twitter handle
+    '<meta property="og:locale" content="en_US">',
+    '<meta property="og:site_name" content="True Core">',
+    '<meta property="og:title" content="True Core - A Boilerplate Utility Package">',
+    '<meta property="og:description" content="A comprehensive Python utility package providing boilerplate code and common functionality.">',
+    '<meta name="theme-color" content="#2b2b2b">',
+]
 
 html_show_sourcelink = False
 html_show_sphinx = False
