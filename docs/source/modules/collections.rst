@@ -5,7 +5,7 @@ Collections Module
    :no-index:
 
 The collections module provides advanced file system operations and enhanced data structures with comprehensive functionality
-for file management, recycling bin operations, and file system monitoring.
+for file management, and file system monitoring.
 
 Key Components
 --------------
@@ -13,9 +13,7 @@ Key Components
 - :class:`FileStats`: Enhanced data class for file statistics
 - :class:`File`: Enhanced file class with additional capabilities
 - :class:`Directory`: Enhanced directory class with advanced operations
-- :class:`RecycleBin`: Advanced recycling bin implementation
 - :class:`OSUtils`: Comprehensive OS utility class
-- :class:`DummyFile`: Template-based dummy file creator
 
 File Management
 ---------------
@@ -41,23 +39,6 @@ Directory
    :members:
    :special-members: __init__
 
-Recycling Bin
--------------
-
-RecycleBin
-~~~~~~~~~~
-
-.. autoclass:: true.collections.RecycleBin
-   :members:
-   :special-members: __init__
-
-RecycleBinManager
-~~~~~~~~~~~~~~~~~
-
-.. autoclass:: true.collections.RecycleBinManager
-   :members:
-   :special-members: __init__
-
 OS Utilities
 ------------
 
@@ -68,22 +49,6 @@ OSUtils
    :members:
    :special-members: __init__
 
-File Creation
--------------
-
-DummyFile
-~~~~~~~~~
-
-.. autoclass:: true.collections.DummyFile
-   :members:
-   :special-members: __init__
-
-FileCreator
-~~~~~~~~~~~
-
-.. autoclass:: true.collections.FileCreator
-   :members:
-   :special-members: __init__
 
 Examples
 --------
@@ -117,32 +82,6 @@ File Operations
    # Create zip archive
    directory.zip_contents("archive.zip")
 
-Recycling Bin Usage
-~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: python
-
-   from true.collections import RecycleBin
-
-   # Initialize recycle bin
-   recycle_bin = RecycleBin("./trash", max_size=1024*1024*1024)  # 1GB max
-
-   # Delete with move to recycle bin
-   item_id = recycle_bin.delete("old_file.txt")
-
-   # Restore from recycle bin
-   recycle_bin.restore(item_id)
-
-   # List items with pattern
-   items = recycle_bin.list_items("*.txt")
-
-   # Cleanup old items
-   recycle_bin.cleanup(days=30)
-
-   # Use as context manager for batch operations
-   with recycle_bin:
-       recycle_bin.delete("file1.txt")
-       recycle_bin.delete("file2.txt")
 
 OS Utilities Usage
 ~~~~~~~~~~~~~~~~~~
@@ -181,25 +120,3 @@ OS Utilities Usage
        process_file,
        parallel=True
    )
-
-Dummy File Creation
-~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: python
-
-   from true.collections import DummyFile
-
-   # Create dummy files of various types
-   dummy = DummyFile()
-
-   # Create PDF dummy file
-   dummy.create_file(".pdf", "test.pdf", size=1024*1024)  # 1MB file
-
-   # Create image file
-   dummy.create_image("test.png")
-
-   # Create video file
-   dummy.create_video("output.mp4", fps=30)
-
-   # Create audio file
-   dummy.create_audio("test.wav", duration=5000)

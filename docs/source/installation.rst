@@ -28,7 +28,7 @@ From source
 
    git clone https://github.com/alaamer12/true-core.git
    cd true-core
-   pip install -r requirements.txt
+   pip install -r requirements/dev.txt
 
 Development Installation
 ------------------------
@@ -37,7 +37,7 @@ For development, you might want to install additional dependencies:
 
 .. code-block:: bash
 
-   pip install -r requirements-dev.txt
+   pip install -r requirements/dev.txt
 
 This will install development dependencies like:
 

@@ -21,7 +21,7 @@ Packages' References
    :depth: 2
 
 🚀 Core Packages
----------------
+----------------
 
 .. admonition:: Why True Core?
    :class: note

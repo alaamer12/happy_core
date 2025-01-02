@@ -24,12 +24,6 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.11"
 watchdog = {version = ">=6.0.0,<6.1.0", optional = true}
-moviepy = ">=1.0.3,<1.1.0"
-pydub = ">=0.25.1,<0.26.0"
-pillow = ">=9.5.0,<9.6.0"
-pytz = ">=2022.7.1,<2022.8.0"
-psutil = ">=6.1.0,<6.2.0"
-uuid-utils = { version = ">=0.9.0,<0.10.0", optional = true }
 
 [tool.poetry.group.dev]
 optional = true
@@ -60,8 +54,6 @@ requires = ["poetry-core >=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.extras]
-ulid = ["uuid_utils"]
-observer = ["watchdog"]
 extreme = ["pywin32"]
 docs = ["sphinx", "sphinx-rtd-theme", "sphinx-autodoc-typehints", "myst-parser", "sphinx-rtd-dark-mode"]
 dev = ["twine", "pytest", "pytest-asyncio", "setuptools"]

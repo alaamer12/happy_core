@@ -17,20 +17,9 @@ Core Components
 .. toctree::
    :maxdepth: 2
 
-   modules/enum_registry
-   modules/enums_toolkits
    modules/collections
    modules/time
    modules/re
-   modules/types
-
-Enum Management
----------------
-
-The enum management components provide sophisticated tools for handling enums:
-
-- :mod:`true.enum_registry`: Advanced enum combination and registry management
-- :mod:`true.enums_toolkits`: Specialized enum classes and metadata support
 
 File System Operations
 ----------------------
@@ -62,16 +51,6 @@ Pre-compiled regex patterns for common validation tasks:
 - Email and URL validation
 - Phone number and credit card validation
 - Date format validation
-
-Type System
------------
-
-Advanced type validation and handling:
-
-- :mod:`true.types`: Version handling (SemVer, CalVer)
-- Numeric types (BigInt, BigDecimal)
-- UUID/ULID support
-- Serialization utilities
 
 Exception Handling
 ------------------

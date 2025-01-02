@@ -24,7 +24,6 @@ True is a comprehensive utility toolkit designed for Python developers seeking c
 
    installation
    examples
-   troubleshooting
 
 .. toctree::
    :maxdepth: 2
@@ -33,11 +32,8 @@ True is a comprehensive utility toolkit designed for Python developers seeking c
    api
    api_reference
    modules/collections
-   modules/enum_registry
-   modules/enums_toolkits
    modules/time
    modules/re
-   modules/types
    modules/toolkits
 
 .. toctree::
@@ -57,8 +53,6 @@ True is a comprehensive utility toolkit designed for Python developers seeking c
 Features
 --------
 
-* Advanced Enum Management
-* Type-safe Operations
 * Time Handling
 * Regular Expressions
 * File Operations

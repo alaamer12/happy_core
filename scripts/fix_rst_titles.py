@@ -2,7 +2,6 @@
 import re
 from pathlib import Path
 
-
 def fix_rst_titles(file_path):
     """Fix RST title underlines that are too short or long."""
     with open(file_path, 'r', encoding='utf-8') as f:
@@ -32,7 +31,6 @@ def fix_rst_titles(file_path):
         return True
     return False
 
-
 def process_directory(directory):
     """Process all .rst files in the given directory and its subdirectories."""
     fixed_files = []
@@ -41,12 +39,11 @@ def process_directory(directory):
             fixed_files.append(path)
     return fixed_files
 
-
 def main():
     # Get the docs/source directory
     script_dir = Path(__file__).parent
     docs_dir = script_dir.parent / 'docs' / 'source'
-
+    
     if not docs_dir.exists():
         print(f"Documentation directory not found: {docs_dir}")
         return
@@ -60,7 +57,6 @@ def main():
             print(f"- {file}")
     else:
         print("\nNo files needed fixing!")
-
 
 if __name__ == '__main__':
     main()

@@ -14,33 +14,6 @@ This page contains detailed API reference documentation for all True-Core module
 .. module:: true
    :no-index:
 
-Enum Management
----------------
-
-.. module:: true.enum_registry
-   :no-index:
-
-EnumRegistry
-~~~~~~~~~~~~
-
-.. autoclass:: EnumRegistry
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   :no-index:
-
-.. module:: true.enums_toolkits
-   :no-index:
-
-DynamicEnum
-~~~~~~~~~~~
-
-.. autoclass:: DynamicEnum
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   :no-index:
-
 Collections and File System
 ---------------------------
 
@@ -57,15 +30,6 @@ File System Objects
    :no-index:
 
 .. autoclass:: Directory
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   :no-index:
-
-RecycleBin
-~~~~~~~~~~
-
-.. autoclass:: RecycleBin
    :members:
    :undoc-members:
    :show-inheritance:
@@ -185,69 +149,6 @@ Email Patterns
 .. data:: EMAIL_WITH_UNICODE
    :no-index:
 
-Type System
------------
-
-.. module:: true.types
-   :no-index:
-
-Version Types
-~~~~~~~~~~~~~
-
-.. autoclass:: Version
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   :no-index:
-
-.. autoclass:: SemVersion
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   :no-index:
-
-.. autoclass:: CalVersion
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   :no-index:
-
-Numeric Types
-~~~~~~~~~~~~~
-
-.. autoclass:: BigInt
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   :no-index:
-
-.. autoclass:: BigDecimal
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   :no-index:
-
-.. autoclass:: ScientificNumber
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   :no-index:
-
-ID Types
-~~~~~~~~
-
-.. autoclass:: UUIDType
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   :no-index:
-
-.. autoclass:: ULIDType
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   :no-index:
-
 Exceptions
 ----------
 
@@ -273,9 +174,6 @@ File System Exceptions
 ~~~~~~~~~~~~~~~~~~~~~~
 
 .. autoexception:: StorageFullError
-   :no-index:
-
-.. autoexception:: RecycleBinError
    :no-index:
 
 .. autoexception:: ItemNotFoundError

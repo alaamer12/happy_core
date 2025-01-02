@@ -8,7 +8,7 @@ from urllib.error import URLError
 import pytest
 
 from true.toolkits import stop_console_printing, start_console_printing, is_iterable, is_iterator, is_generator, \
-    stop_print, null_decorator, log_level, trace, get_module_size, raised_exception, find_path, memoize, run_once, \
+    stop_print, null_decorator, log_level, trace, get_module_size, raised_exception, find_path, memorize, run_once, \
     monitor, make_decorator, is_hashable, is_mutable, retry, multithreaded, singleton, ignore_warnings, \
     check_internet_connectivity, Constants, Pointer
 
@@ -142,7 +142,7 @@ def test_find_path(tmp_path):
 def test_memoize():
     call_count = 0
 
-    @memoize
+    @memorize
     def expensive_func(x):
         nonlocal call_count
         call_count += 1

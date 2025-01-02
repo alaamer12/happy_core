@@ -9,5 +9,4 @@ This section provides examples demonstrating the usage of the True-Core collecti
 
    01_basic_file_operations
    02_directory_operations
-   03_file_creators
-   04_os_utils
+   03_os_utils

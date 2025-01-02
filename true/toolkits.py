@@ -59,7 +59,6 @@ import warnings
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from functools import wraps
-from operator import pow, add, sub, truediv, floordiv, mod, mul
 from threading import Thread, Lock
 from typing import Optional, Dict, Any, ContextManager, Tuple
 from typing import ParamSpec
@@ -82,9 +81,7 @@ __all__ = [
     'UnifiedOperation',  # Descriptor for sync/async operations
     'DynamicUnifiedOperation',  # Dynamic unified operations holder
     'Constants',  # Constants container class
-    'Pointer',  # Reference pointer implementation
     'DeferredValue',  # Deferred value evaluation
-    'FixIDEComplain',  # IDE complaint fixer mixin
 
     # Public Functions
     # Console Control
@@ -106,7 +103,6 @@ __all__ = [
     'find_path',
     'get_module_size',
     'check_internet_connectivity',
-    'null_decorator',
     'make_decorator',
 
     # Decorators
@@ -114,15 +110,13 @@ __all__ = [
     'profile',
     'retry',
     'monitor',
-    'memoize',
+    'memorize',
     'singleton',
     'breaker',
-    'safe_arithmetic',
     'multithreaded',
     'run_once',
     'simple_exception',
     'raised_exception',
-    'arithmatic_total_ordering',
 
     # Context Managers
     'log_level',
@@ -237,16 +231,6 @@ def start_print() -> None:
     Restores the built-in print function to its original state.
     """
     builtins.print = print
-
-
-def null_decorator() -> None:
-    """
-    A decorator that returns None.
-
-    Returns:
-        None
-    """
-    return None
 
 
 @contextlib.contextmanager
@@ -464,7 +448,7 @@ def make_decorator(func: Callable) -> Callable:
     return wrapper
 
 
-def memoize(func: Callable[P, T]) -> Callable[P, T]:
+def memorize(func: Callable[P, T]) -> Callable[P, T]:
     """
     Caches the results of function calls based on input arguments.
 
@@ -712,243 +696,6 @@ class SingletonMeta(type):
         return cls.__instances[cls]
 
 
-def safe_arithmetic(func):
-    """Simple decorator to handle ArithmeticError exceptions."""
-
-    def wrapper(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except ArithmeticError:
-            return NotImplemented
-
-    return wrapper
-
-
-@safe_arithmetic
-def _do_arithmatic(self, other, op, derived_op):
-    op_result = getattr(type(self), derived_op)(self, other)
-    if op_result is NotImplemented:
-        return op_result
-    return op(self.value, other.value)
-
-
-class FixIDEComplain:
-    """A mixin class to fix IDE complaints about dynamically added methods, with on-demand generation."""
-
-    def __getattr__(self, name):
-        """Generate missing operators dynamically."""
-        if name in _convert:
-            # Generate the dynamic method on-the-fly using the _convert dictionary
-            for opname, opfunc in _convert[name]:
-                setattr(self, opname, opfunc)
-            # Once generated, return the first operation function
-            return getattr(self, name)
-        raise AttributeError(f"{type(self).__name__} object has no attribute '{name}'")
-
-
-def _sub_from_add(self, other):
-    return _do_arithmatic(self, other, sub, '__add__')
-
-
-def _floordiv_from_add(self, other):
-    return _do_arithmatic(self, other, floordiv, '__add__')
-
-
-def _truediv_from_add(self, other):
-    return _do_arithmatic(self, other, truediv, '__add__')
-
-
-def _mul_from_add(self, other):
-    return _do_arithmatic(self, other, mul, '__add__')
-
-
-def _mod_from_add(self, other):
-    return _do_arithmatic(self, other, mod, '__add__')
-
-
-def _pow_from_add(self, other):
-    return _do_arithmatic(self, other, pow, '__add__')
-
-
-def _iadd_from_add(self, other):
-    result = self + other
-    if result is NotImplemented:
-        return NotImplemented
-    self.value = result.value
-    return self
-
-
-def _radd_from_add(self, other):
-    return type(self)(other + self.value)
-
-
-def _floordiv_from_truediv(self, other):
-    return _do_arithmatic(self, other, floordiv, '__truediv__')
-
-
-def _add_from_truediv(self, other):
-    return _do_arithmatic(self, other, add, '__truediv__')
-
-
-def _mul_from_truediv(self, other):
-    return _do_arithmatic(self, other, mul, '__truediv__')
-
-
-def _mod_from_truediv(self, other):
-    return _do_arithmatic(self, other, mod, '__truediv__')
-
-
-def _pow_from_truediv(self, other):
-    return _do_arithmatic(self, other, pow, '__truediv__')
-
-
-def _sub_from_truediv(self, other):
-    return _do_arithmatic(self, other, sub, '__truediv__')
-
-
-def _itruediv_from_truediv(self, other):
-    op_result = type(self).__truediv__(self, other)
-    if op_result is NotImplemented:
-        return NotImplemented
-    self.value /= op_result
-    return self
-
-
-def _rtruediv_from_truediv(self, other):
-    return type(self)(other / self.value)
-
-
-def _add_from_sub(self, other):
-    return _do_arithmatic(self, other, add, '__sub__')
-
-
-def _mul_from_sub(self, other):
-    return _do_arithmatic(self, other, mul, '__sub__')
-
-
-def _truediv_from_sub(self, other):
-    return _do_arithmatic(self, other, truediv, '__sub__')
-
-
-def _floordiv_from_sub(self, other):
-    return _do_arithmatic(self, other, floordiv, '__sub__')
-
-
-def _mod_from_sub(self, other):
-    return _do_arithmatic(self, other, mod, '__sub__')
-
-
-def _pow_from_sub(self, other):
-    return _do_arithmatic(self, other, pow, '__sub__')
-
-
-def _isub_from_sub(self, other):
-    op_result = type(self).__sub__(self, other)
-    if op_result is NotImplemented:
-        return NotImplemented
-    self.value -= op_result
-    return self
-
-
-def _rsub_from_sub(self, other):
-    return type(self)(other - self.value)
-
-
-def _add_from_mul(self, other):
-    return _do_arithmatic(self, other, add, '__mul__')
-
-
-def _truediv_from_mul(self, other):
-    return _do_arithmatic(self, other, truediv, '__mul__')
-
-
-def _sub_from_mul(self, other):
-    return _do_arithmatic(self, other, sub, '__mul__')
-
-
-def _pow_from_mul(self, other):
-    return _do_arithmatic(self, other, pow, '__mul__')
-
-
-def _floordiv_from_mul(self, other):
-    return _do_arithmatic(self, other, floordiv, '__mul__')
-
-
-def _mod_from_mul(self, other):
-    return _do_arithmatic(self, other, mod, '__mul__')
-
-
-def _imul_from_mul(self, other):
-    op_result = type(self).__mul__(self, other)
-    if op_result is NotImplemented:
-        return NotImplemented
-    self.value *= op_result
-    return self
-
-
-def _rmul_from_mul(self, other):
-    return type(self)(other + self.value)
-
-
-_convert = {
-    '__add__': [
-        ('__sub__', _sub_from_add),
-        ('__iadd__', _iadd_from_add),
-        ('__radd__', _radd_from_add),
-        ('__mul__', _mul_from_add),
-        ('__truediv__', _truediv_from_add),
-        ('__floordiv__', _floordiv_from_add),
-        ('__mod__', _mod_from_add),
-        ('__pow__', _pow_from_add)
-    ],
-    '__sub__': [
-        ('__add__', _add_from_sub),
-        ('__isub__', _isub_from_sub),
-        ('__radd__', _rsub_from_sub),
-        ('__mul__', _mul_from_sub),
-        ('__truediv__', _truediv_from_sub),
-        ('__floordiv__', _floordiv_from_sub),
-        ('__mod__', _mod_from_sub),
-        ('__pow__', _pow_from_sub)
-    ],
-    '__mul__': [
-        ('__add__', _add_from_mul),
-        ('__sub__', _sub_from_mul),
-        ('__imul__', _imul_from_mul),
-        ('__rmul__', _rmul_from_mul),
-        ('__truediv__', _truediv_from_mul),
-        ('__floordiv__', _floordiv_from_mul),
-        ('__mod__', _mod_from_mul),
-        ('__pow__', _pow_from_mul)
-    ],
-    '__truediv__': [
-        ('__add__', _add_from_truediv),
-        ('__sub__', _sub_from_truediv),
-        ('__floordiv__', _floordiv_from_truediv),
-        ('__mul__', _mul_from_truediv),
-        ('__itruediv__', _itruediv_from_truediv),
-        ('__rtruediv__', _rtruediv_from_truediv),
-        ('__mod__', _mod_from_truediv),
-        ('__pow__', _pow_from_truediv)
-    ],
-    # ...
-}
-
-
-def arithmatic_total_ordering(cls):
-    """Class decorator that fills in missing ordering methods"""
-    # Find which ordering operation(s) are defined
-    roots = {op for op in _convert if getattr(cls, op, None) is not getattr(object, op, None)}
-    if not roots:
-        raise ValueError('must define at least one ordering operation: + - * /')
-
-    # Add all related operations based on defined ones
-    for root in roots:
-        for opname, opfunc in _convert[root]:
-            if opname not in roots:
-                opfunc.__name__ = opname
-                setattr(cls, opname, opfunc)
-    return cls
 
 
 class UnifiedOperation(Generic[P, R]):
@@ -1060,56 +807,6 @@ class Constants:
 
         return cls(**dict(iterable))
 
-
-@functools.total_ordering
-class Pointer:
-    def __init__(self, value=None):
-        """Initialize the pointer with a value."""
-        self._value = [value]  # Use a list to hold the reference
-
-    @property
-    def value(self):
-        return self.get()
-
-    def get(self):
-        """Dereference the pointer to access the value."""
-        return self._value[0]
-
-    def set(self, value):
-        """Dereference the pointer and set the new value."""
-        self._value[0] = value
-
-    def address(self):
-        """Return the 'address' of the pointer, which in this case is its own id."""
-        return id(self._value)
-
-    def point_to(self, other_pointer):
-        """Point this pointer to the memory location of another pointer."""
-        if isinstance(other_pointer, Pointer):
-            self._value = other_pointer._value
-        else:
-            raise TypeError("point_to expects another Pointer instance")
-
-    def is_null(self):
-        """Check if the pointer is null (i.e., points to None)."""
-        return self._value[0] is None
-
-    def __str__(self):
-        """String representation showing the value and the 'address'."""
-        return f"{self.__class__.__name__}(value={self._value[0]}, address={self.address()})"
-
-    def __repr__(self):
-        return self.__str__()
-
-    def __del__(self):
-        self._value[0] = None
-
-    def __lt__(self, other):
-        if not isinstance(other, Pointer):
-            return NotImplemented
-        return self.get() < other.get()
-
-
 class DeferredValue:
     """
     A class that defers the evaluation of a value and provides a way to access the deferred value.
@@ -1205,23 +902,3 @@ class DeferredValue:
         if interval is None or interval <= 0 or interval > 2:
             return 0.1  # Default interval if invalid
         return interval
-
-# if __name__ == "__main__":
-#     # Create a DeferredValue instance with dynamic update interval based on CPU frequency
-#     dv = DeferredValue(value=100)
-#
-#     # Set a new value
-#     dv.set(200)
-#     dv.set(300)
-#     dv.set(400)
-#     dv.set(500)
-#     dv.set(600)
-#
-#     # Get the deferred value
-#     print(dv.get())  # Output: 100 (initially, the deferred value is the same as the original value)
-#
-#     # Wait for a few update cycles
-#     # time.sleep(1)
-#
-#     # Get the deferred value again
-#     print(dv.get())  # Output: 200 (the deferred value has been updated)

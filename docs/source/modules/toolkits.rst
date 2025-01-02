@@ -167,37 +167,6 @@ Constants
 
       Create a Constants instance from an iterable of key-value pairs.
 
-Pointer
-~~~~~~~
-
-.. py:class:: Pointer
-
-   A class that implements pointer-like behavior in Python.
-
-   .. py:method:: value -> Any
-
-      Get the current value of the pointer.
-
-   .. py:method:: get() -> Any
-
-      Dereference the pointer to access the value.
-
-   .. py:method:: set(value: Any) -> None
-
-      Dereference the pointer and set the new value.
-
-   .. py:method:: address() -> int
-
-      Return the 'address' of the pointer (its id).
-
-   .. py:method:: point_to(other_pointer: Pointer) -> None
-
-      Point this pointer to the memory location of another pointer.
-
-   .. py:method:: is_null() -> bool
-
-      Check if the pointer is null (points to None).
-
 DeferredValue
 ~~~~~~~~~~~~~
 
@@ -277,12 +246,6 @@ Constants and Pointers::
         DEBUG=True
     )
 
-    # Use pointer-like behavior
-    ptr1 = Pointer(42)
-    ptr2 = Pointer(None)
-    ptr2.point_to(ptr1)
-    assert ptr2.get() == 42
-
 Deferred Values::
 
     # Create a deferred value that updates based on CPU frequency
@@ -295,5 +258,5 @@ Notes
 
 - All decorators can be used with or without arguments thanks to the :func:`make_decorator` utility.
 - The module is designed with type safety in mind and includes comprehensive type hints.
-- Memory management utilities like :class:`Pointer` and :class:`DeferredValue` provide fine-grained control when needed.
+- Memory management utilities like :class:`DeferredValue` provide fine-grained control when needed.
 - Thread safety is ensured in relevant components through proper locking mechanisms.

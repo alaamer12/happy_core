@@ -8,7 +8,7 @@
 *.orig
 *.log
 *.pot
-__pycache__/*
+**/__pycache__/
 .cache/*
 .*.swp
 */.ipynb_checkpoints/*
@@ -55,4 +55,4 @@ MANIFEST
 .venv*/
 .conda*/
 .python-version
-tests/__pycache__/*
+tests/__pycache__/
